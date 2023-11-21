@@ -8,7 +8,7 @@ always_comb begin
     if (ImmSrc) // executing addi
         ImmOp = { {20{instr[31]}} , instr[31:12] }; // sign extend 12-bit immediate value to give 32-bit output
     else        // executing bne
-        ImmOp = { {22{0}}         , instr[30:25], instr[11:8] }; // bne has an address as its immediate, so zero-extend it instead of sign-extending
+        ImmOp = { {22{1'b0}}      , instr[30:25], instr[11:8] }; // bne has an address as its immediate, so zero-extend it instead of sign-extending
 end
 
 endmodule
