@@ -14,10 +14,10 @@ module control_unit(
 //   (the opcodes for instructions addi and bne are 0b0010011 and 0b1100011 respectively
 //   but since there are only two instructions, it is sufficient just to check the MSB of the opcodes
 //   which is found in instr[6])
-assign RegWrite = instr[6] ?  0 : 1; 
-assign ALUctrl  = instr[6] ?  1 : 0;
-assign ALUsrc   = instr[6] ?  0 : 1;
-assign ImmSrc   = instr[6] ?  1 : 0;
-assign PCsrc    = instr[6] ? EQ : 0;
+assign RegWrite = (instr[6] ?  0 : 1); 
+assign ALUctrl  = (instr[6] ?  1 : 0);
+assign ALUsrc   = (instr[6] ?  0 : 1);
+assign ImmSrc   = (instr[6] ?  1 : 0);
+assign PCsrc    = (instr[6] ? EQ : 0);
 
 endmodule
