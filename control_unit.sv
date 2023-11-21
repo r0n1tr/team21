@@ -1,3 +1,4 @@
+// verilator lint_off UNUSED
 module control_unit(
     input  logic [31:0] instr,  // 32-bit instruction word
     input  logic        EQ,     // Flag for equality of operands
@@ -21,3 +22,4 @@ assign ImmSrc   = (instr[6] ?  1 : 0);
 assign PCsrc    = (instr[6] ? EQ : 0);
 
 endmodule
+// verilator lint_on UNUSED
