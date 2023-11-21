@@ -10,7 +10,7 @@ module control_unit(
     output logic PCsrc
 );
 
-// assign output control signals.
+// Implementation of control logic.
 //   (the opcodes for instructions addi and bne are 0b0010011 and 0b1100011 respectively
 //   but since there are only two instructions, it is sufficient just to check the MSB of the opcodes
 //   which is found in instr[6])
