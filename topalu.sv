@@ -10,6 +10,7 @@ module topalu #(
     input logic ALUsrc,
     input logic ALUctrl,
     input logic [31:0] ImmOp,
+    output logic [31:0] ALUout,
     output logic EQ,
     output logic [31:0] a0  //output to check correct values
 );
@@ -41,7 +42,7 @@ alu myalu(
     .ALUop1(RD1),
     .ALUop2(ALUop2),
     .ALUout(ALUout),
-    .ALUctrl(ALUctrl)
+    .ALUctrl(ALUctrl),
     .EQ(EQ)
 );
     

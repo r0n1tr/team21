@@ -1,19 +1,17 @@
 module top #(
     parameter DATA = 32,
-    ADDRESS_WIDTH = 32
+    ADDRESS_WIDTH = 8
 )
 (
     // PROGRAM COUNTER MODULE
     input logic [DATA-1:0] PC,
-    input logic [DATA-1:0] Immop,
+    //input logic [DATA-1:0] Immop,
     input logic clk,
     input logic rst,
-    input logic PCsrc,
     //
 
     // ALU
     output logic ALUout,
-    output logic EQ, 
     output logic a0
     //
 
@@ -21,25 +19,28 @@ module top #(
 
 //control unit
     //logic [ADDRESS_WIDTH-1:0] A,
-    logic [ADDRESS_WIDTH-1:0] RD,
-    //logic [ADDRESS_WIDTH-1:0] PC_INTERNAL,
-    logic RegWrite,
-    logic ALUctrl,
-    logic ALUsrc,
-    logic Immsrc,
-    logic PCsrc
+    logic [DATA-1:0] RD;
+    logic [ADDRESS_WIDTH-1:0] PC_INTERNAL;
+    logic [DATA-1:0] ImmOp;
+    logic EQ;
+    logic RegWrite;
+    logic ALUctrl;
+    logic ALUsrc;
+    logic ImmSrc;
+    logic PCsrc;
     
 
-Program_counter myPC(
+Program_Counter myPC(
     .PC(PC_INTERNAL), //sort out feedbakc loop
     .ImmOp(ImmOp),
+    .PCsrc(PCsrc),
     .clk(clk),
     .rst(rst)
 
 );
 
 instr_mem instrMem(
-    .A(PC),
+    .A(PC_INTERNAL),
     .RD(RD)
 
 );
@@ -56,7 +57,7 @@ control_unit controlUnit(
 
 sign_extend signExtend(
     .instr(RD),
-    .Immsrc(Immsrc),
+    .ImmSrc(ImmSrc),
     .ImmOp(ImmOp)
 );
 
@@ -71,8 +72,10 @@ topalu ALU(
     .ALUctrl(ALUctrl),
     .ImmOp(ImmOp),
     .EQ(EQ),
-    .a0(a0)
+    .a0(a0),
+    .ALUout(ALUout)
 
 );
 
 endmodule
+
