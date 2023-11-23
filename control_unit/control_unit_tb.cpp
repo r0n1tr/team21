@@ -2,6 +2,19 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include <iostream>
+#include <iomanip>
+
+void printTopState(const Vcontrol_unit* top)
+{
+    std::cout << "0x" << std::setfill('0') << std::setw(8) << std::hex << top->instr << std::dec << "   ";
+    std::cout << "EQ = " << ((top->EQ) ? "1":"0") << ":   ";
+
+    std::cout << ((top->RegWrite) ? "1":"0");
+    std::cout << ((top->ALUctrl ) ? "1":"0");
+    std::cout << ((top->ALUsrc  ) ? "1":"0");
+    std::cout << ((top->ImmSrc  ) ? "1":"0");
+    std::cout << ((top->PCsrc   ) ? "1":"0") << std::endl;
+}
 
 int main(int argc, char **argv, char **env) {
     Verilated::commandArgs(argc,argv);
@@ -15,43 +28,27 @@ int main(int argc, char **argv, char **env) {
     top->trace(tfp, 99);
     tfp->open("control_unit.vcd");
 
-    // init mem contentts
+    // init memory contents
     std::vector<unsigned int> mem_contents = {0x0FF00313,0x00000513,0x00000593,0x00058513,0x00158593,0xFE659CE3,0xFE0318E3};
 
-    // initialise simulation inputs
-    top->instr = mem_contents[0];
-    top->EQ  = 0;
-
-    // run simulation for many clock cycles
-    for (int i = 0; i < mem_contents.size(); i++)
+    // run simulation for 2 clock cycles per instruction; once for EQ = 0 and agaiin for EQ = 1.
+    for (int i = 0; i < mem_contents.size()*2; i++)
     {
-        // dump variables into VCD file
+        // set simulation inputs
+        top->instr = mem_contents[i / 2];
+        top->EQ = (i % 2 != 0);
+
+        // dump variables into VCD file and evaluate simulation for clock low then high
         for (int clk = 0; clk < 2; clk++)
         {
-         tfp->dump(2*i+clk);
-         top->eval ();
+            tfp->dump(2*i+clk);
+            top->eval();
         }
 
-        top->instr = mem_contents[i];
-        top->EQ = 0x0;
-        std::cout << top->instr <<  " ";
-        std::cout << "i = " << i << ", EQ = 0:   " << top->EQ;
-        std::cout << top->RegWrite << " ";
-        std::cout << top->ALUctrl  << " ";
-        std::cout << top->ALUsrc   << " ";
-        std::cout << top->ImmSrc   << " ";
-        std::cout << top->PCsrc    << std::endl;
+        // print current state of top
+        printTopState(top);
 
-        top->EQ = 0x1;
-        std::cout << top->instr <<  " ";
-        std::cout << "i = " << i << ", EQ = 1:   " << top->EQ;
-        std::cout << top->RegWrite << " ";
-        std::cout << top->ALUctrl  << " ";
-        std::cout << top->ALUsrc   << " ";
-        std::cout << top->ImmSrc   << " ";
-        std::cout << top->PCsrc    << std::endl;
-
-       // if (Verilated::gotFinish()) exit(0);
+        if (Verilated::gotFinish()) exit(0);
     }
 
     tfp->close();
