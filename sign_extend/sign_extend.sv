@@ -14,3 +14,8 @@ end
 
 endmodule
 // verilator lint_on UNUSED
+
+// NOTE ON `Verilator lint_on/off UNUSED` - we would receive a warning if compiling without these lines#
+// the warning was that we had unused bits
+// the warning links to this page: https://verilator.org/guide/latest/warnings.html#cmdoption-arg-UNUSED
+// on the same page, it is said (here: https://verilator.org/guide/latest/warnings.html#disabling-warnings) to add these comments to disable the warning
