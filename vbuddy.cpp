@@ -8,6 +8,7 @@
 This package is written to support a second year module on Electronics & Information Engineering (EIE)
 at Imperial College. The module is on the design of the RISC V CPU.
 */
+#include <string>
 
 using namespace std;
 using std::string;

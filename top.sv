@@ -1,27 +1,27 @@
 module top #(
-    parameter DATA = 32,
+    parameter DATA_WIDTH = 32,
     ADDRESS_WIDTH = 8
 )
 (
     // PROGRAM COUNTER MODULE
-    input logic [DATA-1:0] PC,
+    //input logic [DATA_WIDTH-1:0] PC,
     //input logic [DATA-1:0] Immop,
     input logic clk,
     input logic rst,
     //
 
     // ALU
-    output logic ALUout,
-    output logic a0
+    output logic [DATA_WIDTH-1:0] ALUout,
+    output logic [DATA_WIDTH-1:0] a0
     //
 
 );
 
 //control unit
     //logic [ADDRESS_WIDTH-1:0] A,
-    logic [DATA-1:0] RD;
+    logic [DATA_WIDTH-1:0] RD;
     logic [ADDRESS_WIDTH-1:0] PC_INTERNAL;
-    logic [DATA-1:0] ImmOp;
+    logic [DATA_WIDTH-1:0] ImmOp;
     logic EQ;
     logic RegWrite;
     logic ALUctrl;
