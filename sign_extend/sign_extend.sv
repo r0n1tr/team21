@@ -7,7 +7,7 @@ module sign_extend(
 
 always_comb begin
     if (ImmSrc) // executing bne
-        ImmOp = { {22{instr[30]}} , instr[30:25] , instr[11:8] }; // sign extend 10-bit immediate value to give 32-bit output; bne's immediate value is used as an offset for the PC (so can be negative or positive, so needs to be sign extended) 
+        ImmOp = { {20{instr[31]}} , instr[7], instr[30:25] , instr[11:8], {1'b0} }; // sign extend 10-bit immediate value to give 32-bit output; bne's immediate value is used as an offset for the PC (so can be negative or positive, so needs to be sign extended) 
     else        // executing addi
         ImmOp = { {20{instr[31]}} , instr[31:20] }; // sign extend 12-bit immediate value to give 32-bit output
 end

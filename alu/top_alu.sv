@@ -12,7 +12,9 @@ module top_alu #(
     input  logic [DATA_WIDTH-1:0]          ImmOp,
 
     output logic                  EQ,
-    output logic [DATA_WIDTH-1:0] a0  //output to check correct values
+    output logic [DATA_WIDTH-1:0] a0,  //output to check correct values
+    output logic [DATA_WIDTH-1:0] t1,
+    output logic [DATA_WIDTH-1:0] a1
 );
 
 logic [DATA_WIDTH-1:0] RD1;
@@ -30,7 +32,9 @@ reg_file myregfile(
     .RD1(RD1),
     .RD2(RD2),
     .clk(clk),
-    .a0(a0)
+    .a0(a0),
+    .t1(t1),
+    .a1(a1)
 );
 
 alu_mux mymux(

@@ -18,8 +18,8 @@ always_comb begin
         next_pc = branch_PC[ADDRESS_WIDTH-1:0];
     end
     else begin // next_PC = PC + 4
-        branch_PC = 32'hFFFFFFFF; // dummy value to get rid of warning
-        next_pc = pc + {{(ADDRESS_WIDTH-3){1'b0}}, 3'b100};
+        //branch_PC = 32'hFFFFFFFF; // dummy value to get rid of warning
+        next_pc = pc + {{5{1'b0}}, 3'b100};
     end
 end
 
