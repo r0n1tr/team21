@@ -23,7 +23,7 @@ always_ff @(posedge clk) begin
     if(WE3)
         ram_array[AD3] <= WD3;
 
-    a0 <= WD3;
+    a0 <= ram_array[10];
 end
     
 endmodule
