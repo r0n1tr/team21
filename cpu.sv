@@ -6,9 +6,9 @@ module cpu #(
     input logic clk,
     input logic rst,
 
-    output logic [DATA_WIDTH-1:0] a0,
-    output logic [DATA_WIDTH-1:0] t1,
-    output logic [DATA_WIDTH-1:0] a1,
+    output logic signed [DATA_WIDTH-1:0] a0,
+    output logic signed [DATA_WIDTH-1:0] t1,
+    output logic signed [DATA_WIDTH-1:0] a1,
     output logic [ADDRESS_WIDTH-1:0] pc
 );
 
