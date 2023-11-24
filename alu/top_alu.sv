@@ -1,14 +1,14 @@
-module topalu #(
+module top_alu #(
     parameter REG_FILE_ADDR_WIDTH = 5, 
               DATA_WIDTH = 32
 )(
+    input  logic                           clk,
+    input  logic                           ALUsrc,
+    input  logic                           ALUctrl,
     input  logic [REG_FILE_ADDR_WIDTH-1:0] AD1,
     input  logic [REG_FILE_ADDR_WIDTH-1:0] AD2,
     input  logic [REG_FILE_ADDR_WIDTH-1:0] AD3,
     input  logic                           WE3,
-    input  logic                           clk,
-    input  logic                           ALUsrc,
-    input  logic                           ALUctrl,
     input  logic [DATA_WIDTH-1:0]          ImmOp,
 
     output logic                  EQ,

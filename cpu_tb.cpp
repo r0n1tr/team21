@@ -1,10 +1,12 @@
 #include "vbuddy.cpp"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
-#include "Vtop.h" // change if sv file is named something else
+#include "Vcpu.h" // change if sv file is named something else
 
 
 int main(int argc, char **argv, char **env){
+    std::cout << "WAZZUP";
+
     int i;
     int clk;
 

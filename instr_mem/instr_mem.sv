@@ -3,6 +3,7 @@ module instr_mem #(
               INSTRUCTION_WIDTH = 32
 )(
     input  logic [ADDRESS_WIDTH-1:0]     A, // input address (comes from PC)
+    
     output logic [INSTRUCTION_WIDTH-1:0] RD // output ROM data (is the instruction word)
 );
 
