@@ -3,6 +3,7 @@
 #include "verilated_vcd_c.h"
 #include <iostream>
 #include <iomanip>
+#include <vector> 
 
 void printTopState(const Vcontrol_unit* top)
 {
