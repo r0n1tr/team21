@@ -1,47 +1,48 @@
-#include "vbuddy.cpp"
+#include "Vcpu.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
-#include "Vcpu.h" // change if sv file is named something else
+#include <iostream>
 
+int main(int argc, char **argv, char **env) {
 
-int main(int argc, char **argv, char **env){
-    std::cout << "WAZZUP";
+    Verilated::commandArgs(argc,argv);
 
-    int i;
-    int clk;
-
-    Verilated::commandArgs(argc, argv);
     // init top verilog instance
-    Vtop* top = new Vtop; // change if sv file is named something else
+    Vcpu* top = new Vcpu;
+
     // init trace dump
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
-    top->trace (tfp, 99);
-    tfp->open ("counter.vcd"); // change if sv file is named something else
+    top->trace(tfp, 99);
+    tfp->open("cpu.vcd");
 
-    // init Vbuddy
-    if (vbdOpen() != 1) return(-1);
-    vbdHeader("IAC CW");
-
-    // initialize simulation inputs
-    top->clk = 1;
-    top->rst = 1;
-    //top->en = 0;
-
-    // run simulation for many clock cycles
-    for (i=0; i<1000000; i++){
+    // run simulation for 10 clock cycles; program itself is 7 clock cycles and we can reset for the first 
+    for (int i = 0; i < 10; i++)
+    {
+        // update simulation inputs
+        if (i == 0 || i == 9 || i == 10) 
+        { 
+            top->rst = 1;
+        }
+        else
+        {
+            top->rst = 0;
+        }
 
         // dump variables into VCD file and toggle clock
-        for(clk=0; clk<2; clk++){
-            tfp->dump  (2*i+clk);
+        for (int clk = 0; clk < 2; clk++)
+        {
+            tfp->dump (2 * i + clk);
             top->clk = !top->clk;
             top->eval ();
         }
-         top->rst = 0;
-        if (Verilated::gotFinish())     exit(0);
+        
+        // print output state
+        std::cout << (unsigned int)(top->a0) << std::endl;
+       
+        if (Verilated::gotFinish()) exit(0);
     }
 
-    vbdClose();     
     tfp->close();
     exit(0);
 }
