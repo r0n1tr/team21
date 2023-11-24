@@ -1,4 +1,4 @@
-module regfile #(
+module reg_file #(
     parameter REG_FILE_ADDR_WIDTH = 5, 
               DATA_WIDTH = 32
 )(
@@ -14,7 +14,7 @@ module regfile #(
     output logic [DATA_WIDTH-1:0]          a0
 );
     
-logic [DATA_WIDTH-1:0] ram_array [2**ADDRESS_WIDTH-1:0];
+logic [DATA_WIDTH-1:0] ram_array [2**REG_FILE_ADDR_WIDTH-1:0];
 
 always_ff @(posedge clk) begin
     RD1 <= ram_array[AD1];
@@ -23,7 +23,7 @@ always_ff @(posedge clk) begin
     if(WE3)
         ram_array[AD3] <= WD3;
 
-    a0 = WD3;
+    a0 <= WD3;
 end
     
 endmodule
