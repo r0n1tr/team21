@@ -17,10 +17,10 @@ int main(int argc, char **argv, char **env) {
     tfp->open("cpu.vcd");
 
     // run simulation for 10 clock cycles; program itself is 7 clock cycles and we can reset for the first 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 100; i++)
     {
         // update simulation inputs
-        if (i == 0 || i == 9 || i == 10) 
+        if (i == 0) 
         { 
             top->rst = 1;
         }
@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **env) {
         }
         
         // print output state
-        std::cout << (unsigned int)(top->a0) << std::endl;
+        std::cout << "cycle = " << i << "       a0 = " << (unsigned int)(top->a0) << std::endl;
        
         if (Verilated::gotFinish()) exit(0);
     }
