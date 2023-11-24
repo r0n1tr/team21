@@ -1,20 +1,25 @@
-module topalu (
-    input  logic [4:0]  AD1,
-    input  logic [4:0]  AD2,
-    input  logic [4:0]  AD3,
-    input  logic        WE3,
-    input  logic        clk,
-    input  logic        ALUsrc,
-    input  logic        ALUctrl,
-    input  logic [31:0] ImmOp,
-    output logic [31:0] ALUout,
-    output logic        EQ,
-    output logic [31:0] a0  //output to check correct values
+module topalu #(
+    parameter REG_FILE_ADDR_WIDTH = 5, 
+              DATA_WIDTH = 32
+)(
+    input  logic [REG_FILE_ADDR_WIDTH-1:0] AD1,
+    input  logic [REG_FILE_ADDR_WIDTH-1:0] AD2,
+    input  logic [REG_FILE_ADDR_WIDTH-1:0] AD3,
+    input  logic                           WE3,
+    input  logic                           clk,
+    input  logic                           ALUsrc,
+    input  logic                           ALUctrl,
+    input  logic [DATA_WIDTH-1:0]          ImmOp,
+
+    output logic                  EQ,
+    output logic [DATA_WIDTH-1:0] a0  //output to check correct values
 );
 
-logic [31:0] RD1;
-logic [31:0] RD2;
-logic [31:0] ALUop2;
+logic [DATA_WIDTH-1:0] RD1;
+logic [DATA_WIDTH-1:0] RD2;
+logic [DATA_WIDTH-1:0] ALUop2;
+logic [DATA_WIDTH-1:0] ALUout;
+
 
 reg_file myregfile(
     .AD1(AD1),
