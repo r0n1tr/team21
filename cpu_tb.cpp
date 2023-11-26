@@ -2,6 +2,7 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include <iostream>
+#include <iomanip>
 
 int main(int argc, char **argv, char **env) {
 
@@ -15,12 +16,18 @@ int main(int argc, char **argv, char **env) {
     VerilatedVcdC* tfp = new VerilatedVcdC;
     top->trace(tfp, 99);
     tfp->open("cpu.vcd");
-    top->clk = 1;
+
+    // initialise cpu
+    top->clk = 0;
     top->rst = 1;
     
-    // run simulation for 10 clock cycles; program itself is 7 clock cycles and we can reset for the first 
+    // run simulation for enough cycles for the CPU to reach 255
     for (int i = 0; i < 775; i++)
     {
+        // stop resetting clock after cycle 0
+        // cpu will take a few cycles to enter the loop, aftwe which there will be an increment every 3 cycles
+        if(i >= 1) top->rst = 0;
+
         // dump variables into VCD file and toggle clock
         for (int clk = 0; clk < 2; clk++)
         {
@@ -28,16 +35,10 @@ int main(int argc, char **argv, char **env) {
             top->clk = !top->clk;
             top->eval ();
         }
-
-         
+  
         // print output state
-        std::cout << "cycle = " << i << "       a0 = " << (int)(top->a0) << "   ";
-        std::cout << "a1 = " << (int)(top->a1) << "    ";
-        std::cout << "t1 = " << (int)(top->t1) << "    ";
-        std::cout << "pc = " << (int)(top->pc) << std::endl;
-        if(i == 1){
-            top->rst = 0;
-        }
+        std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i       << "     ";
+        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << top->a0 << std::endl;
         
         if (Verilated::gotFinish()) exit(0);
     }

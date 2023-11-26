@@ -9,18 +9,16 @@ module top_alu #(
     input  logic [REG_FILE_ADDR_WIDTH-1:0] AD2,
     input  logic [REG_FILE_ADDR_WIDTH-1:0] AD3,
     input  logic                           WE3,
-    input  logic signed [DATA_WIDTH-1:0]          ImmOp,
+    input  logic signed [DATA_WIDTH-1:0]   ImmOp,
 
-    output logic                  EQ,
-    output logic signed [DATA_WIDTH-1:0] a0,  //output to check correct values
-    output logic signed [DATA_WIDTH-1:0] t1,
-    output logic signed [DATA_WIDTH-1:0] a1
+    output logic                         EQ,
+    output logic signed [DATA_WIDTH-1:0] a0  //output to check correct values
 );
 
-logic signed [DATA_WIDTH-1:0] RD1;
-logic signed [DATA_WIDTH-1:0] RD2;
-logic signed[DATA_WIDTH-1:0] ALUop2;
-logic signed [DATA_WIDTH-1:0] ALUout;
+logic signed [DATA_WIDTH-1:0] RD1;    // output from reg_file
+logic signed [DATA_WIDTH-1:0] RD2;    // output from reg_file
+logic signed [DATA_WIDTH-1:0] ALUop2; // output from alu_mux
+logic signed [DATA_WIDTH-1:0] ALUout; // output from alu
 
 
 reg_file myregfile(
@@ -32,9 +30,7 @@ reg_file myregfile(
     .RD1(RD1),
     .RD2(RD2),
     .clk(clk),
-    .a0(a0),
-    .t1(t1),
-    .a1(a1)
+    .a0(a0)
 );
 
 alu_mux mymux(
