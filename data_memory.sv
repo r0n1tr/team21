@@ -20,7 +20,7 @@ end;
 
 always_ff @(posedge clk)
     if(WE) 
-        memory[A] <= RD; // only clocked action
+        memory[A] <= WD; // only clocked action
 
 assign RD = A;
 
