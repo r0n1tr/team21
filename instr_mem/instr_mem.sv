@@ -14,7 +14,7 @@ logic [INSTRUCTION_WIDTH-1:0] rom_array [2**ADDRESS_WIDTH-1:0];
 initial begin
     $display("Loading rom...");
     $readmemh("instr_mem/counter_rom.mem", rom_array); // Each word appears 4 times, so that e.g. accessing any address from 0 to 3 means accessing the first instruction. 
-                                             // TODO: NOT SURE IF THIS IS HOW IT'S MEANT TO BE DONE. CHECK IF CORRECT.
+                                                       // TODO: NOT SURE IF THIS IS HOW IT'S MEANT TO BE DONE. CHECK IF CORRECT.
 end;
 
 // output is asynchronous

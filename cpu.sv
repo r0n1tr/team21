@@ -6,10 +6,7 @@ module cpu #(
     input logic clk,
     input logic rst,
 
-    output logic signed [DATA_WIDTH-1:0] a0,
-    output logic signed [DATA_WIDTH-1:0] t1,
-    output logic signed [DATA_WIDTH-1:0] a1,
-    output logic [ADDRESS_WIDTH-1:0] pc
+    output logic [DATA_WIDTH-1:0] a0
 );
 
 // every *internal* output should be input to something else (i think)
@@ -17,7 +14,7 @@ module cpu #(
 // and then connected accordingly when instantiating each module
   
 // -- output from top_pc --
- // program counter 
+logic [ADDRESS_WIDTH-1:0] pc; // program counter 
 
 // -- output from top_alu --
 // don't list a0 here since that is output of entire cpu, hence not internal
@@ -47,6 +44,19 @@ top_pc t_PC(
     .pc(pc)
 );
 
+top_alu t_ALU(
+    .clk(clk),
+    .ALUsrc(ALUsrc),
+    .ALUctrl(ALUctrl),
+    .AD1(RD[19:15]),
+    .AD2(RD[24:20]),
+    .AD3(RD[11:7]),
+    .WE3(RegWrite),
+    .ImmOp(ImmOp),
+
+    .EQ(EQ),
+    .a0(a0)
+);
 
 instr_mem instrMem(
     .A(pc),
@@ -71,23 +81,6 @@ sign_extend signExtend(
 
     .ImmOp(ImmOp)
 );
-
-top_alu t_ALU(
-    .clk(clk),
-    .ALUsrc(ALUsrc),
-    .ALUctrl(ALUctrl),
-    .AD1(RD[19:15]),
-    .AD2(RD[24:20]),
-    .AD3(RD[11:7]),
-    .WE3(RegWrite),
-    .ImmOp(ImmOp),
-
-    .EQ(EQ),
-    .a0(a0),
-    .a1(a1),
-    .t1(t1)
-);
-
 
 endmodule
 
