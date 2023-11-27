@@ -23,7 +23,7 @@ end;
 
 always_ff @(posedge clk) begin
     if (WE == 1'b1) data_memory[A] <= WD; // we are storing word 
-end;
+end
 
     if(WE == 1'b0) assign RD = data_memory[A]; // we are loading word 
 
