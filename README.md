@@ -8,12 +8,13 @@
 - Ronit Ravi - ALU and register file block
 - Daniel Dehghan - Program counter block
 
-  
-<img width="157" alt="lab_4_working" src="https://github.com/r0n1tr/team21/assets/133985295/c1b69727-355c-4f1a-904b-c68c3ec88ac5">
-
 ![pseudo](https://github.com/r0n1tr/team21/assets/133985295/e29c542d-82f2-4a47-8b40-2c780f645c3d)
 
+Based on the instruction set above, a0 will increment by 1 every 3 clock cycles.
 
+<img width="157" alt="lab_4_working" src="https://github.com/r0n1tr/team21/assets/133985295/c1b69727-355c-4f1a-904b-c68c3ec88ac5">
+
+As you can see, a0 is incrementing my 1 every clock cycles as expected
 
 
 ### Challenges Encountered
