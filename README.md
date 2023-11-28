@@ -9,6 +9,7 @@
 - Daniel Dehghan - Program counter block
 
   
+<img width="157" alt="lab_4_working" src="https://github.com/r0n1tr/team21/assets/133985295/c1b69727-355c-4f1a-904b-c68c3ec88ac5">
 
 
 
