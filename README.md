@@ -11,6 +11,8 @@
   
 <img width="157" alt="lab_4_working" src="https://github.com/r0n1tr/team21/assets/133985295/c1b69727-355c-4f1a-904b-c68c3ec88ac5">
 
+![pseudo](https://github.com/r0n1tr/team21/assets/133985295/e29c542d-82f2-4a47-8b40-2c780f645c3d)
+
 
 
 
