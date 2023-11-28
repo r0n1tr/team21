@@ -21,10 +21,7 @@ logic [ADDRESS_WIDTH-1:0] pc; // program counter
 logic EQ; // EQ flag
  
 // -- output from instr_memv --
-logic [DATA_WIDTH-1:0] RD_IM; // instruction word from instruction memory
-
-// -- output from data_mem
-logic [DATA_WIDTH-1:0] RD_DM; // instruction word from data memory
+logic [DATA_WIDTH-1:0] RD; // instruction word from memory
 
 // -- output from sign_extend --
 logic [DATA_WIDTH-1:0] ImmOp; // 32-bit sign extended immediate operand 
@@ -51,9 +48,9 @@ top_alu t_ALU(
     .clk(clk),
     .ALUsrc(ALUsrc),
     .ALUctrl(ALUctrl),
-    .AD1(RD_IM[19:15]),
-    .AD2(RD_IM[24:20]),
-    .AD3(RD_IM[11:7]),
+    .AD1(RD[19:15]),
+    .AD2(RD[24:20]),
+    .AD3(RD[11:7]),
     .WE3(RegWrite),
     .ImmOp(ImmOp),
 
@@ -64,11 +61,11 @@ top_alu t_ALU(
 instr_mem instrMem(
     .A(pc),
 
-    .RD(RD_IM)
+    .RD(RD)
 );
 
 control_unit controlUnit(
-    .instr(RD_IM),
+    .instr(RD),
     .EQ(EQ),
 
     .RegWrite(RegWrite),
@@ -79,19 +76,10 @@ control_unit controlUnit(
 );
 
 sign_extend signExtend(
-    .instr(RD_IM),
+    .instr(RD),
     .ImmSrc(ImmSrc),
 
     .ImmOp(ImmOp)
 );
 
-data_mem DataMemory(
-    .A(),
-    .WD(),
-    .WE(),
-
-    .RD()
-)
-
 endmodule
-
