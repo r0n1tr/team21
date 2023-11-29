@@ -11,7 +11,7 @@ module top_alu #(
     input  logic                           WE3,
     input  logic signed [DATA_WIDTH-1:0]   ImmOp,
 
-    output logic                         EQ,
+    output logic                         Zero,
     output logic signed [DATA_WIDTH-1:0] a0  //output to check correct values
 );
 
@@ -45,7 +45,7 @@ alu myalu(
     .ALUop2(ALUop2),
     .ALUout(ALUout),
     .ALUctrl(ALUctrl),
-    .EQ(EQ)
+    .Zero(Zero)
 );
     
 endmodule

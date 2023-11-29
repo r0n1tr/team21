@@ -3,9 +3,9 @@ module alu #(
 )(
     input  logic signed [DATA_WIDTH-1:0] ALUop1,
     input  logic signed [DATA_WIDTH-1:0] ALUop2,
-    input  logic [2:0]                   ALUctrl,
+    input  logic        [2:0]            ALUctrl,
     output logic signed [DATA_WIDTH-1:0] ALUout,
-    output logic                         EQ
+    output logic                         Zero
 );
 
 // IF/ELSE Version
@@ -41,7 +41,7 @@ always_comb begin
         default: ALUout = 32'b0;
     endcase 
     
-    EQ = ((ALUop1 == ALUop2) ? 1 : 0); // EQ Flag check
+    Zero = (ALUout == 0); // Zero flag check
 end
 
 
