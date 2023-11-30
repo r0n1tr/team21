@@ -4,26 +4,48 @@ module top_pc #(
 )(
     input  logic                     clk,
     input  logic                     rst,
-    input  logic                     PCsrc,
-    input  logic [DATA_WIDTH-1:0]    ImmOp,
-
-    output logic [ADDRESS_WIDTH-1:0] pc
+    input  logic                     pcsrc,
+    input  logic [DATA_WIDTH-1:0]    immext,
+    input  logic                     trigger, //trigger 
+    output logic [ADDRESS_WIDTH-1:0] pc_out
 );
 
 logic [ADDRESS_WIDTH-1:0] next_pc;
+logic [ADDRESS_WIDTH-1:0] trig_mux_out;
+logic [ADDRESS_WIDTH-1:0] pc;
+
 
 pc_mux my_mux (
-    .PCsrc(PCsrc),
-    .ImmOp(ImmOp),
+    .pcsrc(pcsrc),
+    .immext(immext),
     .pc(pc),
     .next_pc(next_pc)
 );
+
+
 
 pc_reg my_reg(
     .clk(clk),
     .rst(rst),
     .next_pc(next_pc),
     .pc(pc)
+);
+
+mux trig_mux(
+
+    .input0({ADDRESS_WIDTH{1'b0}}),
+    .input1(pc),
+    .src(trigger),
+
+    .out(trig_mux_out)
+);
+
+mux rst_mux(
+    .input0(trig_mux_out),
+    .input1({ADDRESS_WIDTH{1'b1}}),
+    .src(rst),
+
+    .out(pc_out)
 );
 
 endmodule

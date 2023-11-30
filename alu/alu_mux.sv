@@ -3,7 +3,7 @@ module alu_mux#(
 )(
     input  logic [DATA_WIDTH-1:0] input0,
     input  logic [DATA_WIDTH-1:0] input1,
-    input  logic                  ALUsrc,
+    input  logic                  ALUSrc,
     
     output logic [DATA_WIDTH-1:0] out
 );

@@ -5,8 +5,7 @@ module cpu #(
 )(
     input logic clk,
     input logic rst,
-    input logic trigger,
-
+    input logic trigger,   // this is the trigger 
     output logic [DATA_WIDTH-1:0] a0
 );
 
@@ -19,79 +18,118 @@ logic [ADDRESS_WIDTH-1:0] pc; // program counter
 
 // -- output from top_alu --
 // don't list a0 here since that is output of entire cpu, hence not internal
-logic EQ; // EQ flag
+// logic zero; // EQ flag
  
 // -- output from instr_memv --
-logic [DATA_WIDTH-1:0] RD_IM; // instruction word from instruction memory
+logic [DATA_WIDTH-1:0] instr; // instruction word from instruction memory
 
 // -- output from data_mem
-logic [DATA_WIDTH-1:0] RD_DM; // instruction word from data memory
+logic [DATA_WIDTH-1:0] rd_dm; // instruction word from data memory
 
 // -- output from sign_extend --
-logic [DATA_WIDTH-1:0] ImmOp; // 32-bit sign extended immediate operand 
+logic signed [DATA_WIDTH-1:0] immext; // 32-bit sign extended immediate operand 
+
+logic signed [DATA_WIDTH-1:0] result; // 32-bit sign extended immediate operand 
+
+logic signed [DATA_WIDTH-1:0] rd1;    // output from reg_file
+logic signed [DATA_WIDTH-1:0] rd2;    // output from reg_file
+logic signed [DATA_WIDTH-1:0] aluop2; // output from alu_mux
+logic signed [DATA_WIDTH-1:0] aluout; // output from alu
+
+
 
 // -- output from control unit --
 // these are all control signals
-logic RegWrite;
-logic ALUctrl;
-logic ALUsrc;
-logic ImmSrc;
-logic PCsrc; 
-    
+logic regwrite;
+logic [2:0] alucontrol;
+logic alusrc;
+logic [1:0] immsrc;
+logic resultsrc;
+logic pcsrc; 
+logic memwrite;
+logic zero;
 
 top_pc t_PC(
     .clk(clk),
     .rst(rst),
-    .PCsrc(PCsrc),
-    .ImmOp(ImmOp),
-
-    .pc(pc)
-);
-
-top_alu t_ALU(
-    .clk(clk),
-    .ALUsrc(ALUsrc),
-    .ALUctrl(ALUctrl),
-    .AD1(RD_IM[19:15]),
-    .AD2(RD_IM[24:20]),
-    .AD3(RD_IM[11:7]),
-    .WE3(RegWrite),
-    .ImmOp(ImmOp),
-
-    .EQ(EQ),
-    .a0(a0)
+    .pcsrc(pcsrc),
+    .immext(immext),
+    .trigger(trigger),
+    .pc_out(pc)
 );
 
 instr_mem instrMem(
-    .A(pc),
+    .a(pc),
 
-    .RD(RD_IM)
+    .rd(instr)
 );
 
-control_unit controlUnit(
-    .instr(RD_IM),
-    .EQ(EQ),
+reg_file myregfile(
+    .ad1(instr[19:15]),
+    .ad2(instr[24:20]),
+    .ad3(instr[11:7]),
+    .we3(regwrite),
+    .wd3(result), //
+    .clk(clk),
 
-    .RegWrite(RegWrite),
-    .ALUctrl(ALUctrl),
-    .ALUsrc(ALUsrc),
-    .ImmSrc(ImmSrc),
-    .PCsrc(PCsrc)
+    .rd1(rd1),
+    .rd2(rd2),
+    .a0(a0)
+);
+
+mux alu_mux(
+    .input0(rd2),
+    .input1(immext),
+    .src(alusrc),
+    .out(aluop2)
+);
+
+alu myalu(
+    .aluop1(rd1),
+    .aluop2(aluop2),
+    .aluout(aluout),
+    .alucontrol(alucontrol),
+    
+    .zero(zero)
+);
+
+
+
+top_control_unit controlUnit(
+    .instr(instr),
+    .zero(zero),
+
+    .pcsrc(pcsrc),
+    .resultsrc(resultsrc),
+    .memwrite(memwrite),
+    .alucontrol(alucontrol),
+    .alusrc(alusrc),
+    .immsrc(immsrc),
+    .regwrite(regwrite)
 );
 
 sign_extend signExtend(
-    .instr(RD_IM),
-    .ImmSrc(ImmSrc),
+    .instr(instr),
+    .immsrc(immsrc),
 
-    .ImmOp(ImmOp)
+    .immop(immext)
 );
 
 data_mem DataMemory(
-    .A(),
-    .WD(),
-    .WE(),
+    .a(aluout),
+    .wd(rd2),
+    .we(memwrite),
+    .clk(clk),
 
-    .RD()
-)
+    .rd(rd_dm)
+);
+
+mux data_mem_mux(
+    .input0(aluout),
+    .input1(rd_dm),
+    .src(resultsrc),
+    .out(result)
+);
 
 endmodule
+

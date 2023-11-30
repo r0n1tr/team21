@@ -20,15 +20,18 @@ int main(int argc, char **argv, char **env) {
     // initialise cpu
     top->clk = 0;
     top->rst = 1;
-    top->trigger
+    top->trigger = 0;
     
     // run simulation for enough cycles for the CPU to reach 255
     for (int i = 0; i < 775; i++)
     {
         // stop resetting clock after cycle 0
         // cpu will take a few cycles to enter the loop, aftwe which there will be an increment every 3 cycles
-        if(i >= 1) top->rst = 0;
-
+        if(i >= 1) {
+            top->rst = 0;
+            top->trigger = 1;
+        }
+        
         // dump variables into VCD file and toggle clock
         for (int clk = 0; clk < 2; clk++)
         {

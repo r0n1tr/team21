@@ -3,11 +3,11 @@ module data_mem #(
               DATA_WIDTH = 8     // this used to be 32
 )(
     input  logic                  clk, // only for writing to data_mem
-    input  logic                  WE,  // write enable flag
-    input  logic [DATA_WIDTH-1:0] WD,  // the data we receieve from rs2
-    input  logic [DATA_WIDTH-1:0] A,   // the address that comes from ALUResult irrespective we are loading or storing
+    input  logic                  we,  // write enable flag
+    input  logic [DATA_WIDTH-1:0] wd,  // the data we receieve from rs2
+    input  logic [DATA_WIDTH-1:0] a,   // the address that comes from ALUResult irrespective we are loading or storing
 
-    output logic [DATA_WIDTH-1:0] RD   // data read from the memory
+    output logic [DATA_WIDTH-1:0] rd   // data read from the memory
 );   
 
 
@@ -19,9 +19,9 @@ initial begin
 end;
 
 always_ff @(posedge clk) begin
-    if (WE) data_memory[A] <= WD; // storing word (only on clk rising edge)
+    if (we) data_memory[a] <= wd; // storing word (only on clk rising edge)
 end
 
-assign RD = data_memory[A]; // loading word (asynchronously)
+assign rd = data_memory[a]; // loading word (asynchronously)
 
 endmodule

@@ -9,7 +9,7 @@ module mux#(
 );
 
 always_comb begin
-    if (ALUsrc == 0)
+    if (src == 0)
         out = input0;
     else 
         out = input1;
