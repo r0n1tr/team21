@@ -20,6 +20,7 @@ int main(int argc, char **argv, char **env) {
     // initialise cpu
     top->clk = 0;
     top->rst = 1;
+    top->trigger
     
     // run simulation for enough cycles for the CPU to reach 255
     for (int i = 0; i < 775; i++)
