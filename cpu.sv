@@ -1,11 +1,11 @@
-
 module cpu #(
     parameter DATA_WIDTH = 32,
               ADDRESS_WIDTH = 8
 )(
     input logic clk,
     input logic rst,
-    input logic trigger,   // this is the trigger 
+    input logic trigger,
+
     output logic [DATA_WIDTH-1:0] a0
 );
 
@@ -13,41 +13,84 @@ module cpu #(
 // the outputs of each submodule are listed below
 // and then connected accordingly when instantiating each module
   
+// -- output from top_alu --
+// don't list a0 here since that is output of entire cpu, hence not internal
+logic zero;      // zero flag
+logic aluresult;
+
 // -- output from top_pc --
 logic [ADDRESS_WIDTH-1:0] pc; // program counter 
 
-// -- output from top_alu --
-// don't list a0 here since that is output of entire cpu, hence not internal
-// logic zero; // EQ flag
+// -- output from control unit --
+// these are all control signals
+logic pcsrc; 
+logic resultsrc;
+logic memwrite;
+logic alusrc;
+logic [1:0] immsrc;
+logic regwrite;
+logic [2:0] alucontrol;
  
-// -- output from instr_memv --
+// -- output from data_mem --
+logic [DATA_WIDTH-1:0] rd_dm; // instruction word from data memory
+
+// -- output from instr_mem --
 logic [DATA_WIDTH-1:0] instr; // instruction word from instruction memory
 
-// -- output from data_mem
-logic [DATA_WIDTH-1:0] rd_dm; // instruction word from data memory
+// -- output from reg_file
+logic signed [DATA_WIDTH-1:0] rd1;   
+logic signed [DATA_WIDTH-1:0] rd2;    
 
 // -- output from sign_extend --
 logic signed [DATA_WIDTH-1:0] immext; // 32-bit sign extended immediate operand 
 
-logic signed [DATA_WIDTH-1:0] result; // 32-bit sign extended immediate operand 
+// -- outputs from muxes --
+logic signed [DATA_WIDTH-1:0] aluop2;    // output from alu_mux
+logic signed [DATA_WIDTH-1:0] aluresult; // output from alu
 
-logic signed [DATA_WIDTH-1:0] rd1;    // output from reg_file
-logic signed [DATA_WIDTH-1:0] rd2;    // output from reg_file
-logic signed [DATA_WIDTH-1:0] aluop2; // output from alu_mux
-logic signed [DATA_WIDTH-1:0] aluout; // output from alu
+top_alu topalu(
+    .aluop1(rd1),
+    .aluop2(aluop2),
+    .aluresult(aluresult),
+    .alucontrol(alucontrol),
+    
+    .zero(zero)
+);
 
+top_control_unit control_unit(
+    .instr(instr),
+    .zero(zero),
 
+    .pcsrc(pcsrc),
+    .resultsrc(resultsrc),
+    .memwrite(memwrite),
+    .alucontrol(alucontrol),
+    .alusrc(alusrc),
+    .immsrc(immsrc),
+    .regwrite(regwrite)
+);
 
-// -- output from control unit --
-// these are all control signals
-logic regwrite;
-logic [2:0] alucontrol;
-logic alusrc;
-logic [1:0] immsrc;
-logic resultsrc;
-logic pcsrc; 
-logic memwrite;
-logic zero;
+data_mem DataMemory(
+    .a(aluresult),
+    .wd(rd2),
+    .we(memwrite),
+    .clk(clk),
+
+    .rd(rd_dm)
+);
+
+mux data_mem_mux(
+    .input0(aluresult),
+    .input1(rd_dm),
+    .src(resultsrc),
+    .out(result)
+);
+
+instr_mem instrMem(
+    .a(pc),
+
+    .rd(instr)
+);
 
 top_pc t_PC(
     .clk(clk),
@@ -56,12 +99,6 @@ top_pc t_PC(
     .immext(immext),
     .trigger(trigger),
     .pc_out(pc)
-);
-
-instr_mem instrMem(
-    .a(pc),
-
-    .rd(instr)
 );
 
 reg_file myregfile(
@@ -77,37 +114,6 @@ reg_file myregfile(
     .a0(a0)
 );
 
-mux alu_mux(
-    .input0(rd2),
-    .input1(immext),
-    .src(alusrc),
-    .out(aluop2)
-);
-
-alu myalu(
-    .aluop1(rd1),
-    .aluop2(aluop2),
-    .aluout(aluout),
-    .alucontrol(alucontrol),
-    
-    .zero(zero)
-);
-
-
-
-top_control_unit controlUnit(
-    .instr(instr),
-    .zero(zero),
-
-    .pcsrc(pcsrc),
-    .resultsrc(resultsrc),
-    .memwrite(memwrite),
-    .alucontrol(alucontrol),
-    .alusrc(alusrc),
-    .immsrc(immsrc),
-    .regwrite(regwrite)
-);
-
 sign_extend signExtend(
     .instr(instr),
     .immsrc(immsrc),
@@ -115,21 +121,7 @@ sign_extend signExtend(
     .immop(immext)
 );
 
-data_mem DataMemory(
-    .a(aluout),
-    .wd(rd2),
-    .we(memwrite),
-    .clk(clk),
 
-    .rd(rd_dm)
-);
-
-mux data_mem_mux(
-    .input0(aluout),
-    .input1(rd_dm),
-    .src(resultsrc),
-    .out(result)
-);
 
 endmodule
 

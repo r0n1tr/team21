@@ -7,6 +7,7 @@ module top_pc #(
     input  logic                     pcsrc,
     input  logic [DATA_WIDTH-1:0]    immext,
     input  logic                     trigger, //trigger 
+    
     output logic [ADDRESS_WIDTH-1:0] pc_out
 );
 
@@ -21,8 +22,6 @@ pc_mux my_mux (
     .pc(pc),
     .next_pc(next_pc)
 );
-
-
 
 pc_reg my_reg(
     .clk(clk),

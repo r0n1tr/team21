@@ -3,9 +3,9 @@ module pc_mux #(
     parameter ADDRESS_WIDTH = 8,
               DATA_WIDTH = 32
 )(
-    input  logic                     pcsrc,  // select line for mux
+    input  logic                     pcsrc,   // select line for mux
     input  logic [DATA_WIDTH-1:0]    immext,  // immediate offset (e.g. for branch instruction)
-    input  logic [ADDRESS_WIDTH-1:0] pc,     // current value of pc (in pc_reg)
+    input  logic [ADDRESS_WIDTH-1:0] pc,      // current value of pc (in pc_reg)
 
     output logic [ADDRESS_WIDTH-1:0] next_pc // new value of pc (to be written to pc_reg)
 );
