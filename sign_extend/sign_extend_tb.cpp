@@ -16,9 +16,12 @@ int main(int argc, char **argv, char **env) {
     top->trace(tfp, 99);
     tfp->open("sign_extend.vcd");
 
-    // init input data
-    std::vector<unsigned int> instruction_words = {0x0FF00313,0x00000513,0x00000593,0x00058513,0x00158593,0xFE659CE3,0xFE0318E3};
-    std::vector<int> corresponding_ImmSrc_value = {0,0,0,0,0,1,1};
+    // init input data (these are the instructions used in lecture 7, except addi which is from lab 4)
+    std::vector<std::string>  instr_names       = {"addi",     "lw  ",     "sw  ",     "or  ",     "beq "};
+    std::vector<unsigned int> instruction_words = {0x0FF00313, 0xFFC4A303, 0x0064A423, 0x0062E233, 0xFE420AE3};
+    std::vector<int> corresponding_ImmSrc_value = {0,          0,          1,          3,          2};
+
+    std::cout << std::endl;
 
     // run simulation for each possible input address
     for (int i = 0; i < instruction_words.size(); i++)
@@ -35,12 +38,14 @@ int main(int argc, char **argv, char **env) {
         }
 
         // print current state of top
-        std::cout << "instr = "  << std::setfill('0') << std::setw(8) << std::hex << top->instr  << "   ";
-        std::cout << "immsrc = " << (top->ImmSrc ? "1":"0") << "   ";
+        std::cout << "instr = "  << std::setfill('0') << std::setw(8) << std::hex << top->instr  << " (" << instr_names[i] << ")    ";
+        std::cout << "immsrc = " << ((int)top->ImmSrc)  << "   ";
         std::cout << " -->    immop = "  << std::setfill('0') << std::setw(8) << std::hex << top->ImmOp  << "   " << std::endl;
 
         if (Verilated::gotFinish()) exit(0);
     }
+
+    std::cout << std::endl;
 
     tfp->close();
     exit(0);
