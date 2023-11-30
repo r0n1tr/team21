@@ -7,3 +7,5 @@ loop    beq a0,255,loopexit
         mv a0,t1
         JAL loop
 loopexit
+        JAL delay (go to delay subroutine)
+        mv,a0,0
