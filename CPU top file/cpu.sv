@@ -5,7 +5,7 @@ module cpu #(
 )(
     input logic clk,
     input logic rst,
-
+    input logic int,   // this is the trigger 
     output logic [DATA_WIDTH-1:0] a0
 );
 
