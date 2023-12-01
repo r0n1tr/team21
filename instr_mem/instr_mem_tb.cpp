@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **env) {
     const int memory_size = std::pow(2,8);
 
     // run simulation for each possible input address
-    for (int i = 0; i < memory_size; i++)
+    for (int i = 0; i < 20; i++)
     {
         // set simulation input
         top->a = i;

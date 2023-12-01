@@ -122,7 +122,7 @@ sign_extend signExtend(
     .instr(instr),
     .immsrc(immsrc),
 
-    .immop(immext)
+    .immext(immext)
 );
 
 endmodule

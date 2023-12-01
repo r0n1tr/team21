@@ -20,21 +20,21 @@ int main(int argc, char **argv, char **env) {
 
     // simulation data
     std::vector<int>          rst_vals   = {1,          0,          0,          0,          0,          0,          0,          0,          0,          1,          1};           // assert reset at beginning and end
-    std::vector<int>          pcsrc_vals = {0,          0,          0,          0,          0,          1,          1,          1,          1,          1,          1};           // PC+4 for first four clock cycles of rst!=1, then PC+ImmOP for last four clock cycles of rst!=1
-    std::vector<unsigned int> immop_vals = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFC, 0xFFFFFFF4, 0x00000008, 0x00000010, 0xFFFFFFFF, 0xFFFFFFFF};  // immop valuess for when pcsrc = 1 (set to 0xFFFFFFFF for when pcsrc = 0)
+    std::vector<int>          pcsrc_vals = {0,          0,          0,          0,          0,          1,          1,          1,          1,          1,          1};           // PC+4 for first four clock cycles of rst!=1, then PC+immext for last four clock cycles of rst!=1
+    std::vector<unsigned int> immext_vals = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFC, 0xFFFFFFF4, 0x00000008, 0x00000010, 0xFFFFFFFF, 0xFFFFFFFF};  // immext valuess for when pcsrc = 1 (set to 0xFFFFFFFF for when pcsrc = 0)
 
     // run simulation for many clock cycles
-    for (int i = 0; i < immop_vals.size(); i++)
+    for (int i = 0; i < immext_vals.size(); i++)
     {
         // update simulation inputs
         top->rst   = rst_vals[i];
-        top->PCsrc = pcsrc_vals[i];
-        top->ImmOp = immop_vals[i];
+        top->pcsrc = pcsrc_vals[i];
+        top->immext = immext_vals[i];
 
         // print input state
         std::cout << "rst = "   << ((top->rst)   ? "1":"0") << "   ";
-        std::cout << "pcsrc = " << ((top->PCsrc) ? "1":"0") << "   ";
-        std::cout << "0x" << std::setfill('0') << std::setw(8) << std::hex << top->ImmOp << std::dec << "   ";
+        std::cout << "pcsrc = " << ((top->pcsrc) ? "1":"0") << "   ";
+        std::cout << "0x" << std::setfill('0') << std::setw(8) << std::hex << top->immext << std::dec << "   ";
 
         // dump variables into VCD file and toggle clock
         for (int clk = 0; clk < 2; clk++)
