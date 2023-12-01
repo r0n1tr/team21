@@ -1,11 +1,9 @@
 module top_alu #(
-    parameter REG_FILE_ADDR_WIDTH = 5, 
-              DATA_WIDTH = 32
+    parameter DATA_WIDTH = 32
 )(
-    input logic                         clk,
     input logic                         alusrc,
-    input logic                         alucontrol,
-    input logic signed [DATA_WIDTH-1:0] rd1,    // cpmes from reg_file
+    input logic        [2:0]            alucontrol,
+    input logic signed [DATA_WIDTH-1:0] rd1,    // comes from reg_file
     input logic signed [DATA_WIDTH-1:0] rd2,    // comes from reg_file
     input logic signed [DATA_WIDTH-1:0] immext,
 
@@ -13,12 +11,14 @@ module top_alu #(
     output logic                         zero       // zero flag
 );
 
-logic signed [DATA_WIDTH-1:0] srcb;      // output from alu_mux
+ // output from alu_mux
+logic signed [DATA_WIDTH-1:0] srcb;     
 
 alu_mux alu_mux(
     .input0(rd2),
     .input1(immext),
     .alusrc(alusrc),
+
     .out(srcb)
 );
 
