@@ -1,11 +1,10 @@
-        nop
-        mv a0,zero
-loop    beq a0,255,loopexit
-        add t1,zero
-        slli t1,1
-        add t1,1
-        mv a0,t1
-        JAL loop
-loopexit
-        JAL delay (go to delay subroutine)
-        mv,a0,0
+         nop
+         li a0,0x0
+         li t2,0xff
+loop:    beq a0,t2,exit
+         li t1,0x0
+         slli t1,t1,0x1
+         addi t1,t1,0x1
+         mv a0,t1
+         J loop
+exit:       li a0,0x0
