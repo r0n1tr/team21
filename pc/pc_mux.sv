@@ -1,9 +1,12 @@
 // verilator lint_off UNUSED
 module pc_mux #(
-    parameter ADDRESS_WIDTH = 8,
+    parameter ADDRESS_WIDTH = 32,
               DATA_WIDTH = 32
 )(
-    input  logic                     pcsrc,   // select line for mux
+    input  logic                     rst,
+    input  logic                     trigger,
+    input  logic                     pcsrc,   
+    
     input  logic [DATA_WIDTH-1:0]    immext,  // immediate offset (e.g. for branch instruction)
     input  logic [ADDRESS_WIDTH-1:0] pc,      // current value of pc (in pc_reg)
 
@@ -13,16 +16,13 @@ module pc_mux #(
 logic [DATA_WIDTH-1:0] branch_pc;
 
 always_comb begin
-    if(pcsrc) begin // next_PC = immext + PC
-        branch_pc = ( immext + { {(DATA_WIDTH-ADDRESS_WIDTH){1'b0}} , pc } ); // zero extend PC to 32 bit --> Add 32-bit PC and 32 bit immext --> select lower 8 bits of the sum. This wayy branch_pc is an 8 bit value representing the sum of PC and immext *without bit width problems hopefully*
-        next_pc = branch_pc[ADDRESS_WIDTH-1:0];
-    end
-    else begin // next_PC = PC + 4
-        //branch_pc = 32'hFFFFFFFF; // dummy value to get rid of warning
-        next_pc = pc + {{5{1'b0}}, 3'b100};
-    end
+    casez ({pcsrc , trigger , rst})
+        3'b??1: next_pc = {32{1'b0}};
+        3'b?00: next_pc = {32{1'b0}};
+        3'b010: next_pc = pc + 32'd4;
+        3'b110: next_pc = pc + immext;
+    endcase
 end
-
 
 endmodule 
 // verilator lint_on UNUSED
