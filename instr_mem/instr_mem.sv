@@ -1,6 +1,7 @@
 module instr_mem #(
-    parameter ADDRESS_WIDTH = 8,
+    parameter ADDRESS_WIDTH = 32,
               INSTRUCTION_WIDTH = 32,
+              MEM_SIZE = 256,
               BYTE_WIDTH = 8
 )(
     input  logic [ADDRESS_WIDTH-1:0]     a, // input address (comes from PC)
@@ -9,13 +10,12 @@ module instr_mem #(
 );
 
 // Declare rom as array
-logic [BYTE_WIDTH-1:0] rom_array [2**ADDRESS_WIDTH-1:0];
+logic [BYTE_WIDTH-1:0] rom_array [MEM_SIZE-1:0];
 
 // program rom with contents in counter_rom.mem.
 initial begin
     $display("Loading rom...");
-    $readmemh("instr_mem/counter_rom2.mem", rom_array); // Each word appears 4 times, so that e.g. accessing any address from 0 to 3 means accessing the first instruction. 
-                                                        // TODO: NOT SURE IF THIS IS HOW IT'S MEANT TO BE DONE. CHECK IF CORRECT.
+    $readmemh("./mem_files/counter_rom2.mem", rom_array);
 end;
 
 // output is asynchronous
