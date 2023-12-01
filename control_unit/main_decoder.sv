@@ -4,7 +4,7 @@ module main_decoder(
     input  logic       zero,   // Zero flag
     
     // control signals
-    output logic       pcsrc,
+    output logic [1:0] pcsrc,
     output logic [1:0] resultsrc,
     output logic       memwrite,
     output logic       alusrc,
@@ -18,14 +18,15 @@ module main_decoder(
 // Implementation of control logic (as defined in Lecture 7 Slide 18; dont cares have been set to 0)
 always_comb begin
     case (op)               
-        7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 10'b1001001000;             // lw                                                              
-        7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 10'b1001000010;             // I-Type (arithmetic/logical)
-        7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 10'b0011100000;             // sw
-        7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 10'b1000000010;             // R-Type (all of which are arithmetic/logical)
-        7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = {7'b0100000 , zero, 2'b01}; // beq
-        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 10'b1110010100;             // jal
+        7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010010000;             // lw                                                              
+        7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010000010;             // I-Type (arithmetic/logical)
+        7'b110_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010001000;             // jalr
+        7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b00111000000;             // sw
+        7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10000000010;             // R-Type (all of which are arithmetic/logical)
+        7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = {8'b01000000 , zero, 2'b01}; // beq
+        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b11100100100;             // jal
 
-        default:     {aluop, pcsrc, resultsrc, memwrite, alusrc, immsrc, regwrite} = 10'b1111111111;
+        default:     {aluop, pcsrc, resultsrc, memwrite, alusrc, immsrc, regwrite} = 11'b11111111111;
     endcase
 end
 

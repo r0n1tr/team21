@@ -8,7 +8,6 @@ module alu_decoder(
     output logic [2:0] alucontrol
 );
 
-// Implementation of control logic (TODO: Implement JAL)
 //      Lecture 7 slide 19 indicates that we only need instructions: add, sub, slt, or, and
 //      The rest of the instructions (from Lecture 6 Slides 25/26) have been added for posterity
 //      but would require alucontrol be 4 bits to actually implement (as there are 10 instructions)
@@ -18,7 +17,7 @@ module alu_decoder(
 //      (and so have different control signals, as specified in main_decoder.sv)
 always_comb begin
     casez ({aluop, funct3, funct7[5]})       
-        // This case is executed if instr is lw, sw
+        // This case is executed if instr is lw, sw, jalr
         // In this case aluop = 00
         6'b00_???_?: alucontrol = 3'b000;    // add
 

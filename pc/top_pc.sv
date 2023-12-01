@@ -5,8 +5,9 @@ module top_pc #(
     input  logic                  clk,
     input  logic                  rst,
     input  logic                  trigger,
-    input  logic                  pcsrc,
+    input  logic [1:0]            pcsrc,
     input  logic [DATA_WIDTH-1:0] immext,
+    input  logic [DATA_WIDTH-1:0] result,
     
     output logic [ADDRESS_WIDTH-1:0] pcplus4, // output this for use in result_mux (for jal instruction)
     output logic [ADDRESS_WIDTH-1:0] pc
@@ -22,6 +23,7 @@ pc_reg pc_reg(
 );
 
 pc_mux pc_mux (
+    .result(result),
     .immext(immext),
     .pc(pc),
     .pcsrc(pcsrc),
