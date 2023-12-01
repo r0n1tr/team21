@@ -36,6 +36,7 @@ logic [DATA_WIDTH-1:0] instr; // instruction word from instruction memory
 
 // -- output from top_pc --
 logic [ADDRESS_WIDTH-1:0] pc; // program counter 
+logic [ADDRESS_WIDTH-1:0] pcplus4;
 
 // -- output from reg_file --
 logic signed [DATA_WIDTH-1:0] rd1;   
@@ -81,9 +82,11 @@ data_mem data_mem(
     .rd(rd_dm)
 );
 
-mux result_mux(
+mux2 result_mux(
     .input0(aluresult),
     .input1(rd_dm),
+    .input2(pcplus4),
+    .input3({32{1'b0}}), // not using input 3 - set to 0 by default
     .select(resultsrc),
 
     .out(result)
@@ -102,6 +105,7 @@ top_pc top_PC(
     .immext(immext),
     .trigger(trigger),
 
+    .pcplus4(pcplus4),
     .pc(pc)
 );
 

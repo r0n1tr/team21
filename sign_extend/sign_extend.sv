@@ -8,10 +8,10 @@ module sign_extend(
 // Sign extension implementation (as defined in lecture 7, slide 15)
 always_comb begin
     case (immsrc)
-        2'b00:   immext = { {20{instr[31]}} , instr[31:20] };                                      // I-TYPE; sign extend 12-bit imm
-        2'b01:   immext = { {20{instr[31]}} , instr[31:25] , instr[11:7] };                        // S-TYPE; sign extend 12-bit imm
-        2'b10:   immext = { {20{instr[31]}} , instr[7]     , instr[30:25] , instr[11:8], {1'b0} }; // B-TYPE; sign extend 13-bit imm; immext used as offset to PC (so can be -ve or +ve, so needs to be sign extended)
-        default: immext = { 32{1'b0} }; // e.g. for R-TYPE (as it has no immediate)
+        2'b00:   immext = { {20{instr[31]}} , instr[31:20] };                                        // I-TYPE; sign extend 12-bit imm
+        2'b01:   immext = { {20{instr[31]}} , instr[31:25] , instr[11:7] };                          // S-TYPE; sign extend 12-bit imm
+        2'b10:   immext = { {20{instr[31]}} , instr[7]     , instr[30:25] , instr[11:8]  , {1'b0} }; // B-TYPE; sign extend 13-bit imm; immext used as offset to PC (so can be -ve or +ve, so needs to be sign extended)
+        2'b11:   immext = { {12{instr[31]}} , instr[19:12] , instr[20]    , instr[30:21] , {1'b0} }; // J-TYPE; sign extend 21-bit imm
     endcase
 end
 
