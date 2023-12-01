@@ -22,7 +22,7 @@ end
 
 assign rd1 = ram_array[ad1];
 assign rd2 = ram_array[ad2];
-assign a0  = ram_array[4'd10];
+assign a0  = ram_array[5'd10];
 
 endmodule
 
