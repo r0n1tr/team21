@@ -26,11 +26,12 @@ int main(int argc, char **argv, char **env) {
     // run simulation for many clock cycles
     for (int i = 0; i < immext_vals.size(); i++)
     {
+        top->trigger = 1;
         // update simulation inputs
         top->rst   = rst_vals[i];
         top->pcsrc = pcsrc_vals[i];
         top->immext = immext_vals[i];
-
+        
         // print input state
         std::cout << "rst = "   << ((top->rst)   ? "1":"0") << "   ";
         std::cout << "pcsrc = " << ((top->pcsrc) ? "1":"0") << "   ";
