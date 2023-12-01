@@ -19,7 +19,7 @@ always_comb begin
     casez ({pcsrc , trigger , rst})
         3'b??1: next_pc = {32{1'b0}};
         3'b?00: next_pc = {32{1'b0}};
-        3'b010: next_pc = pc + {29'b0, 3'b100};  
+        3'b010: next_pc = pc + {29'b0, 3'b100};  //add 4
         3'b110: next_pc = pc + immext;
     endcase
 end
