@@ -3,50 +3,63 @@
 #include "verilated_vcd_c.h"
 #include <iostream>
 #include <iomanip>
+#include "vbuddy.cpp"
+
+#define MAX_SIM_CYC 1000000
+#define ADDRESS_WIDTH 8
+#define RAM_SZ pow(2,ADDRESS_WIDTH)
+
 
 int main(int argc, char **argv, char **env) {
+  int simcyc;
+  int tick;
 
-    Verilated::commandArgs(argc,argv);
+  Verilated::commandArgs(argc, argv);
+  Verilated::traceEverOn(true);
 
-    // init top verilog instance
-    Vcpu* top = new Vcpu;
+  Vcpu* top = new Vcpu;
+  VerilatedVcdC* tfp = new VerilatedVcdC;
 
-    // init trace dump
-    Verilated::traceEverOn(true);
-    VerilatedVcdC* tfp = new VerilatedVcdC;
-    top->trace(tfp, 99);
-    tfp->open("cpu.vcd");
+  top->trace(tfp, 99);
+  tfp->open("cpu.vcd");
 
-    // initialise cpu
-    top->clk = 0;
+  if (vbdOpen() != 1) exit(-1);
+  vbdHeader("L3T3Ch: cpu");
+  //vbdSetMode(1);
+   top->clk = 0;
     top->rst = 1;
     top->trigger = 0;
-    
-    // run simulation for enough cycles for the CPU to reach 255
-    for (int i = 0; i < 100; i++)
-    {
-        // stop resetting clock after cycle 0
-        // cpu will take a few cycles to enter the loop, aftwe which there will be an increment every 3 cycles
-        if(i >= 1) {
-            top->rst = 0;
-            top->trigger = 1;
-        }
-        
-        // dump variables into VCD file and toggle clock
-        for (int clk = 0; clk < 2; clk++)
-        {
-            tfp->dump (2 * i + clk);
-            top->clk = !top->clk;
-            top->eval ();
-        }
-  
-        // print output state
-        std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i       << "     ";
-        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
-        
-        if (Verilated::gotFinish()) exit(0);
-    }
+  std::cout << "Starting sim" << std::endl;
 
-    tfp->close();
-    exit(0);
+  for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++) {
+    for (tick = 0; tick < 2; tick++) {
+      tfp->dump(2*simcyc+tick);
+      top->clk = !top->clk;
+      top->eval();
+    }
+    if(simcyc < 2){
+      top->rst = 0;
+      top->trigger = 1;
+    }
+        std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << simcyc     << "     ";
+        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
+        vbdHex(1, top->a0 & 0xF);
+        vbdBar(top->a0 & 0xFF);
+        vbdCycle(simcyc);
+
+
+
+    if ((Verilated::gotFinish()) || (vbdGetkey() == 'q')) exit(0);
+  }
+
+  vbdClose();
+  tfp->close();
+  exit(0);
 }
+
+
+
+
+  // print output state
+   
+
