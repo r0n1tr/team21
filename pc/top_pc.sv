@@ -8,6 +8,7 @@ module top_pc #(
     input  logic                  pcsrc,
     input  logic [DATA_WIDTH-1:0] immext,
     
+    output logic [ADDRESS_WIDTH-1:0] pcplus4, // output this for use in result_mux (for jal instruction)
     output logic [ADDRESS_WIDTH-1:0] pc
 );
 
@@ -27,6 +28,7 @@ pc_mux pc_mux (
     .rst(rst),
     .trigger(trigger),
     
+    .pcplus4(pcplus4),
     .next_pc(next_pc)
 );
 
