@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **env) {
     top->trigger = 0;
     
     // run simulation for enough cycles for the CPU to reach 255
-    for (int i = 0; i < 200; i++)
+    for (int i = 0; i < 20; i++)
     {
         // stop resetting clock after cycle 0
         // cpu will take a few cycles to enter the loop, aftwe which there will be an increment every 3 cycles
@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **env) {
   
         // print output state
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i       << "     ";
-        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << top->a0 << std::endl;
+        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
         
         if (Verilated::gotFinish()) exit(0);
     }

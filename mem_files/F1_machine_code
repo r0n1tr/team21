@@ -28,9 +28,9 @@ reset:
 // PROPER USE CASE
 
 start:
-    addi a0, zero, 0    # Initialize a0 to 0
-    addi a1, zero, 0    # Initialize temp register a1 to 0
-    addi t1, zero, 255  # Compare value for reset
+    addi a0, x0, 0    # Initialize a0 to 0
+    addi a1, x0, 0    # Initialize temp register a1 to 0
+    addi t1, x0, 255  # Compare value for reset
 
 loop:
     slli a1, a1, 1     # Shift left logical (multiply by 2) the value in a1
@@ -40,6 +40,9 @@ loop:
     bne a0, t1, loop   # Jump back to the beginning of the loop
 
 reset:
-    addi a0, zero, 0           # Set a0 to 0
-    addi a1, zero, 0           # Set a1 to 0
-    jal loop                   # Jump back to the main loop
+    addi a0, x0, 0           # Set a0 to 0
+    addi a1, x0, 0           # Set a1 to 0
+    beq x4, x4, loop
+    #jal loop                   # Jump back to the main loop
+
+
