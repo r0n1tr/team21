@@ -3,8 +3,8 @@ module top_control_unit (
     input  logic [31:0] instr,  // 32-bit instruction
     input  logic        zero,   // zero flag
 
-    output logic       pcsrc,
-    output logic       resultsrc,
+    output logic [1:0] pcsrc,
+    output logic [1:0] resultsrc,
     output logic       memwrite,
     output logic       alusrc,
     output logic [1:0] immsrc,

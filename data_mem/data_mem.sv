@@ -17,7 +17,7 @@ logic [DATA_WIDTH-1:0] data_memory [MEM_SIZE-1:0];
 
 initial begin
     $display("Loading ram...");
-    $readmemh("./mem_files/data_mem.mem", data_memory); //ram array
+    $readmemh("mem_files/data_mem.mem", data_memory); //ram array
 end;
 
 always_ff @(posedge clk) begin

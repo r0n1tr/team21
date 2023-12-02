@@ -20,8 +20,8 @@ logic                         zero;      // zero flag
 
 // -- output from control unit --
 // these are all control signals
-logic pcsrc; 
-logic resultsrc;
+logic [1:0] pcsrc; 
+logic [1:0] resultsrc;
 logic memwrite;
 logic alusrc;
 logic [1:0] immsrc;
@@ -101,9 +101,10 @@ instr_mem instr_mem(
 top_pc top_PC(
     .clk(clk),
     .rst(rst),
+    .trigger(trigger),
     .pcsrc(pcsrc),
     .immext(immext),
-    .trigger(trigger),
+    .result(result),
 
     .pcplus4(pcplus4),
     .pc(pc)
