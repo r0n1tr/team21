@@ -15,7 +15,7 @@ logic [BYTE_WIDTH-1:0] rom_array [MEM_SIZE-1:0];
 // program rom with contents in counter_rom.mem.
 initial begin
     $display("Loading rom...");
-    $readmemh("/home/ronit/Documents/iac/fullcpu/team21/mem_files/f1_test.mem", rom_array);
+    $readmemh("/home/ronit/Documents/iac/fullcpu/team21/mem_files/f1_fsm.mem", rom_array);
 end;
 
 // output is asynchronous
