@@ -17,7 +17,7 @@ module reg_file #(
 logic [DATA_WIDTH-1:0] ram_array [2**REG_FILE_ADDR_WIDTH-1:0];
 
 always_ff @(negedge clk) begin
-    if(we3) ram_array[ad3] <= wd3;
+    if(we3) ram_array[ad3] <= wd3; // this has changed from the instr packet to the output of rdw 
 end
 
 assign rd1 = ram_array[ad1];
