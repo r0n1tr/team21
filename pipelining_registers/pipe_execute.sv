@@ -4,6 +4,9 @@ module pipe_execute # (
     WRITE_WIDTH = 5;
 )(
     input logic clk,
+    input logic rst, //systemwide reset
+    input logic clear, //for hazard unit
+    input logic en,
     input logic [DATA_WIDTH-1:0] aluresulte,
     input logic [DATA_WIDTH-1:0] writedatae,
     input logic [WRITE_WIDTH-1:0] rde,
@@ -14,11 +17,21 @@ module pipe_execute # (
     output logic [DATA_WIDTH-1:0] pcplus4m 
 );
 
+
+
     always_ff @(posedge clk) begin
-        aluresultm <= aluresulte;
-        writedatam <= writedatae;
-        rdm <= rde;
-        pcplus4m <= pcplus4e;
+        if(en) begin
+            aluresultm <= aluresulte;
+            writedatam <= writedatae;
+            rdm <= rde;
+            pcplus4m <= pcplus4e;
+        end
+        else begin
+            aluresultm <= 32'b0;
+            writedatam <= 32'b0;
+            rdm <= 5'b0;
+            pcplus4m <= 32'b0;
+
     end
 
 
