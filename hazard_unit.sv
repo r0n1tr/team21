@@ -12,19 +12,20 @@ module hazard_unit(
 );
 
 always_comb begin
-    if (Rs1E == RdW)        ForwardAE = 2'b01;
-    else if (Rs1E == RdM)   ForwardAE = 2'b10;
-    else                    ForwardAE = 2'b00;
+    if ((Rs1E == RdW) & RegWriteW)        ForwardAE = 2'b01;
+    else if ((Rs1E == RdM) & RegWriteM)   ForwardAE = 2'b10;
+    else                                  ForwardAE = 2'b00;
     
 end
 
 always_comb begin
-    if (Rs2E == RdW)        ForwardAE = 2'b01;
-    else if (Rs2E == RdM)   ForwardAE = 2'b10;
-    else                    ForwardAE = 2'b00;
+    if ((Rs2E == RdW) & RegWriteW)        ForwardBE = 2'b01;
+    else if ((Rs2E == RdM) & RegWriteM)   ForwardBE = 2'b10;
+    else                                  ForwardBE = 2'b00;
     
 end
 
 endmodule
 
+ 
  
