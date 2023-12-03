@@ -5,7 +5,7 @@
 #include <iomanip>
 #include "vbuddy.cpp"
 
-#define MAX_SIM_CYC 1000000
+#define MAX_SIM_CYC 100
 #define ADDRESS_WIDTH 8
 #define RAM_SZ pow(2,ADDRESS_WIDTH)
 
@@ -25,10 +25,9 @@ int main(int argc, char **argv, char **env) {
 
   if (vbdOpen() != 1) exit(-1);
   vbdHeader("L3T3Ch: cpu");
-  vbdSetMode(1);
    top->clk = 0;
-    top->rst = 1;
-    top->trigger = 0;
+   top->rst = 1;
+   top->trigger = 0;
   std::cout << "Starting sim" << std::endl;
 
   for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++) {
@@ -39,8 +38,8 @@ int main(int argc, char **argv, char **env) {
     }
     if(simcyc < 2){
       top->rst = 0;
-      top->trigger = 1;
     }
+      top->trigger = 1;
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << simcyc     << "     ";
         std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
         vbdHex(1, top->a0 & 0xF);

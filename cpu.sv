@@ -54,31 +54,31 @@ logic [WRITE_WIDTH-1:0] rdf;
 // pipeline internal wires
 
 // fetch output wires
-logic [DATA_WIDTH-1:0]       instrd;
+logic signed [DATA_WIDTH-1:0]       instrd;
 logic [ADDRESS_WIDTH-1:0]    pcd;
 logic [ADDRESS_WIDTH-1:0]    pcplus4d;
 logic [WRITE_WIDTH-1:0]      rdd;
 
 //decode output wires
-logic [DATA_WIDTH-1:0] rd1e;
-logic [DATA_WIDTH-1:0] rd2e;
+logic signed [DATA_WIDTH-1:0] rd1e;
+logic signed [DATA_WIDTH-1:0] rd2e;
 logic [ADDRESS_WIDTH-1:0] pce;
 logic [WRITE_WIDTH-1:0] rde;
-logic [DATA_WIDTH-1:0] immexte;
+logic signed [DATA_WIDTH-1:0] immexte;
 logic [ADDRESS_WIDTH-1:0] pcplus4e;
 
 
 //execute output wires
-logic [DATA_WIDTH-1:0] aluresultm;
-logic [DATA_WIDTH-1:0] writedatam;
+logic signed[DATA_WIDTH-1:0] aluresultm;
+logic signed[DATA_WIDTH-1:0] writedatam;
 logic [WRITE_WIDTH-1:0] rdm;
-logic [DATA_WIDTH-1:0] pcplus4m;
+logic signed[DATA_WIDTH-1:0] pcplus4m;
 
 // memory output wires
-logic [DATA_WIDTH-1:0] aluresultw;
-logic [DATA_WIDTH-1:0] readdataw;
-logic [WRITE_WIDTH-1:0] rdw;
-logic [DATA_WIDTH-1:0] pcplus4w;
+logic signed [DATA_WIDTH-1:0] aluresultw;
+logic signed [DATA_WIDTH-1:0] readdataw;
+logic  [WRITE_WIDTH-1:0] rdw;
+logic signed [DATA_WIDTH-1:0] pcplus4w;
 
 pipe_fetch fetch(
     .clk(clk),
