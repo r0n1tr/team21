@@ -80,6 +80,23 @@ logic signed [DATA_WIDTH-1:0] readdataw;
 logic  [WRITE_WIDTH-1:0] rdw;
 logic signed [DATA_WIDTH-1:0] pcplus4w;
 
+
+logic regwritem;
+logic [1:0] resultsrcm;
+logic memwritem;
+
+logic regwritee;
+logic [1:0] resultsrce;
+logic memwritee;
+logic jumpe;
+logic branche;
+logic [2:0] alucontrole;
+logic alusrce;
+
+logic regwritew;
+logic [1:0] resultsrcw;
+logic pcsrce;
+
 pipe_fetch fetch(
     .clk(clk),
     .rd(instr),
@@ -110,6 +127,16 @@ pipe_decode decode(
     .pcplus4e(pcplus4e)
 
 );
+
+
+pc_logic pc_logic(
+    .jump(jumpe),
+    .branch(branche),
+    .zeroe(zero),
+
+    .pcsrce(pcsrce)
+);
+   
 
 pipe_execute execute(
     .clk(clk),
@@ -194,7 +221,7 @@ top_pc top_PC(
     .clk(clk),
     .rst(rst),
     .trigger(trigger),
-    .pcsrc(pcsrc),
+    .pcsrc(pcsrce),
     .immext(immexte),
     .result(result),
 
