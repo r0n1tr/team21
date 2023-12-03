@@ -8,7 +8,7 @@ module pipe_fetch #(
               
 )(
   
-    input logic                         clk 
+    input logic                         clk, 
     input logic [DATA_WIDTH-1:0]        rd,   //the data that comes from instruction memory  
     input logic [ADDRESS_WIDTH-1:0]     pcf,
     input logic [ADDRESS_WIDTH-1:0]     pcplus4f,

@@ -4,7 +4,7 @@ module pipe_execute #(
                WRITE_WIDTH = 5
 
 ) (
-    input logic clk
+    input logic clk,
     input logic [DATA_WIDTH-1:0] rd1d,    // could be simplified to match what they are called in ALU 
     input logic [DATA_WIDTH-1:0] rd2d,
     input logic [ADDRESS_WIDTH-1:0] pcd,
@@ -17,7 +17,7 @@ module pipe_execute #(
     output logic [ADDRESS_WIDTH-1:0] pce,
     output logic [WRITE_WIDTH-1:0] rde,
     output logic [DATA_WIDTH-1:0] immexte,
-    output logic [ADDRESS_WIDTH-1:0] pcplus4e,
+    output logic [ADDRESS_WIDTH-1:0] pcplus4e
 
 );
 
