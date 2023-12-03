@@ -13,7 +13,7 @@ module pipe_execute # (
     input logic regwritee,
     input logic [1:0] resultsrce,
     input logic memwritee,
-    
+
 
     output logic regwritem,
     output logic [1:0] resultsrcm,
@@ -30,6 +30,10 @@ module pipe_execute # (
 
     always_ff @(posedge clk) begin
         
+            regwritem <= regwritee;
+            resultsrcm <= resultsrce;
+            memwritem <= memwritee;
+            
             aluresultm <= aluresulte;
             writedatam <= writedatae;
             rdm <= rde;

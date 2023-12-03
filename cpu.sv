@@ -168,8 +168,7 @@ mux2 result_mux(
     .input0(aluresultw),
     .input1(readdataw),
     .input2(pcplus4w),
-    .input3({32{1'b0}}), // not using input 3 - set to 0 by default
-    .select(resultsrc),
+    .select(resultsrcw),
 
     .out(result)
 );
