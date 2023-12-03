@@ -50,6 +50,14 @@ logic signed [DATA_WIDTH-1:0] result;
 
 // pipeline registers
 
+pipe_fetch fetch(
+
+);
+
+pipe_decode decode(
+
+);
+
 pipe_execute execute(
     .clk(clk),
     .rst(rst),
