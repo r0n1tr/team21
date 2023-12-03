@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **env) {
 
   if (vbdOpen() != 1) exit(-1);
   vbdHeader("L3T3Ch: cpu");
-  //vbdSetMode(1);
+  vbdSetMode(1);
    top->clk = 0;
     top->rst = 1;
     top->trigger = 0;

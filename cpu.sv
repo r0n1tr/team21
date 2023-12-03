@@ -49,9 +49,6 @@ logic signed [DATA_WIDTH-1:0] immext; // 32-bit sign extended immediate operand
 // --output from result_mux -- (the mux that has select == resultsrc)
 logic signed [DATA_WIDTH-1:0] result;
 logic [WRITE_WIDTH-1:0] rdf;
-logic [WRITE_WIDTH-1:0] rdm;
-logic [WRITE_WIDTH-1:0] rde;
-logic [WRITE_WIDTH-1:0] rdw;
 // pipeline registers
 
 // pipeline internal wires
