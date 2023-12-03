@@ -48,6 +48,48 @@ logic signed [DATA_WIDTH-1:0] immext; // 32-bit sign extended immediate operand
 // --output from result_mux -- (the mux that has select == resultsrc)
 logic signed [DATA_WIDTH-1:0] result;
 
+// pipeline registers
+
+pipe_fetch fetch(
+
+);
+
+pipe_decode decode(
+
+);
+
+pipe_execute execute(
+    .clk(clk),
+    .rst(rst),
+    .clear(clear),
+    .en(en),
+    .aluresulte(aluresult),
+    .writedatae(rd2),
+    .rde(NEED TO FIGURE OUT NAMING CONVENTION FOR rd signal),
+    .pcplus4e(),
+
+    .aluresultm(),
+    .writedatam(),
+    .rdm(),
+    .pcplus4m()
+);
+
+pipe_memory memory(
+    .clk(clk),
+    .aluresultm(),
+    .readdatam(),
+    .rdm(),
+    .pcplus4m(),
+
+    .aluresultw(),
+    .readdataw(),
+    .rdw(),
+    .pcplus4w()
+);
+
+
+
+
 
 top_alu top_alu(
     .alusrc(alusrc),

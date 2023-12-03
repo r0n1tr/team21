@@ -31,7 +31,7 @@ module pipe_execute # (
             writedatam <= 32'b0;
             rdm <= 5'b0;
             pcplus4m <= 32'b0;
-
+        end
     end
 
 
