@@ -26,6 +26,9 @@ module pipe_memory # (
 
     always_ff @(posedge clk) begin
         
+        regwritew <= regwritem;
+        resultsrcw <= resultsrcm;
+
         aluresultw <= aluresultm;
         readdataw <= readdatam;
         rdw <= rdm;
