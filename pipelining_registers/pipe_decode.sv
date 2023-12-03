@@ -20,14 +20,22 @@ module pipe_decode #(
 
 );
 
-always_ff @ (posedge clk)
-    begin
-     rd1e <= rd1d;
-     rd2e <= rd2d;
-     pce <= pcd;
-     rde <= rdd;
-     immexte <= immextd;
-     pcplus4e <= pcplus4d; 
+always_ff @ (posedge clk) begin
+
+    regwritee <= regwrited;
+    resultsrce <= resultsrcd;
+    memwritee <= memwrited;
+    jumpe <= jumpd;
+    branche <= branche;
+    alucontrole <= alucontrold;
+    alusrce <= alusrcd;
+
+    rd1e <= rd1d;
+    rd2e <= rd2d;
+    pce <= pcd;
+    rde <= rdd;
+    immexte <= immextd;
+    pcplus4e <= pcplus4d; 
 
     end
 

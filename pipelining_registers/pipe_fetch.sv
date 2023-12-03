@@ -12,7 +12,9 @@ module pipe_fetch #(
     output logic [DATA_WIDTH-1:0]       instrd,    
     output logic [ADDRESS_WIDTH-1:0]    pcd,
     output logic [ADDRESS_WIDTH-1:0]    pcplus4d,
-    output logic [WRITE_WIDTH-1:0]      rdd
+
+    
+
 ); 
 
 always_ff @ (posedge clk)

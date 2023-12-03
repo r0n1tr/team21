@@ -106,7 +106,6 @@ pipe_fetch fetch(
     .instrd(instrd),
     .pcd(pcd),
     .pcplus4d(pcplus4d),
-    .rdd(rdd)
 
 );
 
