@@ -8,6 +8,7 @@ module pipe_memory # (
     input logic [DATA_WIDTH-1:0] readdatam,
     input logic [WRITE_WIDTH-1:0] rdm,
     input logic [DATA_WIDTH-1:0] pcplus4m,
+    
     output logic [DATA_WIDTH-1:0] aluresultw,
     output logic [DATA_WIDTH-1:0] readdataw,
     output logic [WRITE_WIDTH-1:0] rdw,
@@ -18,10 +19,13 @@ module pipe_memory # (
 
 
     always_ff @(posedge clk) begin
+        
         aluresultw <= aluresultm;
         readdataw <= readdatam;
         rdw <= rdm;
         pcplus4w <= pcplus4m;
+
+
     end
 
 

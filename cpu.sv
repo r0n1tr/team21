@@ -1,6 +1,7 @@
 module cpu #(
     parameter DATA_WIDTH = 32,
-              ADDRESS_WIDTH = 32
+              ADDRESS_WIDTH = 32,
+              WRITE_WIDTH = 5
 )(
     input logic clk,
     input logic rst,
@@ -47,56 +48,116 @@ logic signed [DATA_WIDTH-1:0] immext; // 32-bit sign extended immediate operand
 
 // --output from result_mux -- (the mux that has select == resultsrc)
 logic signed [DATA_WIDTH-1:0] result;
-
+logic [WRITE_WIDTH-1:0] rdf;
+logic [WRITE_WIDTH-1:0] rdm;
+logic [WRITE_WIDTH-1:0] rde;
+logic [WRITE_WIDTH-1:0] rdw;
 // pipeline registers
 
+// pipeline internal wires
+
+// fetch output wires
+logic [DATA_WIDTH-1:0]       instrd;
+logic [ADDRESS_WIDTH-1:0]    pcd;
+logic [ADDRESS_WIDTH-1:0]    pcplus4d;
+logic [WRITE_WIDTH-1:0]      rdd;
+
+//decode output wires
+logic [DATA_WIDTH-1:0] rd1e;
+logic [DATA_WIDTH-1:0] rd2e;
+logic [ADDRESS_WIDTH-1:0] pce;
+logic [WRITE_WIDTH-1:0] rde;
+logic [DATA_WIDTH-1:0] immexte;
+logic [ADDRESS_WIDTH-1:0] pcplus4e;
+
+
+//execute output wires
+logic [DATA_WIDTH-1:0] aluresultm;
+logic [DATA_WIDTH-1:0] writedatam;
+logic [WRITE_WIDTH-1:0] rdm;
+logic [DATA_WIDTH-1:0] pcplus4m;
+
+// memory output wires
+logic [DATA_WIDTH-1:0] aluresultw;
+logic [DATA_WIDTH-1:0] readdataw;
+logic [WRITE_WIDTH-1:0] rdw;
+logic [DATA_WIDTH-1:0] pcplus4w;
+
 pipe_fetch fetch(
+    .clk(clk),
+    .rd(instr),
+    .pcf(pc),
+    .pcplus4f(pcplus4),
+
+    .instrd(instrd),
+    .pcd(pcd),
+    .pcplus4d(pcplus4d),
+    .rdd(rdd)
 
 );
 
 pipe_decode decode(
+    .clk(clk),
+    .rd1d(rd1),
+    .rd2d(rd2),
+    .pcd(pcd),
+    .rdd(instrd[11:7]),
+    .immextd(immext),
+    .pcplus4d(pcplus4d),
+
+    .rd1e(rd1e),
+    .rd2e(rd2e),
+    .pce(pce),
+    .rde(rde),
+    .immexte(immexte),
+    .pcplus4e(pcplus4e)
 
 );
 
 pipe_execute execute(
     .clk(clk),
-    .rst(rst),
-    .clear(clear),
-    .en(en),
     .aluresulte(aluresult),
-    .writedatae(rd2),
-    .rde(NEED TO FIGURE OUT NAMING CONVENTION FOR rd signal),
-    .pcplus4e(),
+    .writedatae(rd2e),
+    .rde(rde),
+    .pcplus4e(pcplus4e),
 
-    .aluresultm(),
-    .writedatam(),
-    .rdm(),
-    .pcplus4m()
+    .aluresultm(aluresultm),
+    .writedatam(writedatam),
+    .rdm(rdm),
+    .pcplus4m(pcplus4m)
 );
 
 pipe_memory memory(
     .clk(clk),
-    .aluresultm(),
-    .readdatam(),
-    .rdm(),
-    .pcplus4m(),
+    .aluresultm(aluresultm),
+    .readdatam(rd_dm),
+    .rdm(rdm),
+    .pcplus4m(pcplus4m),
 
-    .aluresultw(),
-    .readdataw(),
-    .rdw(),
-    .pcplus4w()
+    .aluresultw(aluresultw),
+    .readdataw(readdataw),
+    .rdw(rdw),
+    .pcplus4w(pcplus4w)
 );
 
+mux2 result_mux(
+    .input0(aluresultw),
+    .input1(readdataw),
+    .input2(pcplus4w),
+    .input3({32{1'b0}}), // not using input 3 - set to 0 by default
+    .select(resultsrc),
 
+    .out(result)
+);
 
 
 
 top_alu top_alu(
     .alusrc(alusrc),
     .alucontrol(alucontrol),
-    .rd1(rd1),
-    .rd2(rd2),
-    .immext(immext),
+    .rd1(rd1e),
+    .rd2(rd2e),
+    .immext(immexte),
     
     .aluresult(aluresult),
     .zero(zero)
@@ -118,21 +179,13 @@ top_control_unit control_unit(
 data_mem data_mem(
     .clk(clk),
     .we(memwrite),
-    .wd(rd2),
-    .a(aluresult),
+    .wd(writedatam),
+    .a(aluresultm),
 
     .rd(rd_dm)
 );
 
-mux2 result_mux(
-    .input0(aluresult),
-    .input1(rd_dm),
-    .input2(pcplus4),
-    .input3({32{1'b0}}), // not using input 3 - set to 0 by default
-    .select(resultsrc),
 
-    .out(result)
-);
 
 instr_mem instr_mem(
     .a(pc),
@@ -145,20 +198,20 @@ top_pc top_PC(
     .rst(rst),
     .trigger(trigger),
     .pcsrc(pcsrc),
-    .immext(immext),
+    .immext(immexte),
     .result(result),
 
     .pcplus4(pcplus4),
-    .pc(pc)
+    .pc(pce)
 );
 
 reg_file reg_file(
     .clk(clk),
     .we3(regwrite),
     .wd3(result),
-    .ad1(instr[19:15]),
-    .ad2(instr[24:20]),
-    .ad3(instr[11:7]),
+    .ad1(instrd[19:15]),
+    .ad2(instrd[24:20]),
+    .ad3(rdw),
 
     .rd1(rd1),
     .rd2(rd2),
@@ -166,7 +219,7 @@ reg_file reg_file(
 );
 
 sign_extend signExtend(
-    .instr(instr),
+    .instr(instrd[31:7]),
     .immsrc(immsrc),
 
     .immext(immext)
