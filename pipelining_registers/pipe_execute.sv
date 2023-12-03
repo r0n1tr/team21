@@ -1,6 +1,5 @@
 module pipe_execute # (
-    parameter ADDRESS_WIDTH = 32,
-    DATA_WIDTH = 32,
+    parameter DATA_WIDTH = 32,
     WRITE_WIDTH = 5
 )(
     input logic clk,

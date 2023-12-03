@@ -5,6 +5,6 @@ module pc_logic(
 
     output logic pcsrce
 );
-    assign pcscre = (branch & zeroe) | jump;
+    assign pcsrce = (branch & zeroe) | jump;
     
 endmodule

@@ -48,7 +48,7 @@ logic signed [DATA_WIDTH-1:0] immext; // 32-bit sign extended immediate operand
 
 // --output from result_mux -- (the mux that has select == resultsrc)
 logic signed [DATA_WIDTH-1:0] result;
-logic [WRITE_WIDTH-1:0] rdf;
+//logic [WRITE_WIDTH-1:0] rdf;
 // pipeline registers
 
 // pipeline internal wires
@@ -57,7 +57,6 @@ logic [WRITE_WIDTH-1:0] rdf;
 logic signed [DATA_WIDTH-1:0]       instrd;
 logic [ADDRESS_WIDTH-1:0]    pcd;
 logic [ADDRESS_WIDTH-1:0]    pcplus4d;
-logic [WRITE_WIDTH-1:0]      rdd;
 
 //decode output wires
 logic signed [DATA_WIDTH-1:0] rd1e;
@@ -105,7 +104,7 @@ pipe_fetch fetch(
 
     .instrd(instrd),
     .pcd(pcd),
-    .pcplus4d(pcplus4d),
+    .pcplus4d(pcplus4d)
 
 );
 
@@ -215,16 +214,16 @@ instr_mem instr_mem(
     .rd(instr)
 );
 
+
 top_pc top_PC(
     .clk(clk),
     .rst(rst),
     .trigger(trigger),
     .pcsrc(pcsrce),
-    .immext(immexte),
-    .result(result),
+    .immext(pce + immexte),
 
     .pcplus4(pcplus4),
-    .pc(pce)
+    .pc(pc)
 );
 
 reg_file reg_file(
@@ -241,7 +240,7 @@ reg_file reg_file(
 );
 
 sign_extend signExtend(
-    .instr(instrd[31:7]),
+    .instr(instrd),
     .immsrc(immsrc),
 
     .immext(immext)
