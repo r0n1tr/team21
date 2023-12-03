@@ -43,7 +43,7 @@ always_ff @ (posedge clk) begin
     resultsrce <= resultsrcd;
     memwritee <= memwrited;
     jumpe <= jumpd;
-    branche <= branche;
+    branche <= branchd;
     alucontrole <= alucontrold;
     alusrce <= alusrcd;
 

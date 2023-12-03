@@ -1,6 +1,5 @@
 module pipe_memory # (
     parameter DATA_WIDTH = 32,
-    ADDRESS_WIDTH = 32,
     WRITE_WIDTH = 5
 )(
     input logic clk,
