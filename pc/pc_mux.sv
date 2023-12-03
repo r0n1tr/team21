@@ -5,10 +5,9 @@ module pc_mux #(
 )(
     input  logic                     rst,
     input  logic                     trigger,
-    input  logic jump,
-    input logic branch, 
+    input logic pcsrc,
     
-    input  logic [DATA_WIDTH-1:0]    result,  // output from result mux
+    // input  logic [DATA_WIDTH-1:0]    result,  // output from result mux
     input  logic [DATA_WIDTH-1:0]    immext,  // immediate offset (e.g. for branch instruction)
     input  logic [ADDRESS_WIDTH-1:0] pc,      // current value of pc (in pc_reg)
 
@@ -20,12 +19,11 @@ logic [DATA_WIDTH-1:0] branch_pc;
 
 always_comb begin
     pcplus4 = pc + {29'b0, 3'b100}; // add 4
-    casez ({jump, branch, trigger , rst})
-        4'b???1: next_pc = {32{1'b0}};
-        4'b??00: next_pc = {32{1'b0}};
-        4'b0010: next_pc = pcplus4;  
-        4'b0110: next_pc = pc + immext;
-        4'b1010: next_pc = result;
+    casez ({pcsrc, trigger , rst})
+        3'b??1: next_pc = {32{1'b0}};
+        3'b?00: next_pc = {32{1'b0}};
+        3'b010: next_pc = pcplus4;  
+        3'b110: next_pc = pc + immext;
         default: next_pc = {32{1'b1}};
     endcase
 end

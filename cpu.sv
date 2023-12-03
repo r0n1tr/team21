@@ -96,6 +96,7 @@ logic alusrce;
 
 logic regwritew;
 logic [1:0] resultsrcw;
+logic pcsrce;
 
 pipe_fetch fetch(
     .clk(clk),
@@ -147,6 +148,14 @@ pipe_decode decode(
 
 );
 
+
+pc_logic pc_logic(
+    .jump(jumpe),
+    .branch(branche),
+    .zeroe(zero),
+
+    .pcsrce(pcsrce)
+);
    
 
 pipe_execute execute(
@@ -250,8 +259,7 @@ top_pc top_PC(
     .clk(clk),
     .rst(rst),
     .trigger(trigger),
-    .jump(jumpe),
-    .branch(branche),
+    .pcsrc(pcsrce),
     .immext(immexte),
     .result(result),
 
