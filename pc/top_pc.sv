@@ -5,6 +5,7 @@ module top_pc #(
     input  logic                  clk,
     input  logic                  rst,
     input  logic                  trigger,
+    input logic en_n,
     input logic pcsrc,
     input  logic [DATA_WIDTH-1:0] immext,
     
@@ -17,7 +18,7 @@ logic [ADDRESS_WIDTH-1:0] next_pc;
 pc_reg pc_reg(
     .clk(clk),
     .next_pc(next_pc),
-    
+    .en_n(en_n),
     .pc(pc)
 );
 
