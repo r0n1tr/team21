@@ -79,11 +79,10 @@ logic signed [DATA_WIDTH-1:0] readdataw;
 logic  [WRITE_WIDTH-1:0] rdw;
 logic signed [DATA_WIDTH-1:0] pcplus4w;
 
-
+//pipeline control signal wires
 logic regwritem;
 logic [1:0] resultsrcm;
 logic memwritem;
-
 logic regwritee;
 logic [1:0] resultsrce;
 logic memwritee;
@@ -91,22 +90,36 @@ logic jumpe;
 logic branche;
 logic [2:0] alucontrole;
 logic alusrce;
-
 logic regwritew;
 logic [1:0] resultsrcw;
 logic pcsrce;
+
+
+// hazard unit wires
+logic stallf;
+logic stalld;
+logic flushd;
+logic flushe;
+logic [1:0] forwardae;
+logic [1:0] forwardbe;
 
 pipe_fetch fetch(
     .clk(clk),
     .rd(instr),
     .pcf(pc),
     .pcplus4f(pcplus4),
+    .en_n(stalld),
+    .clr(flushd),
 
     .instrd(instrd),
     .pcd(pcd),
     .pcplus4d(pcplus4d)
 
 );
+
+
+logic [WRITE_WIDTH-1:0] rs1e;
+logic [WRITE_WIDTH-1:0] rs2e;
 
 pipe_decode decode(
     .clk(clk),
@@ -116,9 +129,14 @@ pipe_decode decode(
     .rdd(instrd[11:7]),
     .immextd(immext),
     .pcplus4d(pcplus4d),
+    .clr(flushe),
+    .rs1d(instrd[19:15]),
+    .rs2d(instrd[24:20]),
 
     .rd1e(rd1e),
     .rd2e(rd2e),
+    .rs1e(rs1e),
+    .rs2e(rs2e),
     .pce(pce),
     .rde(rde),
     .immexte(immexte),
@@ -139,7 +157,7 @@ pc_logic pc_logic(
 pipe_execute execute(
     .clk(clk),
     .aluresulte(aluresult),
-    .writedatae(rd2e),
+    .writedatae(srcbe),
     .rde(rde),
     .pcplus4e(pcplus4e),
 
@@ -171,13 +189,33 @@ mux2 result_mux(
     .out(result)
 );
 
+logic [DATA_WIDTH-1:0] srcae;
+logic [DATA_WIDTH-1:0] srcbe;
+
+mux2 rd1_mux(
+    .input0(rd1e),
+    .input1(result),
+    .input2(aluresultm),
+    .select(forwardae),
+
+    .out(srcae)
+);
+
+mux2 rd2_mux(
+    .input0(rd2e),
+    .input1(result),
+    .input2(aluresultm),
+    .select(forwardbe),
+
+    .out(srcbe)
+);
 
 
 top_alu top_alu(
-    .alusrc(alusrc),
-    .alucontrol(alucontrol),
-    .rd1(rd1e),
-    .rd2(rd2e),
+    .alusrc(alusrce),
+    .alucontrol(alucontrole),
+    .rd1(srcae),
+    .rd2(srcbe),
     .immext(immexte),
     
     .aluresult(aluresult),
@@ -228,9 +266,32 @@ top_pc top_PC(
     .trigger(trigger),
     .pcsrc(pcsrce),
     .immext(pctargete),
+    .en_n(stallf),
 
     .pcplus4(pcplus4),
     .pc(pc)
+);
+
+hazard_unit hazard(
+    .rs1d(instrd[19:15]),
+    .rs2d(instrd[24:20]),
+    .rde(rde),
+    .rs1e(rs1e),
+    .rs2e(rs2e),
+    .rdm(rdm),
+    .rdw(rdw),
+    .regwritem(regwritem),
+    .regwritew(regwritew),
+    .pcsrce(pcsrce),
+    .resultsrce(resultsrce[0]),
+
+    .forwardae(forwardae),
+    .forwardbe(forwardbe),
+    .stallf(stallf),
+    .stalld(stalld),
+    .flushd(flushd),
+    .flushe(flushe)
+
 );
 
 reg_file reg_file(
