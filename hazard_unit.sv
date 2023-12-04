@@ -24,31 +24,21 @@ module hazard_unit(
 logic lwstall;
 
 always_comb begin
-    if ((rs1e == rdw) & regwritew)        ForwardAE = 2'b01;
-    else if ((rs1e == rdm) & regwritem)   ForwardAE = 2'b10;
+    if (((rs1e == rdm) && regwritem) && (rs1e != 0))        ForwardAE = 2'b10;
+    else if ((rs1e == rdw) & regwritew)   ForwardAE = 2'b01;
     else                                  ForwardAE = 2'b00;
-    if ((rs1e == rdw) & regwritew & (rs1e != 0))        ForwardAE <= 2'b01;
-    else if ((rs1e == rdm) & regwritem)   ForwardAE <= 2'b10;
-    else                                  ForwardAE <= 2'b00;
-
 end
 
-always_comb begin
-    if ((rs2e == rdw) & regwritew)        ForwardBE = 2'b01;
-    if ((rs2e == rdw) & regwritew & (rs2e != 0))        ForwardBE = 2'b01;
-    else if ((rs2e == rdm) & regwritem)   ForwardBE = 2'b10;
-    else                                  ForwardBE = 2'b00;
+// stall if lw instruction is executed when there's a data dependency on the next intruction
+assign lwstall = resultsrce & ((rs1d == rde) | (rs2d == rde));
+assign stallf = lwstall; // stall PCF if a branch or a lw instrctuon is executed
+assign stalld = lwstall;
 
-end
 
 // flush if branch instruction is executed
 assign flushd = pcsrce;
-assign flushe = pcsrce;
+assign flushe = lwstall | pcsrce;
 
-// stall if lw instruction is executed when there's a data dependency on the next intruction
-lwstall = resultsrce & ((rs1d == rde) | (rs2d == rde));
-assign StallD = lwstall;
-assign StallF = lwstall | pcsrce; // stall PCF if a branch or a lw instrctuon is executed
 
 
 endmodule
