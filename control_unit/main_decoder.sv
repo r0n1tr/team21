@@ -14,7 +14,7 @@ module main_decoder(
     // aluop goes to alu_decoder
     output logic [1:0] aluop
 );
-    
+   
 // Implementation of control logic (as defined in Lecture 7 Slide 18; dont cares have been set to 0)
 always_comb begin
     case (op)               
