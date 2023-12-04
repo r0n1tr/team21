@@ -5,7 +5,7 @@
 #include <iomanip>
 #include "vbuddy.cpp"
 
-#define MAX_SIM_CYC 1000
+#define MAX_SIM_CYC 177
 #define ADDRESS_WIDTH 8
 #define RAM_SZ pow(2,ADDRESS_WIDTH)
 
@@ -38,11 +38,9 @@ int main(int argc, char **argv, char **env) {
     }
     if(simcyc < 2){
       top->rst = 0;
-    }
-    if(simcyc == 3 ){
-
       top->trigger = 1;
     }
+    
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << simcyc     << "     ";
         std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
         vbdHex(1, top->a0 & 0xF);
