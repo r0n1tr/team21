@@ -222,7 +222,7 @@ top_alu top_alu(
 );
 
 top_control_unit control_unit(
-    .instr(instr),
+    .instr(instrd),
     .zero(zero),
 
     .jump(jump),
@@ -244,12 +244,19 @@ data_mem data_mem(
     .rd(rd_dm)
 );
 
-
+logic [DATA_WIDTH-1:0] pctargete;
 
 instr_mem instr_mem(
     .a(pc),
 
     .rd(instr)
+);
+
+pc_target target(
+    .pce(pce),
+    .immexte(immexte),
+
+    .pctargete(pctargete)
 );
 
 
@@ -258,7 +265,7 @@ top_pc top_PC(
     .rst(rst),
     .trigger(trigger),
     .pcsrc(pcsrce),
-    .immext(pce + immexte),
+    .immext(pctargete),
 
     .pcplus4(pcplus4),
     .pc(pc)
