@@ -24,9 +24,15 @@ module hazard_unit(
 logic lwstall;
 
 always_comb begin
-    if (((rs1e == rdm) && regwritem) && (rs1e != 0))        ForwardAE = 2'b10;
-    else if ((rs1e == rdw) & regwritew)   ForwardAE = 2'b01;
-    else                                  ForwardAE = 2'b00;
+    if (((rs1e == rdm) && regwritem) && (rs1e != 0))        forwardae = 2'b10;
+    else if ((rs1e == rdw) & regwritew)   forwardae = 2'b01;
+    else                                  forwardae = 2'b00;
+
+    if (((rs2e == rdm) && regwritem) && (rs2e != 0))        forwardbe = 2'b10;
+    else if ((rs2e == rdw) & regwritew)   forwardbe = 2'b01;
+    else                                  forwardbe = 2'b00;
+
+
 end
 
 // stall if lw instruction is executed when there's a data dependency on the next intruction
