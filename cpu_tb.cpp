@@ -5,7 +5,7 @@
 #include <iomanip>
 #include "vbuddy.cpp"
 
-#define MAX_SIM_CYC 177
+#define MAX_SIM_CYC 200
 #define ADDRESS_WIDTH 8
 #define RAM_SZ pow(2,ADDRESS_WIDTH)
 
