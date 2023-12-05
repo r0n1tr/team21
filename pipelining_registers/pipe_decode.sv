@@ -21,7 +21,7 @@ module pipe_decode #(
     input logic [2:0] alucontrold,
     input logic alusrcd,
     input logic clr,
-    
+    input logic jalrd,    
     
 
     output logic regwritee,
@@ -31,6 +31,7 @@ module pipe_decode #(
     output logic branche,
     output logic [2:0] alucontrole,
     output logic alusrce,
+    output logic jalre,
 
     output logic [DATA_WIDTH-1:0] rd1e,
     output logic [DATA_WIDTH-1:0] rd2e,
@@ -52,6 +53,7 @@ always_ff @ (posedge clk) begin
         branche <= 1'b0;
         alucontrole <= 3'b0;
         alusrce <= 1'b0;
+        jalre <= '0;
 
         rd1e <= 32'b0;
         rd2e <= 32'b0;
@@ -77,6 +79,7 @@ always_ff @ (posedge clk) begin
         rs2e <= rs2d;
         pce <= pcd;
         rde <= rdd;
+        jalre <= jalrd;
         immexte <= immextd;
         pcplus4e <= pcplus4d;
     end

@@ -53,8 +53,6 @@ start:
     addi t1, x0, 255  # Compare value for reset
 
 loop:
-    nop
-    nop
     add a1, a1, a1     # Shift left logical (multiply by 2) the value in a1
     addi a1, a1, 1     # Increment the value in a1
     addi a0, a1, 0     # Add the value in a1 to a0

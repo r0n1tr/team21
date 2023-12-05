@@ -92,7 +92,7 @@ logic [2:0] alucontrole;
 logic alusrce;
 logic regwritew;
 logic [1:0] resultsrcw;
-logic pcsrce;
+logic [1:0] pcsrce;
 
 
 // hazard unit wires
@@ -102,6 +102,8 @@ logic flushd;
 logic flushe;
 logic [1:0] forwardae;
 logic [1:0] forwardbe;
+logic [WRITE_WIDTH-1:0] rs1e;
+logic [WRITE_WIDTH-1:0] rs2e;
 
 pipe_fetch fetch(
     .clk(clk),
@@ -118,9 +120,8 @@ pipe_fetch fetch(
 );
 
 
-logic [WRITE_WIDTH-1:0] rs1e;
-logic [WRITE_WIDTH-1:0] rs2e;
 
+logic jalre;
 pipe_decode decode(
     .clk(clk),
     .rd1d(rd1),
@@ -132,6 +133,24 @@ pipe_decode decode(
     .clr(flushe),
     .rs1d(instrd[19:15]),
     .rs2d(instrd[24:20]),
+    .jalrd(jalr),
+
+    .regwrited(regwrite),
+    .resultsrcd(resultsrc),
+    .memwrited(memwrite),
+    .jumpd(jump), //this might not work
+    .branchd(branch), //this too
+    .alucontrold(alucontrol),
+    .alusrcd(alusrc),
+    .jalre(jalre),
+
+    .regwritee(regwritee),
+    .resultsrce(resultsrce),
+    .memwritee(memwritee),
+    .jumpe(jumpe),
+    .branche(branche),
+    .alucontrole(alucontrole),
+    .alusrce(alusrce),
 
     .rd1e(rd1e),
     .rd2e(rd2e),
@@ -149,6 +168,7 @@ pc_logic pc_logic(
     .jump(jumpe),
     .branch(branche),
     .zeroe(zero),
+    .jalr(jalre),
 
     .pcsrce(pcsrce)
 );
@@ -221,12 +241,14 @@ top_alu top_alu(
     .aluresult(aluresult),
     .zero(zero)
 );
-
+ logic jalr;
 top_control_unit control_unit(
     .instr(instrd),
     .zero(zero),
 
-    .pcsrc(pcsrc),
+    .jump(jump),
+    .branch(branch),
+    .jalr(jalr),
     .resultsrc(resultsrc),
     .memwrite(memwrite),
     .alusrc(alusrc),
@@ -267,6 +289,7 @@ top_pc top_PC(
     .pcsrc(pcsrce),
     .immext(pctargete),
     .en_n(stallf),
+    .result(result),
 
     .pcplus4(pcplus4),
     .pc(pc)
@@ -282,7 +305,7 @@ hazard_unit hazard(
     .rdw(rdw),
     .regwritem(regwritem),
     .regwritew(regwritew),
-    .pcsrce(pcsrce),
+    .pcsrce(pcsrce[0]),
     .resultsrce(resultsrce[0]),
 
     .forwardae(forwardae),
