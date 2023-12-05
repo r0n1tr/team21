@@ -1,28 +1,33 @@
 // verilator lint_off UNUSED
 module pc_mux #(
-    parameter ADDRESS_WIDTH = 8,
+    parameter ADDRESS_WIDTH = 32,
               DATA_WIDTH = 32
 )(
-    input  logic                     PCsrc,  // select line for mux
-    input  logic [DATA_WIDTH-1:0]    ImmOp,  // immediate offset (e.g. for branch instruction)
-    input  logic [ADDRESS_WIDTH-1:0] pc,     // current value of pc (in pc_reg)
+    input  logic                     rst,
+    input  logic                     trigger,
+    input  logic [1:0]               pcsrc,   
+    
+    input  logic [DATA_WIDTH-1:0]    result,  // output from result mux
+    input  logic [DATA_WIDTH-1:0]    immext,  // immediate offset (e.g. for branch instruction)
+    input  logic [ADDRESS_WIDTH-1:0] pc,      // current value of pc (in pc_reg)
 
+    output logic [ADDRESS_WIDTH-1:0] pcplus4,
     output logic [ADDRESS_WIDTH-1:0] next_pc // new value of pc (to be written to pc_reg)
 );
 
-logic [DATA_WIDTH-1:0] branch_PC;
+logic [DATA_WIDTH-1:0] branch_pc;
 
 always_comb begin
-    if(PCsrc) begin // next_PC = ImmOp + PC
-        branch_PC = ( ImmOp + { {(DATA_WIDTH-ADDRESS_WIDTH){1'b0}} , pc } ); // zero extend PC to 32 bit --> Add 32-bit PC and 32 bit ImmOp --> select lower 8 bits of the sum. This wayy branch_PC is an 8 bit value representing the sum of PC and ImmOp *without bit width problems hopefully*
-        next_pc = branch_PC[ADDRESS_WIDTH-1:0];
-    end
-    else begin // next_PC = PC + 4
-        //branch_PC = 32'hFFFFFFFF; // dummy value to get rid of warning
-        next_pc = pc + {{5{1'b0}}, 3'b100};
-    end
+    pcplus4 = pc + {29'b0, 3'b100}; // add 4
+    casez ({pcsrc , trigger , rst})
+        4'b???1: next_pc = {32{1'b0}};
+        4'b??00: next_pc = {32{1'b0}};
+        4'b0010: next_pc = pcplus4;  
+        4'b0110: next_pc = pc + immext;
+        4'b1010: next_pc = result;
+        default: next_pc = {32{1'b1}};
+    endcase
 end
-
 
 endmodule 
 // verilator lint_on UNUSED

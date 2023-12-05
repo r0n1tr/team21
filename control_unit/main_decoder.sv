@@ -4,27 +4,29 @@ module main_decoder(
     input  logic       zero,   // Zero flag
     
     // control signals
-    output logic       PCsrc,
-    output logic       ResultSrc,
-    output logic       MemWrite,
-    output logic       ALUSrc,
-    output logic [1:0] ImmSrc,
-    output logic       RegWrite,
+    output logic [1:0] pcsrc,
+    output logic [1:0] resultsrc,
+    output logic       memwrite,
+    output logic       alusrc,
+    output logic [1:0] immsrc,
+    output logic       regwrite,
 
-    // ALUOp goes to alu_decoder
-    output logic [1:0] ALUOp
+    // aluop goes to alu_decoder
+    output logic [1:0] aluop
 );
 
 // Implementation of control logic (as defined in Lecture 7 Slide 18; dont cares have been set to 0)
 always_comb begin
     case (op)               
-        7'b000_0011: {ALUOp, PCsrc, ResultSrc, MemWrite, ALUSrc, ImmSrc, RegWrite} = 9'b00_0101_00_1; // lw                                                              
-        7'b001_0011: {ALUOp, PCsrc, ResultSrc, MemWrite, ALUSrc, ImmSrc, RegWrite} = 9'b10_0001_00_1; // I-Type (arithmetic/logical)
-        7'b010_0011: {ALUOp, PCsrc, ResultSrc, MemWrite, ALUSrc, ImmSrc, RegWrite} = 9'b00_0011_01_0; // sw
-        7'b011_0011: {ALUOp, PCsrc, ResultSrc, MemWrite, ALUSrc, ImmSrc, RegWrite} = 9'b10_0000_00_1; // R-Type (arithmetic/logical)
-        7'b110_0011: {ALUOp, PCsrc, ResultSrc, MemWrite, ALUSrc, ImmSrc, RegWrite} = {2'b01, zero, 6'b000_10_0}; // beq
-        
-        default:     {ALUOp, PCsrc, ResultSrc, MemWrite, ALUSrc, ImmSrc, RegWrite} = 9'b11_1111_11_1;
+        7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010010000;             // lw                                                              
+        7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010000010;             // I-Type (arithmetic/logical)
+        7'b110_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010001000;             // jalr
+        7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b00111000000;             // sw
+        7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10000000010;             // R-Type (all of which are arithmetic/logical)
+        7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = {8'b01000000 , zero, 2'b01}; // beq
+        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b11100100100;             // jal
+
+        default:     {aluop, pcsrc, resultsrc, memwrite, alusrc, immsrc, regwrite} = 11'b11111111111;
     endcase
 end
 

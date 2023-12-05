@@ -1,47 +1,53 @@
 module alu #(
     parameter DATA_WIDTH = 32  
 )(
-    input  logic signed [DATA_WIDTH-1:0] ALUop1,
-    input  logic signed [DATA_WIDTH-1:0] ALUop2,
-    input  logic        [2:0]            ALUctrl,
-    output logic signed [DATA_WIDTH-1:0] ALUout,
-    output logic                         Zero
+    input  logic signed [DATA_WIDTH-1:0] aluop1,
+    input  logic signed [DATA_WIDTH-1:0] aluop2,
+    input  logic        [2:0]            alucontrol,
+    
+    output logic signed [DATA_WIDTH-1:0] aluresult,
+    output logic                         zero
 );
 
 // IF/ELSE Version
 /*
 always_comb begin
-    if(ALUctrl == 3'b000)
-        ALUout = ALUop1 + ALUop2; // Add
-    else if (ALUctrl == 3'b001) begin
-        ALUout = ALUop1 - ALUop2; // Subtract
+    if(alucontrol == 3'b000)
+        aluresult = aluop1
+ + aluop2; // Add
+    else if (alucontrol == 3'b001) begin
+        aluresult = aluop1
+ - aluop2; // Subtract
     end
-    else if (ALUctrl == 3'b010) begin
-        ALUout = ALUop1 & ALUop2; // Bitwise AND
+    else if (alucontrol == 3'b010) begin
+        aluresult = aluop1
+ & aluop2; // Bitwise AND
     end
-    else if (ALUctrl == 3'b011) begin
-        ALUout = ALUop1 | ALUop2; // Bitwise OR
+    else if (alucontrol == 3'b011) begin
+        aluresult = aluop1
+ | aluop2; // Bitwise OR
     end
-    else if (ALUctrl == 3'b101) begin
-        ALUout = (ALUop1 < ALUop2) ? 32'b1 : 32'b0; // SLT ~ Set Less Than
+    else if (alucontrol == 3'b101) begin
+        aluresult = (aluop1
+ < aluop2) ? 32'b1 : 32'b0; // SLT ~ Set Less Than
     end
         
-    EQ = ((ALUop1 == ALUop2) ? 1 : 0); // EQ Flag check
+    EQ = ((aluop1 == aluop2) ? 1 : 0); // EQ Flag check
 end
 */
 
 // CASE Version
 always_comb begin
-    case(ALUctrl)
-        3'b000: ALUout = ALUop1 + ALUop2; // Add
-        3'b001: ALUout = ALUop1 - ALUop2; // Subtract
-        3'b010: ALUout = ALUop1 & ALUop2; // Bitwise AND
-        3'b011: ALUout = ALUop1 | ALUop2; // Bitwise OR
-        3'b101: ALUout = (ALUop1 < ALUop2) ? 32'b1 : 32'b0; // SLT ~ Set Less Than
-        default: ALUout = 32'b0;
+    case(alucontrol)
+        3'b000: aluresult = aluop1 + aluop2; // Add
+        3'b001: aluresult = aluop1 - aluop2; // Subtract
+        3'b010: aluresult = aluop1 & aluop2; // Bitwise AND
+        3'b011: aluresult = aluop1 | aluop2; // Bitwise OR
+        3'b101: aluresult = (aluop1 < aluop2) ? 32'b1 : 32'b0; // SLT ~ Set Less Than
+        default: aluresult = 32'b0;
     endcase 
     
-    Zero = (ALUout == 0); // Zero flag check
+    zero = (aluresult == 0); // zero flag check
 end
 
 

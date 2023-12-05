@@ -11,13 +11,13 @@ void printTopState(const Vtop_control_unit* top, std::string instr_name)
     std::cout << "0x" << std::setfill('0') << std::setw(8) << std::hex << top->instr << std::dec << "   ";
     std::cout << "ZERO = " << ((top->zero) ? "1":"0") << ":   ";
 
-    std::cout << ((top->RegWrite ) ? "1":"0")  << "        ";
-    std::cout << (std::bitset<2>(top->ImmSrc)) << "     ";
-    std::cout << ((top->ALUSrc   ) ? "1":"0")  << "      ";
-    std::cout << ((top->MemWrite ) ? "1":"0")  << "        ";
-    std::cout << ((top->ResultSrc) ? "1":"0")  << "         ";
-    std::cout << ((top->PCsrc    ) ? "1":"0")  << "     ";
-    std::cout << (std::bitset<3>(top->ALUControl)) << std::endl;;
+    std::cout << ((top->regwrite ) ? "1":"0")  << "        ";
+    std::cout << (std::bitset<2>(top->immsrc)) << "     ";
+    std::cout << ((top->alusrc   ) ? "1":"0")  << "      ";
+    std::cout << ((top->memwrite ) ? "1":"0")  << "        ";
+    std::cout << ((top->resultsrc) ? "1":"0")  << "         ";
+    std::cout << ((top->pcsrc    ) ? "1":"0")  << "     ";
+    std::cout << (std::bitset<3>(top->alucontrol)) << std::endl;;
 }
 
 int main(int argc, char **argv, char **env) {
@@ -36,7 +36,7 @@ int main(int argc, char **argv, char **env) {
     std::vector<std::string>  instr_names  = {"addi",     "lw  ",     "sw  ",     "or  ",     "beq "};
     std::vector<unsigned int> mem_contents = {0x0FF00313, 0xFFC4A303, 0x0064A423, 0x0062E233, 0xFE420AE3};
 
-    std::cout << std::endl << "                                RegWrite ImmSrc ALUSrc MemWrite ResultSrc PCsrc ALUControl" << std::endl << std::endl;
+    std::cout << std::endl << "                                regwrite immsrc alusrc memwrite resultsrc pcsrc alucontrol" << std::endl << std::endl;
 
     // run simulation for 2 clock cycles per instruction; once for EQ = 0 and agaiin for EQ = 1.
     for (int i = 0; i < mem_contents.size()*2; i++)
