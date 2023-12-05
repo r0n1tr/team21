@@ -4,8 +4,7 @@ module pipe_fetch #(
             WRITE_WIDTH = 5
               
 )(
-  
-    input logic                         clk,
+    input logic                         clk, 
     input logic [DATA_WIDTH-1:0]        rd,   //the data that comes from instruction memory  
     input logic [ADDRESS_WIDTH-1:0]     pcf,
     input logic [ADDRESS_WIDTH-1:0]     pcplus4f,
@@ -14,9 +13,6 @@ module pipe_fetch #(
     output logic [ADDRESS_WIDTH-1:0]    pcd,
     output logic [ADDRESS_WIDTH-1:0]    pcplus4d,
     output logic [WRITE_WIDTH-1:0]      rdd
-
-    
-
 ); 
 
 always_ff @ (posedge clk)
