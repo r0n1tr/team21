@@ -4,7 +4,7 @@ module main_decoder(
     input  logic       zero,   // Zero flag
     
     // control signals
-    output logic [1:0] pcsrc,
+    
     output logic [1:0] resultsrc,
     output logic       memwrite,
     output logic       jump,

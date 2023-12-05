@@ -2,6 +2,7 @@ module pipe_decode #(
     parameter DATA_WIDTH = 32,
                ADDRESS_WIDTH = 32,
                WRITE_WIDTH = 5
+
 )(
     input logic clk,
     input logic [DATA_WIDTH-1:0] rd1d,    // could be simplified to match what they are called in ALU 

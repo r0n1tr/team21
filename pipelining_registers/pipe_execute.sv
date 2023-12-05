@@ -38,15 +38,9 @@ module pipe_execute # (
             rdm <= rde;
             pcplus4m <= pcplus4e;
 
+
+
     end
-        /*
-        else begin
-            aluresultm <= 32'b0;
-            writedatam <= 32'b0;
-            rdm <= 5'b0;
-            pcplus4m <= 32'b0;
-        end
-        */
 
 
 endmodule

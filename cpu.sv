@@ -21,7 +21,8 @@ logic                         zero;      // zero flag
 
 // -- output from control unit --
 // these are all control signals
-logic [1:0] pcsrc; 
+logic jump;
+logic branch;
 logic [1:0] resultsrc;
 logic memwrite;
 logic alusrc;
@@ -181,11 +182,22 @@ pipe_execute execute(
     .rde(rde),
     .pcplus4e(pcplus4e),
 
+    .regwritee(regwritee),
+    .resultsrce(resultsrce),
+    .memwritee(memwritee),
+
+    .regwritem(regwritem),
+    .resultsrcm(resultsrcm),
+    .memwritem(memwritem),
+
+
     .aluresultm(aluresultm),
     .writedatam(writedatam),
     .rdm(rdm),
     .pcplus4m(pcplus4m)
 );
+
+    
 
 pipe_memory memory(
     .clk(clk),
@@ -193,6 +205,12 @@ pipe_memory memory(
     .readdatam(rd_dm),
     .rdm(rdm),
     .pcplus4m(pcplus4m),
+
+    .regwritem(regwritem),
+    .resultsrcm(resultsrcm),
+
+    .regwritew(regwritew),
+    .resultsrcw(resultsrcw),
 
     .aluresultw(aluresultw),
     .readdataw(readdataw),
@@ -259,7 +277,7 @@ top_control_unit control_unit(
 
 data_mem data_mem(
     .clk(clk),
-    .we(memwrite),
+    .we(memwritem),
     .wd(writedatam),
     .a(aluresultm),
 
@@ -319,7 +337,7 @@ hazard_unit hazard(
 
 reg_file reg_file(
     .clk(clk),
-    .we3(regwrite),
+    .we3(regwritew),
     .wd3(result),
     .ad1(instrd[19:15]),
     .ad2(instrd[24:20]),
