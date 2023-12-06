@@ -5,9 +5,10 @@ module top_pc #(
     input  logic                  clk,
     input  logic                  rst,
     input  logic                  trigger,
-    input  logic [1:0]            pcsrc,
+    input logic en_n,
+    input logic [1:0] pcsrc,
     input  logic [DATA_WIDTH-1:0] immext,
-    input  logic [DATA_WIDTH-1:0] result,
+    input logic [DATA_WIDTH-1:0] result,
     
     output logic [ADDRESS_WIDTH-1:0] pcplus4, // output this for use in result_mux (for jal instruction)
     output logic [ADDRESS_WIDTH-1:0] pc
@@ -18,17 +19,17 @@ logic [ADDRESS_WIDTH-1:0] next_pc;
 pc_reg pc_reg(
     .clk(clk),
     .next_pc(next_pc),
-    
+    .en_n(en_n),
     .pc(pc)
 );
 
 pc_mux pc_mux (
-    .result(result),
     .immext(immext),
     .pc(pc),
     .pcsrc(pcsrc),
     .rst(rst),
     .trigger(trigger),
+    .result(result),
     
     .pcplus4(pcplus4),
     .next_pc(next_pc)

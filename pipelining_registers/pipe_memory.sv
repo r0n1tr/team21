@@ -1,6 +1,5 @@
 module pipe_memory # (
     parameter DATA_WIDTH = 32,
-    ADDRESS_WIDTH = 32,
     WRITE_WIDTH = 5
 )(
     input logic clk,
@@ -8,6 +7,12 @@ module pipe_memory # (
     input logic [DATA_WIDTH-1:0] readdatam,
     input logic [WRITE_WIDTH-1:0] rdm,
     input logic [DATA_WIDTH-1:0] pcplus4m,
+
+    input logic regwritem,
+    input logic [1:0] resultsrcm,
+    
+    output logic regwritew,
+    output logic [1:0] resultsrcw,
     
     output logic [DATA_WIDTH-1:0] aluresultw,
     output logic [DATA_WIDTH-1:0] readdataw,
@@ -20,6 +25,9 @@ module pipe_memory # (
 
     always_ff @(posedge clk) begin
         
+        regwritew <= regwritem;
+        resultsrcw <= resultsrcm;
+
         aluresultw <= aluresultm;
         readdataw <= readdatam;
         rdw <= rdm;

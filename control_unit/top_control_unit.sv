@@ -3,12 +3,14 @@ module top_control_unit (
     input  logic [31:0] instr,  // 32-bit instruction
     input  logic        zero,   // zero flag
 
-    output logic [1:0] pcsrc,
     output logic [1:0] resultsrc,
     output logic       memwrite,
     output logic       alusrc,
     output logic [1:0] immsrc,
     output logic       regwrite,
+    output logic branch,
+    output logic jump,
+    output logic jalr,
 
     output logic [2:0] alucontrol
 );
@@ -19,7 +21,9 @@ main_decoder main_decoder(
     .op(instr[6:0]),
     .zero(zero),  
 
-    .pcsrc(pcsrc),
+    .branch(branch),
+    .jump(jump),
+    .jalr(jalr),
     .resultsrc(resultsrc),
     .memwrite(memwrite),
     .alusrc(alusrc),

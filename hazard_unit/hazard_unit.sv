@@ -24,6 +24,8 @@ module hazard_unit(
 logic lwstall;
 
 always_comb begin
+    {stallf, stalld, flushd, flushe, forwardae, forwardbe} = '0;
+    //if(pcsrce == 1'b1) {flushd, flushe} = 2'b11;
     if (((rs1e == rdm) && regwritem) && (rs1e != 0))        forwardae = 2'b10;
     else if ((rs1e == rdw) & regwritew)   forwardae = 2'b01;
     else                                  forwardae = 2'b00;
@@ -36,15 +38,11 @@ always_comb begin
 end
 
 // stall if lw instruction is executed when there's a data dependency on the next intruction
-assign lwstall = resultsrce & ((rs1d == rde) | (rs2d == rde));
+assign lwstall = resultsrce && ((rs1d == rde) | (rs2d == rde));
 assign stallf = lwstall; // stall PCF if a branch or a lw instrctuon is executed
 assign stalld = lwstall;
 
-
-// flush if branch instruction is executed
 assign flushd = pcsrce;
 assign flushe = lwstall | pcsrce;
-
-
 
 endmodule
