@@ -17,8 +17,9 @@ module pc_mux #(
 
 logic [DATA_WIDTH-1:0] branch_pc;
 
+assign pcplus4 = pc + 32'd4; // add 4
+
 always_comb begin
-    pcplus4 = pc + {29'b0, 3'b100}; // add 4
     casez ({pcsrc , trigger , rst})
         4'b???1: next_pc = {32{1'b0}};
         4'b??00: next_pc = {32{1'b0}};

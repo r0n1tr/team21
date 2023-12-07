@@ -9,34 +9,6 @@ module alu #(
     output logic                         zero
 );
 
-// IF/ELSE Version
-/*
-always_comb begin
-    if(alucontrol == 3'b000)
-        aluresult = aluop1
- + aluop2; // Add
-    else if (alucontrol == 3'b001) begin
-        aluresult = aluop1
- - aluop2; // Subtract
-    end
-    else if (alucontrol == 3'b010) begin
-        aluresult = aluop1
- & aluop2; // Bitwise AND
-    end
-    else if (alucontrol == 3'b011) begin
-        aluresult = aluop1
- | aluop2; // Bitwise OR
-    end
-    else if (alucontrol == 3'b101) begin
-        aluresult = (aluop1
- < aluop2) ? 32'b1 : 32'b0; // SLT ~ Set Less Than
-    end
-        
-    EQ = ((aluop1 == aluop2) ? 1 : 0); // EQ Flag check
-end
-*/
-
-// CASE Version
 always_comb begin
     case(alucontrol)
         3'b000: aluresult = aluop1 + aluop2; // Add

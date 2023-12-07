@@ -15,20 +15,46 @@ module main_decoder(
     output logic [1:0] aluop
 );
 
+logic branch;
+logic jump;
+
 // Implementation of control logic (as defined in Lecture 7 Slide 18; dont cares have been set to 0)
 always_comb begin
-    case (op)               
-        7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010010000;             // lw                                                              
-        7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010000010;             // I-Type (arithmetic/logical)
-        7'b110_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010001000;             // jalr
-        7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b00111000000;             // sw
-        7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10000000010;             // R-Type (all of which are arithmetic/logical)
-        7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = {8'b01000000 , zero, 2'b01}; // beq
-        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b11100100100;             // jal
+    // case (op)               
+    //     7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010010000;             // lw                                                              
+    //     7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010000010;             // I-Type (arithmetic/logical)
+    //     7'b110_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10010001000;             // jalr
+    //     7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b00111000000;             // sw
+    //     7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b10000000010;             // R-Type (all of which are arithmetic/logical)
+    //     7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = {8'b01000000 , 1'b0, 2'b01}; // beq
+    //     7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b11100100100;             // jal
 
-        default:     {aluop, pcsrc, resultsrc, memwrite, alusrc, immsrc, regwrite} = 11'b11111111111;
+    //     default:     {regwrite, immsrc, alusrc, memwrite, resultsrc, pcsrc, aluop} = 11'b11111111111;
+    // endcase
+
+    // set control signals (other than pcsrc)
+    case (op)               
+        7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b1001001_0000;  // lw 
+        7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b0011100_0000;  // sw    
+        7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b1000000_0100;  // R-Type (all of which are arithmetic/logical)
+        7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b0100000_1010;  // beq
+        7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b1001000_0100;  // I-Type (arithmetic/logical)
+        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b1110010_0001;  // jal
+        7'b110_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b1001000_0001;  // jalr
+
+        default:     {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump} = 11'b1111111_1111;
     endcase
+
+    // set pcsrc
+    if      (op == 7'b110_0111)      pcsrc = 2'b10;   // jalr                                                    
+    else if (jump | (branch & zero)) pcsrc = 2'b01;   // beq (with condition met) OR jal                         
+    else                             pcsrc = 2'b00;   // lw, sw, I-type(alu), R-type, beq with unmet condition
+
+
 end
+
+//assign pcsrc = {1'b0, ((op == 7'b110_0011) && zero)};
+
 
 endmodule
 // verilator lint_on UNUSED

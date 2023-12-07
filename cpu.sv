@@ -22,10 +22,10 @@ logic                         zero;      // zero flag
 // these are all control signals
 logic [1:0] pcsrc; 
 logic [1:0] resultsrc;
-logic memwrite;
-logic alusrc;
+logic       memwrite;
+logic       alusrc;
 logic [1:0] immsrc;
-logic regwrite;
+logic       regwrite;
 logic [2:0] alucontrol;
  
 // -- output from data_mem --
