@@ -11,7 +11,7 @@ module top_alu #(
     output logic                         zero       // zero flag
 );
 
- // output from alu_mux
+// output from alu_mux
 logic signed [DATA_WIDTH-1:0] srcb;     
 
 alu_mux alu_mux(

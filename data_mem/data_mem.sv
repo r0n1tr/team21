@@ -9,9 +9,8 @@ module data_mem #(
     input  logic [DATA_WIDTH-1:0]    wd,  // the data we receieve from rs2
     input  logic [ADDRESS_WIDTH-1:0] a,   // the address that comes from ALUResult irrespective we are loading or storing
 
-    output logic [DATA_WIDTH-1:0] rd     // data read from the memory
+    output logic [DATA_WIDTH-1:0] rd      // data read from the memory
 );   
-
 
 logic [DATA_WIDTH-1:0] data_memory [MEM_SIZE-1:0];
 

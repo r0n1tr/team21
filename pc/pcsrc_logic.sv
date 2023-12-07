@@ -1,4 +1,4 @@
-module pc_logic(
+module pcsrc_logic(
     input logic jump,
     input logic branch,
     input logic zeroe,
@@ -19,7 +19,7 @@ always_comb begin
 
         4'b00?1: pcsrce = 2'b10; // jalr
 
-       // default: pcsrce = 2'b11;
+        default: pcsrce = 2'b11;
     endcase
 end
     
