@@ -17,12 +17,14 @@ module pc_mux #(
 
 always_comb begin
     pcplus4 = pc + {29'b0, 3'b100}; // add 4
+
+
     casez ({pcsrc, trigger , rst})
-        4'b???1: next_pc = {32{1'b0}};
-        4'b??00: next_pc = {32{1'b0}};
-        4'b0010: next_pc = pcplus4;  
-        4'b0110: next_pc = pc + immext;
-        4'b1010: next_pc = result;
+        4'b???1: next_pc = {32{1'b0}};   // set pc to 0
+        4'b??00: next_pc = {32{1'b0}};   // set pc to 0
+        4'b0010: next_pc = pcplus4;      // next instruction in memory
+        4'b0110: next_pc = pc + immext;  // branch, jal
+        4'b1010: next_pc = result;       // jalr
         default: next_pc = {32{1'b1}};
     endcase
 end

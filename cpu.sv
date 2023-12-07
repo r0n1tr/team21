@@ -139,7 +139,7 @@ top_control_unit top_control_unit(
     .alucontrol(alucontrol),
     .alusrc(alusrc),
     .immsrc(immsrc),
-    .jalr(jalr)  // custom signal to indicate if executing jalr
+    .jalr(jalr)  // custom control signal to indicate if executing jalr
 );
 
 data_mem data_mem(
@@ -156,7 +156,6 @@ instr_mem instr_mem(
 
     .rd(instr)
 );
-
 
 top_pc top_PC(
     .clk(clk),
@@ -300,7 +299,7 @@ pipeline_reg_writeback pipeline_reg_writeback(
 pcsrc_logic pcsrc_logic(
     .jump(jumpe),
     .branch(branche),
-    .zeroe(zero),
+    .zero(zero),
     .jalr(jalre),
 
     .pcsrce(pcsrce)
@@ -316,7 +315,7 @@ hazard_unit hazard(
     .rdw(rdw),
     .regwritem(regwritem),
     .regwritew(regwritew),
-    .pcsrce(pcsrce[0]),
+    .pcsrce(pcsrce),
     .resultsrce(resultsrce[0]),
 
     .forwardae(forwardae),

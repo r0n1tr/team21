@@ -2,7 +2,7 @@
 .text
 
 _boot:    
-    addi a0, x0, 21        # Initialize a0 to 0
+    addi a0, x0, 21        # Initialize a0 to 21
     jal x5, loadfortytwo   # go to load42 subroutine
 
 loadfortytwo:

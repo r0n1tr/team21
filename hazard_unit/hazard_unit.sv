@@ -6,7 +6,7 @@ module hazard_unit #(
     input logic [REG_FILE_ADDR_WIDTH-1:0] rde,
     input logic [REG_FILE_ADDR_WIDTH-1:0] rs1e,
     input logic [REG_FILE_ADDR_WIDTH-1:0] rs2e,
-    input logic                           pcsrce,
+    input logic [1:0]                     pcsrce,
     input logic                           resultsrce,
     input logic [REG_FILE_ADDR_WIDTH-1:0] rdm,
     input logic                           regwritem,
@@ -50,7 +50,7 @@ assign lwstall = resultsrce && ((rs1d == rde) | (rs2d == rde));
 assign stallf  = lwstall; // stall PCF if a branch or a lw instrctuon is executed
 assign stalld  = lwstall;
 
-assign flushd  = pcsrce;
-assign flushe  = lwstall | pcsrce;
+assign flushd  = (pcsrce == 2'b01);
+assign flushe  = lwstall | (pcsrce == 2'b01);
 
 endmodule

@@ -26,7 +26,7 @@ always_comb begin
         7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 12'b001110000000; // sw
         7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 12'b100000001000; // R-Type (all of which are arithmetic/logical)
         7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 12'b010000010100; // beq
-        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 12'b111001000010; // jal // jump set to high
+        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 12'b111001000010; // jal (jump set to high)
 
         default:     {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 12'b111111111111;
     endcase
