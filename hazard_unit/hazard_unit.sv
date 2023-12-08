@@ -1,6 +1,8 @@
 module hazard_unit #(
     parameter REG_FILE_ADDR_WIDTH = 5
 )(
+    input logic                           rst,
+    input logic                           trigger,
     input logic [REG_FILE_ADDR_WIDTH-1:0] rs1d,
     input logic [REG_FILE_ADDR_WIDTH-1:0] rs2d,
     input logic [REG_FILE_ADDR_WIDTH-1:0] rde,
@@ -48,9 +50,9 @@ end
 // stall if lw instruction is executed when there's a data dependency on the next intruction
 assign lwstall = resultsrce && ((rs1d == rde) | (rs2d == rde));
 assign stallf  = lwstall; // stall PCF if a branch or a lw instrctuon is executed
-assign stalld  = lwstall;
+assign stalld  = ~(~lwstall | ~rst | ~trigger); // stall if lwstall=0 OR rst=1 OR trigger = 0. Not the entire thing as decode pipeline register's enable is active low
 
 assign flushd  = (pcsrce == 2'b01);
-assign flushe  = lwstall | (pcsrce == 2'b01);
+assign flushe  = (lwstall | (pcsrce == 2'b01));
 
 endmodule

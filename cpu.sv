@@ -306,6 +306,9 @@ pcsrc_logic pcsrc_logic(
 );
    
 hazard_unit hazard(
+    .rst(rst),
+    .trigger(trigger),
+
     .rs1d(instrd[19:15]),
     .rs2d(instrd[24:20]),
     .rde(rde),
