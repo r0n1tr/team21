@@ -1,36 +1,55 @@
-module memory(
-    parameter   ADDRESS_WIDTH = 32,
-                DATA_WIDTH = 32
+module memory#(
+    parameter       ADDRESS_WIDTH = 32,
+                    DATA_WIDTH = 32
 )(
-
-    input logic [ADDRESS_WIDTH-1:0] din,
-    input logic [DATA_WIDTH-1:0] wd,
     input logic clk,
     input logic rst,
     input logic we,
+    input logic [DATA_WIDTH-1:0] wd,
+    input logic [ADDRESS_WIDTH-1:0] alu_result,
     
+    output logic [DATA_WIDTH-1:0] read_data
 );
 
-logic [DATA_WIDTH-1:0] cache_out;
-logic [DATA_WIDTH-1:0] dm_out;
+logic hit;
+logic [DATA_WIDTH-1:0] a;
+logic [DATA_WIDTH-1:0] demux_input;
+logic [DATA_WIDTH-1:0] mux_input0;
+logic [DATA_WIDTH-1:0] mux_input1;
 
-cache cache(
-    .din(din),
-    .rd(dm_out),
+cache cache_test(
+    .din(alu_result),
+    .rd(rd),
+    .rst(rst),
 
-    .dout(cache_out)
+    .dout(demux_input),
+    .hit(hit)
 );
 
-data_mem datamem(
+demux cache_demux(
+    .input_data(demux_input),
+    .select(hit),
+
+    .output0(a),
+    .output1(mux_input1)
+)
+
+data_mem data_memory(
+    .a(a),
     .clk(clk),
     .we(we),
     .wd(wd),
-    .a(cache_out),
 
-    .rd(dm_out)
-
+    .rd(mux_input0)
 
 );
 
-endmodule
+mux memory_mux(
+    .input0(mux_input0),
+    .input1(mux_input1),
+    .select(hit),
 
+    .out(read_data)
+)
+
+endmodule
