@@ -162,9 +162,10 @@ top_pc top_PC(
     .rst(rst),
     .trigger(trigger),
     .pcsrc(pcsrce),
-    .immext(pctargete),
+    .pce(pce),
+    .immexte(immexte),
     .en_b(stallf),
-    .result(result),
+    .aluresult(aluresult),
 
     .pcplus4(pcplus4),
     .pc(pc)
@@ -334,13 +335,13 @@ hazard_unit hazard(
 
 // ...integrate into pcmux?
 ///////////////////////////
-logic [DATA_WIDTH-1:0] pctargete;
-pc_target target(
-    .pce(pce),
-    .immexte(immexte),
+// logic [DATA_WIDTH-1:0] pctargete;
+// pc_target target(
+//     .pce(pce),
+//     .immexte(immexte),
 
-    .pctargete(pctargete)
-);
+//     .pctargete(pctargete)
+// );
 //////////////////////////
 
 // ...integrate into alu?

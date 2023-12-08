@@ -16,7 +16,7 @@ logic [BYTE_WIDTH-1:0] rom_array [MEM_SIZE-1:0];
 initial begin
     $display("Loading rom...");
 
-    $readmemh("mem_files/ringcounter.mem", rom_array);
+    $readmemh("mem_files/f1_fsm.mem", rom_array);
 
 end;
 

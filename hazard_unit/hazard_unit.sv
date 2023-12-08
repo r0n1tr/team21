@@ -50,9 +50,9 @@ end
 // stall if lw instruction is executed when there's a data dependency on the next intruction
 assign lwstall = resultsrce && ((rs1d == rde) | (rs2d == rde));
 assign stallf  = lwstall; // stall PCF if a branch or a lw instrctuon is executed
-assign stalld  = ~(~lwstall | ~rst | ~trigger); // stall if lwstall=0 OR rst=1 OR trigger = 0. Not the entire thing as decode pipeline register's enable is active low
+assign stalld  = ~(~lwstall | rst | ~trigger); // stall if lwstall=0 OR rst=1 OR trigger = 0. Not the entire thing as decode pipeline register's enable is active low
 
-assign flushd  = (pcsrce == 2'b01);
-assign flushe  = (lwstall | (pcsrce == 2'b01));
+assign flushd  = (pcsrce == 2'b01 || pcsrce == 2'b10);
+assign flushe  = (lwstall || (pcsrce == 2'b01 || pcsrce == 2'b10) );
 
 endmodule
