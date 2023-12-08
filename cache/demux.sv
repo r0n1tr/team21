@@ -11,9 +11,9 @@ module demux#(
 always_comb begin
     if (select == 1'b0)
         output0 = input_data;
-        output1 = 32'b0;
+        output1 = {DATA_WIDTH{1'b0}};
     else    
-        output0 = 32'b0;
+        output0 = {DATA_WIDTH{1'b0}};
         output1 = input_data;
 end
 
