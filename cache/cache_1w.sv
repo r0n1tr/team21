@@ -7,9 +7,9 @@ module cache(
     input logic [DATA_WIDTH-1:0] din, // adress into cache from alu for sw or lw
     input logic [DATA_WIDTH-1:0] rd,  // the data that is inserted into cache from data memory
     input logic rst, // to reset v flag
-    
-    output logic [DATA_WIDTH-1:0] dout, // data out from the cache
-    output logic hit
+
+    output logic hit,
+    output logic [DATA_WIDTH-1:0] dout // data out from the cache
 )
 
 logic [26:0] din_tag = din[32:5];   // tag 
