@@ -41,7 +41,8 @@ int main(int argc, char **argv, char **env) {
   
         // print output state
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i       << "     ";
-        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
+        //std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
+        std::cout << "a0 = "   << (unsigned int)(top->a0) << std::endl;
         
         if (Verilated::gotFinish()) exit(0);
     }
