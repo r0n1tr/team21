@@ -23,7 +23,7 @@ initial begin
     $readmemh("cache_1w.mem", cache_memory);
 end;
 
-always_comb 
+always_comb begin
 begin if (rst)
     logic [59:0] cache_rst = cache_memory[0];
 
@@ -32,32 +32,32 @@ begin if (rst)
 
     cache_rst = cache_memory[1];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
+    cache_memory[1] = cache_rst;
 
     cache_rst = cache_memory[2];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
+    cache_memory[2] = cache_rst;
 
     cache_rst = cache_memory[3];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
+    cache_memory[3] = cache_rst;
 
     cache_rst = cache_memory[4];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
+    cache_memory[4] = cache_rst;
 
     cache_rst = cache_memory[5];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
+    cache_memory[5] = cache_rst;
 
     cache_rst = cache_memory[6];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
+    cache_memory[6] = cache_rst;
 
     cache_rst = cache_memory[7];
     cache_rst = {1'b0,cache_rst[58:0]};
-    cache_memory[0] = cache_rst;
-    
+    cache_memory[7] = cache_rst;
+end 
 end
 
 
