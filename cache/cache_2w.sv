@@ -5,6 +5,7 @@ module cache(
 )(
     input logic [DATA_WIDTH-1:0] din,
     input logic [DATA_WIDTH-1:0] rd,
+    input logic rst,
 
 
     output logic [DATA_WIDTH-1:0] dout,
@@ -37,14 +38,38 @@ logic hit_0;
 
 assign hit_1 = V_way_1 & (din_tag == cache_way_1_tag);
 assign hit_0 = V_way_0 & (din_tag == cache_way_0_tag);
-assign hit = hit_0 | hit_1;
+
+hit <= hit_0 | hit_1;
+
+always_comb begin
+ if (rst) begin
+    logic [121:0] cache_rst = cache_memory[0];
+
+    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
+    cache_memory[0] = cache_rst;
+
+    cache_rst = cache_memory[1];
+    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
+    cache_memory[1] = cache_rst;
+
+    cache_rst = cache_memory[2];
+    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
+    cache_memory[2] = cache_rst;
+
+    cache_rst = cache_memory[3];
+    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
+    cache_memory[3] = cache_rst;
+ end 
+end 
+
+
 
 always_comb begin
 if (hit_1)begin
     
     dout <= cache_way_1_data;
-    u <= 1'b0;
-end                          // least recently used in set is way 0 
+    u <= 1'b0;       // least recently used in set is way 0 
+end                          
 
 else if (hit_0) begin
     dout <= cache_way_0_data;
@@ -62,4 +87,6 @@ else begin
     end 
 end 
 end 
+
+
 endmodule
