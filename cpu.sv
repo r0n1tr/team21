@@ -104,7 +104,7 @@ top_pc top_PC(
     .trigger(trigger),
     .pcsrc(pcsrc),
     .immext(immext),
-    .result(result),
+    .aluresult(aluresult),
 
     .pcplus4(pcplus4),
     .pc(pc)
