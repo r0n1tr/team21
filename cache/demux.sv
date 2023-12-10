@@ -9,13 +9,14 @@ module demux#(
 );
 
 always_comb begin
-    if (select == 1'b0)
+    if (select == 1'b0) begin
         output0 = input_data;
-        output1 = {DATA_WIDTH{1'b0}};
-    else    
-        output0 = {DATA_WIDTH{1'b0}};
+        output1 = 32'b0;
+    end
+    else begin    
+        output0 = 32'b0;
         output1 = input_data;
+    end
 end
 
 endmodule
-   
