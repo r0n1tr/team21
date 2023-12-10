@@ -1,0 +1,65 @@
+         nop
+         li a0,0x0
+         li t2,0xff
+loop:    beq a0,t2,exit
+         li t1,0x0
+         slli t1,t1,0x1
+         addi t1,t1,0x1
+         mv a0,t1
+         J loop
+exit:       li a0,0x0
+
+// in case we dont have a shift instruction
+start: 
+    addi a0, 0x00 #init a0 to 0
+    addi a1, 0x00 #init temp register
+    addi t1, 0xff #compare to reset
+loop:
+    beq a0, t1, reset
+    add a1, a1, a1
+    addi a1, a1, 0x1
+    addi a0, a1, 0x0
+    
+reset: 
+    li a0, 0x00
+    li a1, 0x00
+    jal loop
+
+// PROPER USE CASE
+
+start:
+    addi a0, x0, 0    # Initialize a0 to 0
+    addi a1, x0, 0    # Initialize temp register a1 to 0
+    addi t1, x0, 255  # Compare value for reset
+
+loop:
+    slli a1, a1, 1     # Shift left logical (multiply by 2) the value in a1
+    addi a1, a1, 1     # Increment the value in a1
+    nop
+    add a0, a0, a1     # Add the value in a1 to a0
+    beq a0, t1, reset  # Branch to reset if a0 equals t1 (255)
+    beq a0, a0, loop   # Jump back to the beginning of the loop
+
+reset:
+    addi a0, x0, 0           # Set a0 to 0
+    addi a1, x0, 0           # Set a1 to 0
+    jal loop                   # Jump back to the main loop
+
+F1_FSM CODE AS WE DONT HAVE SLLI I KEEP FORGETTING
+
+start:
+    addi a0, x0, 0    # Initialize a0 to 0
+    addi a1, x0, 0    # Initialize temp register a1 to 0
+    addi t1, x0, 255  # Compare value for reset
+
+loop:
+    add a1, a1, a1     # Shift left logical (multiply by 2) the value in a1
+    addi a1, a1, 1     # Increment the value in a1
+    addi a0, a1, 0     # Add the value in a1 to a0
+    beq a0, t1, reset  # Branch to reset if a0 equals t1 (255)
+    beq a0, a0, loop   # Jump back to the beginning of the loop
+
+reset:
+    addi a0, x0, 0           # Set a0 to 0
+    addi a1, x0, 0           # Set a1 to 0
+    jal loop                   # Jump back to the main loop

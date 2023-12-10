@@ -17,12 +17,13 @@ module reg_file #(
 logic [DATA_WIDTH-1:0] ram_array [2**REG_FILE_ADDR_WIDTH-1:0];
 
 always_ff @(negedge clk) begin
-    if(we3) ram_array[ad3] <= wd3;
+    if(we3 && ad3 != REG_FILE_ADDR_WIDTH'('b0)) ram_array[ad3] <= wd3;
 end
 
+assign ram_array[REG_FILE_ADDR_WIDTH'('b0)] = 32'b0; // x0 is always zero
 assign rd1 = ram_array[ad1];
 assign rd2 = ram_array[ad2];
-assign a0  = ram_array[5'd10];
+assign a0  = ram_array[REG_FILE_ADDR_WIDTH'('d10)];
 
 endmodule
 

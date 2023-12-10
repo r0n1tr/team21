@@ -9,9 +9,10 @@ module top_pc #(
     input logic [1:0]               pcsrc,
     input logic [DATA_WIDTH-1:0]    immexte,
     input logic [ADDRESS_WIDTH-1:0] pce,
-    input logic [DATA_WIDTH-1:0]    aluresult,
+    input logic [DATA_WIDTH-1:0]    aluresulte,
     
-    output logic [ADDRESS_WIDTH-1:0] pcplus4, // output this for use in result_mux (for jal instruction)
+    output logic [ADDRESS_WIDTH-1:0] pcplus4,  // output this for use in result_mux (for jal instruction)
+    output logic [ADDRESS_WIDTH-1:0] pctargete, // output this for use in result_mux (for auipc instruction)
     output logic [ADDRESS_WIDTH-1:0] pc
 );
 
@@ -26,15 +27,16 @@ pc_reg pc_reg(
 );
 
 pc_mux pc_mux (
+    .aluresulte(aluresulte),
     .immexte(immexte),
     .pce(pce),
     .pc(pc),
     .pcsrc(pcsrc),
     .rst(rst),
     .trigger(trigger),
-    .aluresult(aluresult),
     
     .pcplus4(pcplus4),
+    .pctargete(pctargete),
     .next_pc(next_pc)
 );
 
