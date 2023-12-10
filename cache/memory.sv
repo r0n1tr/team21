@@ -8,10 +8,11 @@ module memory#(
     input logic [DATA_WIDTH-1:0] wd,
     input logic [ADDRESS_WIDTH-1:0] alu_result,
     
-    output logic [DATA_WIDTH-1:0] read_data
+    output logic [DATA_WIDTH-1:0] read_data,
+    output logic hit
 );
 
-logic hit;
+
 logic [DATA_WIDTH-1:0] a;
 logic [DATA_WIDTH-1:0] demux_input;
 logic [DATA_WIDTH-1:0] mux_input0;
@@ -53,4 +54,6 @@ mux memory_mux(
 );
 
 endmodule
+
+
 
