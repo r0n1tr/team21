@@ -2,7 +2,6 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include <iostream>
-#include <vector>
 
 int main(int argc, char **argv, char **env){
     int i;
@@ -32,7 +31,6 @@ int main(int argc, char **argv, char **env){
             }
 
         std::cout << "cycle " << i << "  " << "hit " << (int) top->hit << " output " << (int) top->read_data << std::endl;
-
         
         if (Verilated::gotFinish())     exit(0);
         
