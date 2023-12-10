@@ -10,30 +10,52 @@ module top_control_unit (
     output logic [1:0] immsrc,
     output logic       regwrite,
 
-    output logic [2:0] alucontrol
+    output logic [3:0] alucontrol
 );
   
 logic [1:0] aluop;
+logic       branch;        // whether we are currently executing a branch instruction
+logic       should_branch; // whether we are currently executing a branch instruction AND that instruction's condition has been met
+logic       jump; 
+logic       jalr;
     
 main_decoder main_decoder(
     .op(instr[6:0]),
     .zero(zero),  
 
-    .pcsrc(pcsrc),
-    .resultsrc(resultsrc),
-    .memwrite(memwrite),
-    .alusrc(alusrc),
-    .immsrc(immsrc),
     .regwrite(regwrite),
-    .aluop(aluop)
+    .immsrc(immsrc),
+    .alusrc(alusrc),
+    .memwrite(memwrite),
+    .resultsrc(resultsrc),
+    .branch(branch),
+    .aluop(aluop),  // aluop goes to alu_decoder
+    .jump(jump),
+    .jalr(jalr)
 );
 
 alu_decoder alu_decoder(
-    .op(instr[6:0]),     // 7-bit opcode
     .aluop(aluop),
     .funct3(instr[14:12]), 
     .funct7(instr[31:25]), 
+
     .alucontrol(alucontrol)
+);
+
+branch_decoder branch_decoder(
+    .branch(branch),
+    .zero(zero),   
+    .funct3(instr[14:12]), 
+
+    .should_branch(should_branch) 
+);
+
+pcsrc_logic pcsrc_logic(
+    .should_branch(should_branch), 
+    .should_jal(jump),   
+    .should_jalr(jalr), 
+
+    .pcsrc 
 );
 
 endmodule
