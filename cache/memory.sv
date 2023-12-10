@@ -17,10 +17,10 @@ logic [DATA_WIDTH-1:0] demux_input;
 logic [DATA_WIDTH-1:0] mux_input0;
 logic [DATA_WIDTH-1:0] mux_input1;
 
-cache cache_test(
+cache_1w cache_test(
     .din(alu_result),
-    .rd(rd),
-    .rst(rst),
+    .rd(mux_input0),
+    .rst(rst),   
 
     .dout(demux_input),
     .hit(hit)
@@ -32,7 +32,7 @@ demux cache_demux(
 
     .output0(a),
     .output1(mux_input1)
-)
+);
 
 data_mem data_memory(
     .a(a),
@@ -50,6 +50,7 @@ mux memory_mux(
     .select(hit),
 
     .out(read_data)
-)
+);
 
 endmodule
+
