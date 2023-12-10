@@ -26,7 +26,7 @@ logic       memwrite;
 logic       alusrc;
 logic [1:0] immsrc;
 logic       regwrite;
-logic [2:0] alucontrol;
+logic [3:0] alucontrol;
  
 // -- output from data_mem --
 logic [DATA_WIDTH-1:0] rd_dm; // instruction word from data memory

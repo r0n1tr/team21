@@ -2,7 +2,7 @@ module top_alu #(
     parameter DATA_WIDTH = 32
 )(
     input logic                         alusrc,
-    input logic        [2:0]            alucontrol,
+    input logic        [3:0]            alucontrol,
     input logic signed [DATA_WIDTH-1:0] rd1,    // comes from reg_file
     input logic signed [DATA_WIDTH-1:0] rd2,    // comes from reg_file
     input logic signed [DATA_WIDTH-1:0] immext,
