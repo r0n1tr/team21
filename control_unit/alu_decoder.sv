@@ -14,7 +14,7 @@ module alu_decoder(
 
 always_comb begin
     casez ({aluop, funct3, funct7[5]})       
-        // -- If executing lw, sw, jalr, jal, then aluop = 00 --
+        // -- If executing load, store, jalr, jal, lui, auipc then aluop = 00 -- (this is the default case as this aluop=00 is all zeros, and the main decoder uses zeros as don't cares, so instructions that don't need the alu default to aluop = 00)
         6'b00_???_?: alucontrol = 4'b0000;
 
         // -- If excuting B-type instruction, then aluop = 01 --

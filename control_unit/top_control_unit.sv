@@ -4,11 +4,12 @@ module top_control_unit (
     input  logic        zero,   // zero flag
 
     output logic [1:0] pcsrc,
-    output logic [1:0] resultsrc,
+    output logic [2:0] resultsrc,
     output logic       memwrite,
     output logic       alusrc,
-    output logic [1:0] immsrc,
+    output logic [2:0] immsrc,
     output logic       regwrite,
+    output logic [2:0] memop,
 
     output logic [3:0] alucontrol
 );
@@ -18,6 +19,8 @@ logic       branch;        // whether we are currently executing a branch instru
 logic       should_branch; // whether we are currently executing a branch instruction AND that instruction's condition has been met
 logic       jump; 
 logic       jalr;
+
+assign memop = instr[14:12]; // memop = funct3. (placing here rather than linking memory directly to funct3 to make pipelining easier. not placing in main decoder as this will only ever be used if executong a load/store instruction, so it doesnt matter if this is set when not doing load/store instructions)
     
 main_decoder main_decoder(
     .op(instr[6:0]),
