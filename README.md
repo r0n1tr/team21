@@ -4,9 +4,10 @@
 - Single Cycle
 	- F1 Program(Ronit)
 	- Program Counter (Danial)
-	- Instruction Memory (Ronit)
+	- Instruction Memory (i dont actually know who did this)
 	- Control Unit (Ziean)
 	- ALU (Ronit)
+	- Register File (Ronit)
 	- Data Memory (Danial and Ziean)
 
 - Pipeline 
@@ -27,7 +28,7 @@
 
 We designed our CPU in a hierarchical system as such: 
 
-![[Pasted image 20231211172302.png]]
+https://github.com/r0n1tr/team21/blob/main/hierarchy.png
 
 By allocating a folder for all relevant files for each separate 'module' within the system. This way we were able to keep an organized workspace and having updating the shell script to include folders in order for full compilation. 
 
@@ -109,7 +110,7 @@ The Control Unit is made of:
 - pcsrc_logic.sv
 - top_control_unit.sv
 
-```verilog 
+```systemverilog 
 main_decoder main_decoder(
     .op(instr[6:0]),
     .zero(zero),  
@@ -174,7 +175,7 @@ By adding an extra 'jalr' flag to our decoder, this allowed us to control when w
 
 Our instruction memory acted as an asynchronous ROM.
 
-![[Pasted image 20231211173956.png]]
+https://github.com/r0n1tr/team21/blob/main/mem_files.png
 
 By organizing our instruction memory files in a separate folder with corresponding .mem and .asm files it was easy to navigate to different test assembly programs to check different functionalities. 
 
@@ -266,6 +267,20 @@ Standard combinational block to extend sign extend a 32 bit integer.
 
 **Add working evidence of each test program**
 
+## Single Cycle CPU: F1
+
+<iframe width="560" height="315" src="https://youtube.com/shorts/pcnGlPFE5ms?feature=share" frameborder="0" allowfullscreen></iframe>
+
+
+## Single Cycle CPU: PDFs
+
+
+**insert evidence**
+
+## Pipelining with Data Cache: PDFs
+
+**insert evidence**
+
 
 ### Contribution Table
 
@@ -300,12 +315,12 @@ Implemented Specifications
 
 |Type|Instructions|
 |---|-----|
-|R| add|
-|B| beq, bne|
-|I| addi|
-|S| 
-|U|
-|J| jal, jalr|
+|R| add, sub, sll, xor, slt,srl, sra, or, and| 
+|B| beq, bne, blt, bge, bltu, bgeu|
+|I| addi, jalr, lw, slli, slti |
+|S| sw
+|U| lui, auipc
+|J| jal|
 
 General Specifications
 
