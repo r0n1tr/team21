@@ -29,7 +29,7 @@ logic       regwrite;
 logic [3:0] alucontrol;
  
 // -- output from data_mem --
-logic [DATA_WIDTH-1:0] rd_dm; // instruction word from data memory
+logic [DATA_WIDTH-1:0] readdata; // instruction word from data memory
 
 // -- output from instr_mem --
 logic [DATA_WIDTH-1:0] instr; // instruction word from instruction memory
@@ -75,16 +75,17 @@ top_control_unit control_unit(
 
 data_mem data_mem(
     .clk(clk),
-    .we(memwrite),
-    .wd(rd2),
     .a(aluresult),
+    .we(memwrite),
+    .writedata(rd2),
+    .memop(instr[14:12]),
 
-    .rd(rd_dm)
+    .readdata(readdata)
 );
 
 mux2 result_mux(
     .input0(aluresult),
-    .input1(rd_dm),
+    .input1(readdata),
     .input2(pcplus4),
     .input3({32{1'b0}}), // not using input 3 - set to 0 by default
     .select(resultsrc),
@@ -95,7 +96,7 @@ mux2 result_mux(
 instr_mem instr_mem(
     .a(pc),
 
-    .rd(instr)
+    .instr(instr)
 );
 
 top_pc top_PC(
