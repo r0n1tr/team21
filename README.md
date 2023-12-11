@@ -28,7 +28,7 @@
 
 We designed our CPU in a hierarchical system as such: 
 
-https://github.com/r0n1tr/team21/blob/main/hierarchy.png
+!(team21/hierarchy.png)
 
 By allocating a folder for all relevant files for each separate 'module' within the system. This way we were able to keep an organized workspace and having updating the shell script to include folders in order for full compilation. 
 
