@@ -21,23 +21,24 @@ logic                         zero;      // zero flag
 // -- output from control unit --
 // these are all control signals
 logic [1:0] pcsrc; 
-logic [1:0] resultsrc;
+logic [2:0] resultsrc;
 logic       memwrite;
 logic       alusrc;
-logic [1:0] immsrc;
+logic [2:0] immsrc;
 logic       regwrite;
 logic [2:0] memop;
 logic [3:0] alucontrol;
  
 // -- output from data_mem --
-logic [DATA_WIDTH-1:0] readdata; // instruction word from data memory
+logic [DATA_WIDTH-1:0] readdata; // data word from data memory
 
 // -- output from instr_mem --
 logic [DATA_WIDTH-1:0] instr; // instruction word from instruction memory
 
 // -- output from top_pc --
-logic [ADDRESS_WIDTH-1:0] pc; // program counter 
+logic [ADDRESS_WIDTH-1:0] pc;
 logic [ADDRESS_WIDTH-1:0] pcplus4;
+logic [ADDRESS_WIDTH-1:0] pctarget;
 
 // -- output from reg_file --
 logic signed [DATA_WIDTH-1:0] rd1;   
@@ -85,11 +86,15 @@ data_mem data_mem(
     .readdata(readdata)
 );
 
-mux2 result_mux(
+mux3 result_mux(
     .input0(aluresult),
     .input1(readdata),
     .input2(pcplus4),
-    .input3({32{1'b0}}), // not using input 3 - set to 0 by default
+    .input3(immext), 
+    .input4(pctarget),
+    .input5({32{1'b0}}), // not using input 5 - set to 0 by default
+    .input6({32{1'b0}}), // not using input 6 - set to 0 by default
+    .input7({32{1'b0}}), // not using input 7 - set to 0 by default
     .select(resultsrc),
 
     .out(result)
@@ -110,6 +115,7 @@ top_pc top_PC(
     .aluresult(aluresult),
 
     .pcplus4(pcplus4),
+    .pctarget(pctarget),
     .pc(pc)
 );
 
