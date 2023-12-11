@@ -33,7 +33,7 @@ int main(int argc, char **argv, char **env) {
         }
 
         // print current state of top
-        std::cout << "A = " << std::setfill('0') << std::setw(2) << std::hex << (i*4) << "    RD = 0x" << std::setw(8) << top->rd << std::dec << std::endl;
+        std::cout << "a = " << std::setfill('0') << std::setw(2) << std::hex << (i*4) << "    instr = 0x" << std::setw(8) << top->instr << std::dec << std::endl;
 
         if (Verilated::gotFinish()) exit(0);
     }
