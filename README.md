@@ -271,6 +271,7 @@ Standard combinational block to extend sign extend a 32 bit integer.
 
 <iframe width="560" height="315" src="https://youtube.com/shorts/pcnGlPFE5ms?feature=share" frameborder="0" allowfullscreen></iframe>
 
+![F1 Waveform](https://github.com/r0n1tr/team21/blob/main/f1_waveform.png)
 
 ## Single Cycle CPU: PDFs
 
