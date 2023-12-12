@@ -5,14 +5,15 @@ module memory#(
     input logic clk,
     input logic rst,
     input logic we,
+    input logic [2:0] lw_en,
     input logic [DATA_WIDTH-1:0] wd,
     input logic [ADDRESS_WIDTH-1:0] alu_result,
     
-    output logic [DATA_WIDTH-1:0] read_data,
-    output logic hit
+    output logic [DATA_WIDTH-1:0] read_data
+    
 );
 
-
+logic hit;
 logic [DATA_WIDTH-1:0] a;
 logic [DATA_WIDTH-1:0] demux_input;
 logic [DATA_WIDTH-1:0] mux_input0;
@@ -22,6 +23,7 @@ cache_1w cache_test(
     .din(alu_result),
     .rd(mux_input0),
     .rst(rst),   
+    .lw_en(lw_en),
 
     .dout(demux_input),
     .hit(hit)
