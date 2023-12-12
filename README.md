@@ -186,27 +186,7 @@ The PC was designed as such:
 - pc_reg.sv
 - top_pc.sv
 
-```verilog 
-pc_reg pc_reg(
-    .clk(clk),
-    .next_pc(next_pc),
-    
-    .pc(pc)
-);
 
-pc_mux pc_mux (
-    .aluresult(aluresult),
-    .immext(immext),
-    .pc(pc),
-    .pcsrc(pcsrc),
-    .rst(rst),
-    .trigger(trigger),
-    
-    .pcplus4(pcplus4),
-    .pctarget(pctarget),
-    .next_pc(next_pc)
-);
-```
 
 Once again omitting our wires and I/O the program counter was designed around the register and input mux and designed the adders within the logic of the pc_mux to optimize simplicity in the top file, shown below: 
 
@@ -223,9 +203,12 @@ always_comb begin
 end
 ```
 
-By adding a trigger signal to our program counter we could control the CPU's ON/OFF state by a click of a button so that in the test bench unless the trigger was high the CPU would not execute the instructions/assembly.
+By adding a trigger signal to our program counter we could control the CPU's ON/OFF state with a click of a button so that in the test bench unless the trigger was high the CPU would not execute the instructions/assembly.
 
-We implemented PCSRC in a way where it was a 2-bit signal as we required a 3 input PC mux. This meant we could choose whether we wanted to take the input of the next instruction within the memory, the target program or the address from the output of our ALU after using a branch or jump instruction.
+When we were looking to implement the jump instructions, instead of adding another multiplexer to decide if we are jumping we decided it would be more efficient to implement PCSRC in a way where it was a 2-bit signal and increased the inputs into PC mux. This meant we could choose whether we wanted to take the input of the next instruction within the memory(pcplus4 ), the target program(for jump and branch or the address directly from the output of our ALU.
+
+![image](https://github.com/r0n1tr/team21/assets/147700987/87b04ed4-74a7-41d8-a449-4ef101e42f94)
+
 
 ### Regfile
 
