@@ -4,7 +4,7 @@
 - Single Cycle
 	- F1 Program(Ronit)
 	- Program Counter (Danial)
-	- Instruction Memory (i dont actually know who did this)
+	- Instruction Memory (Ziean)
 	- Control Unit (Ziean)
 	- ALU (Ronit)
 	- Register File (Ronit)
@@ -397,6 +397,28 @@ end
 ```
 
 We took advice from the textbook:  Digital Design and Computer Architecture: RISC-V Edition by Sarah Harris, David Harris - Section 7.5.3 Hazards. This proved to be particularly useful as it demonstrated the different data and control hazards that could potentially come up on compilation. Hazards such as requiring stalls for the values to be computed in time for the next instruction to use it, which were the reasonings for the forwarding if/else logic. As well as using clear/flush signals to clear the pipeline of data in order to not accidentally use outdated information for the current instruction. Additional implementations to the pipeline were discussed such as adding a clear signals to the other two registers: execute and memory, but quickly realized they were redundant and all hazards could be avoided by simply reading in the current signals of each pipeline register and making sure the first two either stalled or flushed. 
+
+
+#### Branch Decoder:
+
+```verilog
+always_comb begin
+    should_branch = 1'b0; // init to 0
+
+    if (branch) begin
+        if (funct3 == 3'b000 && zero ) should_branch = 1'b1; // beq
+        if (funct3 == 3'b001 && ~zero) should_branch = 1'b1; // bne
+
+        if (funct3 == 3'b100 && ~zero) should_branch = 1'b1; // blt  
+        if (funct3 == 3'b101 && zero ) should_branch = 1'b1; // bge
+
+        if (funct3 == 3'b110 && ~zero) should_branch = 1'b1; // bltu
+        if (funct3 == 3'b111 && zero ) should_branch = 1'b1; // bgeu
+    end
+end
+```
+
+**Ziean add explanation to this cos i have no idea**
 
 ## Pipelining with Data Cache: PDFs
 
