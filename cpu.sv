@@ -26,7 +26,7 @@ logic       memwrite;
 logic       alusrc;
 logic [2:0] immsrc;
 logic       regwrite;
-logic [2:0] memop;
+logic [2:0] funct3;
 logic [3:0] alucontrol;
  
 // -- output from data_mem --
@@ -72,7 +72,7 @@ top_control_unit control_unit(
     .alusrc(alusrc),
     .immsrc(immsrc),
     .regwrite(regwrite),
-    .memop(memop),
+    .funct3(funct3),
     .alucontrol(alucontrol)
 );
 
@@ -81,7 +81,7 @@ data_mem data_mem(
     .a(aluresult),
     .we(memwrite),
     .writedata(rd2),
-    .memop(memop),
+    .memcontrol(funct3),
 
     .readdata(readdata)
 );

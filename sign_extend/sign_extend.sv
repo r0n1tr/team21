@@ -1,8 +1,8 @@
 // verilator lint_off UNUSED
 module sign_extend(
-    input  logic [31:0] instr,  // 32-bit instruction word
-    input  logic [2:0]  immsrc, // Indicates instruction type, and hence which bits of the instruction contain the immediate
-    output logic [31:0] immext   // Immediate operand - is the sign extended output of this module
+    input  logic        [31:0] instr,  // 32-bit instruction word
+    input  logic        [2:0]  immsrc, // Indicates instruction type, and hence which bits of the instruction contain the immediate
+    output logic signed [31:0] immext  // Immediate operand - is the sign extended output of this module
 );
 
 // Sign extension implementation (as defined in lecture 7, slide 15)

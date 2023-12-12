@@ -5,12 +5,12 @@ module data_mem #(
               MEM_SIZE = 16,
               BYTE_WIDTH = 8
 )(   
-    input  logic                     clk,       // only for writing to data_mem
+    input  logic                     clk,        // only for writing to data_mem
     
-    input  logic [ADDRESS_WIDTH-1:0] a,         // the address that comes from ALUResult irrespective we are loading or storing
-    input  logic                     we,        // write enable flag
-    input  logic [DATA_WIDTH-1:0]    writedata, // data to write to memoory
-    input  logic [2:0]               memop,     // descibes exact load/store instruction to execute (is from funct3 of load/store instructionss)
+    input  logic [ADDRESS_WIDTH-1:0] a,          // the address that comes from ALUResult irrespective we are loading or storing
+    input  logic                     we,         // write enable flag
+    input  logic [DATA_WIDTH-1:0]    writedata,  // data to write to memoory
+    input  logic [2:0]               memcontrol, // describes exact load/store instruction to execute (is from funct3 of load/store instructionss)
 
     output logic [DATA_WIDTH-1:0] readdata // data read from the memory
 );   
@@ -32,7 +32,7 @@ end;
 // synchronously write data
 always_ff @(posedge clk) begin
     if (we) begin
-        case (memop)
+        case (memcontrol)
             3'b000: data_memory[a] <= writedata[BYTE_WIDTH-1 : 0];                // store byte          
             
             3'b001: begin                                                         // store half
@@ -51,13 +51,13 @@ end
 
 // asynchronously load data 
 always_comb begin
-    case (memop)
+    case (memcontrol)
         3'b000: readdata = { {(BYTE_WIDTH*3){data_memory[a][BYTE_WIDTH-1]}}  ,  data_memory[a]}; // load byte
 
         3'b100: readdata = { {(BYTE_WIDTH*3){1'b0}}                          ,  data_memory[a]}; // load byte unsigned
 
         3'b001, 3'b101: begin                                                                    // load half, load half unsigned
-            readdata = (memop[2]) ?
+            readdata = (memcontrol[2]) ?
                        { {(BYTE_WIDTH*2){1'b0}},                                            data_memory[baseaddress_half + 1], data_memory[baseaddress_half] } :
                        { {(BYTE_WIDTH*2){data_memory[baseaddress_half + 1][BYTE_WIDTH-1]}}, data_memory[baseaddress_half + 1], data_memory[baseaddress_half] };
         end

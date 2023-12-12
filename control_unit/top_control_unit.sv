@@ -9,7 +9,7 @@ module top_control_unit (
     output logic       alusrc,
     output logic [2:0] immsrc,
     output logic       regwrite,
-    output logic [2:0] memop,
+    output logic [2:0] funct3,
 
     output logic [3:0] alucontrol
 );
@@ -20,7 +20,7 @@ logic       should_branch; // whether we are currently executing a branch instru
 logic       jump; 
 logic       jalr;
 
-assign memop = instr[14:12]; // memop = funct3. (placing here rather than linking memory directly to funct3 to make pipelining easier. not placing in main decoder as this will only ever be used if executong a load/store instruction, so it doesnt matter if this is set when not doing load/store instructions)
+assign funct3 = instr[14:12]; // memcontrol of data_mem = funct3
     
 main_decoder main_decoder(
     .op(instr[6:0]),
@@ -40,7 +40,7 @@ main_decoder main_decoder(
 alu_decoder alu_decoder(
     .aluop(aluop),
     .funct3(instr[14:12]), 
-    .funct7(instr[31:25]), 
+    .funct7(instr[31:25]),
 
     .alucontrol(alucontrol)
 );

@@ -10,7 +10,7 @@ module main_decoder(
     output logic       memwrite,
     output logic [2:0] resultsrc,
     output logic       branch,
-    output logic [1:0] aluop,  // aluop goes to alu_decoder
+    output logic [1:0] aluop,  // aluop goes to alu_decoder and is internal to top_control_unit
     output logic       jump,
     output logic       jalr
 );
@@ -18,7 +18,7 @@ module main_decoder(
 // Implementation of control logic (don't cares have been set to 0)
 always_comb begin
     // set control signals (other than pcsrc --> look at pcsrc_logic module for that)
-    case (op)               
+    case (op)
         7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10001_0001_00000;  // load instructions
         7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b00011_1000_00000;  // store instructions
         7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10000_0000_01000;  // R-Type (all of which are arithmetic/logical)

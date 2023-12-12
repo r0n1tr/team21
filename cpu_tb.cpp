@@ -41,8 +41,8 @@ int main(int argc, char **argv, char **env) {
   
         // print output state
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i       << "     ";
-        std::cout << "a0 = "   << std::setfill('0') << std::setw(8) << std::hex << (unsigned int)(top->a0) << std::dec << std::endl; // print a0 hex
-        // std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;                    // print a0 binary
+        //std::cout << "a0 = "   << std::setfill('0') << std::setw(8) << std::hex << (unsigned int)(top->a0) << std::dec << std::endl; // print a0 hex
+        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;                    // print a0 binary
         // std::cout << "a0 = "   << (unsigned int)(top->a0) << std::endl;                                                            // print a0 decimal
         
         if (Verilated::gotFinish()) exit(0);
