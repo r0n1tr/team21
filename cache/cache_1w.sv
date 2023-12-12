@@ -67,23 +67,27 @@ always_comb begin
         cache_memory[7] = cache_rst;
     end
     
+    else begin
 
-    cache_set = cache_memory[din_set]; 
-    V = cache_set[59]; 
-    cache_tag = cache_set[58:32]; 
-    cache_data = cache_set[31:0]; 
+        cache_set = cache_memory[din_set]; 
+        V = cache_set[59]; 
+        cache_tag = cache_set[58:32]; 
+        cache_data = cache_set[31:0]; 
 
-    hit = V && (din_tag == cache_tag) && (lw_en == 3'b001);
-    // fix hit logic
-    if (hit) assign dout = cache_data; 
-    else begin      
-        assign dout = din; // since we have to go to memory 
-        assign cache_set = {1'b1, din[31:5], rd}; // assign new memory to cache
-        assign cache_memory[din_set] = cache_set; 
+        hit = V && (din_tag == cache_tag) && (lw_en == 3'b001);
+        // fix hit logic
+        if (hit) assign dout = cache_data; 
+        else begin      
+            assign dout = din; // since we have to go to memory 
+            assign cache_set = {1'b1, din[31:5], rd}; // assign new memory to cache
+            assign cache_memory[din_set] = cache_set; 
+        end
     end
 end
 
 endmodule
+
+
 
 
 
