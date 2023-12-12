@@ -7,7 +7,6 @@ module cache_1w#(
     input logic [DATA_WIDTH-1:0] din, // adress into cache from alu for sw or lw
     input logic [DATA_WIDTH-1:0] rd,  // the data that is inserted into cache from data memory
     input logic rst, // to reset v flag
-    input logic [2:0] lw_en,
     
     output logic [DATA_WIDTH-1:0] dout, // data out from the cache
     output logic hit
@@ -74,7 +73,7 @@ always_comb begin
         cache_tag = cache_set[58:32]; 
         cache_data = cache_set[31:0]; 
 
-        hit = V && (din_tag == cache_tag) && (lw_en == 3'b001);
+        hit = V && (din_tag == cache_tag);
         // fix hit logic
         if (hit) assign dout = cache_data; 
         else begin      
