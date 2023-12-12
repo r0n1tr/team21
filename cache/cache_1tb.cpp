@@ -21,7 +21,7 @@ int main(int argc, char **argv, char **env){
     top->we = 0;
     top->rst = 0;
     top->alu_result = 0x00000000;
-    top->lw_en = 0;
+    top->memcontrol = 2;
     // run simulation for many clock cycles
     for (i=0; i<50; i++){
 
@@ -31,7 +31,12 @@ int main(int argc, char **argv, char **env){
             top->clk = !(top->clk);
             top->eval ();
             }
+        if(i == 0){
         top->alu_result = 0x00000004;
+        }
+        else{
+            top->alu_result = 0x00000000;
+        }
         top->rst = (i == 3);
 
         
@@ -42,3 +47,4 @@ int main(int argc, char **argv, char **env){
     tfp->close();
     exit(0);
 }
+
