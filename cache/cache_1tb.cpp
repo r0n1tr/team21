@@ -14,14 +14,16 @@ int main(int argc, char **argv, char **env){
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
     top->trace (tfp, 99);
-    tfp->open ("data_mem.vcd");
+    tfp->open ("memory.vcd");
 
     // initialize simulation inputs
-    top->clk = 0;
+    top->clk = 1;
     top->we = 0;
     top->rst = 0;
+    top->alu_result = 0x00000000;
+    top->lw_en = 0;
     // run simulation for many clock cycles
-    for (i=0; i<300; i++){
+    for (i=0; i<50; i++){
 
         // dump variables into VCD file and toggle clock
         for(clk=0; clk<2; clk++){
@@ -29,8 +31,9 @@ int main(int argc, char **argv, char **env){
             top->clk = !(top->clk);
             top->eval ();
             }
+        top->alu_result = 0x00000004;
+        top->rst = (i == 3);
 
-        std::cout << "cycle " << i << "  " << "hit " << (int) top->hit << " output " << (int) top->read_data << std::endl;
         
         if (Verilated::gotFinish())     exit(0);
         
