@@ -1,9 +1,6 @@
 // verilator lint_off UNUSED
 module alu_decoder(
-<<<<<<< HEAD
-=======
     input logic [6:0] op,   // opcode
->>>>>>> origin/base_dev
     input logic [1:0] aluop,
     input logic [2:0] funct3, 
     input logic [6:0] funct7, 
