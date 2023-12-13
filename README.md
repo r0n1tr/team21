@@ -276,6 +276,10 @@ Added Files:
 - pipe_memory.sv
 - hazard_unit.sv
 
+
+, We implemented 4 synchronous registers with implicit signals omitted. This is to show the logic within each register at each stage of the pipeline in order to reduce time taken for programs to run, there is an always_ff at the posedge of a clock that upadtes output with input. We have also added a 'clear' signal to our first two registers as they are controlled by the hazard unit to either stall or flush the register of its information stored. (control and Data Hazards)
+
+
 ```verilog 
 // pipe fetch
 always_ff @ (posedge clk) begin
@@ -357,8 +361,7 @@ always_ff @(posedge clk) begin  
     pcplus4w   <= pcplus4m;
 end
 ```
-
-Our implemented synchronous block with implicit signals omitted. This is to show the logic within each register at each stage of the pipeline in order to reduce time taken for programs to run. We have added a 'clear' signal to our first two registers as they are controlled by the hazard unit to either stall or flush the register of its information stored.
+We implemented 4 synchronous registers with implicit signals omitted. This is to show the logic within each register at each stage of the pipeline in order to reduce time taken for programs to run. We have added a 'clear' signal to our first two registers as they are controlled by the hazard unit to either stall or flush the register of its information stored.
 
 
 #### Hazard Unit:
