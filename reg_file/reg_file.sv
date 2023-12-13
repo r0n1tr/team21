@@ -23,7 +23,7 @@ end
 assign ram_array[REG_FILE_ADDR_WIDTH'('b0)] = 32'b0; // x0 is always zero
 assign rd1 = ram_array[ad1];
 assign rd2 = ram_array[ad2];
-assign a0  = ram_array[REG_FILE_ADDR_WIDTH'('d10)];
+assign a0  = ram_array[REG_FILE_ADDR_WIDTH'('d10)]; // a0 = register 10
 
 endmodule
 

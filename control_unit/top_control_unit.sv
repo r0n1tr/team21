@@ -34,14 +34,13 @@ main_decoder main_decoder(
 );
 
 alu_decoder alu_decoder(
+    .op(instr[6:0]),
     .aluop(aluop),
     .funct3(instr[14:12]), 
     .funct7(instr[31:25]),
 
     .alucontrol(alucontrol)
 );
-
-
 
 endmodule
 // verilator lint_on UNUSED

@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **env) {
     std::vector<int> a_vals                  = {0,          4,          7,          9,          9,          9,          6,          5,          1          };           
     std::vector<int> we_vals                 = {1,          1,          1,          1,          0,          0,          0,          0,          0          };           
     std::vector<unsigned int> writedata_vals = {0x12345678, 0x00008421, 0x00001357, 0x00000089, 0xFFFFFFFA, 0xFFFFFFFB, 0xFFFFFFFC, 0xFFFFFFFD, 0xFFFFFFFE };  
-    std::vector<int> memop_vals              = {0b010,      0b001,      0b001,      0b000,      0b000,      0b100,      0b001,      0b101,      0b010      };        
+    std::vector<int> memcontrol_vals         = {0b010,      0b001,      0b001,      0b000,      0b000,      0b100,      0b001,      0b101,      0b010      };        
 
     std::vector<std::string> instr_text = {"sw:  a = 0, d = 0x12345678", "sh:  a = 4, d = 0x00008421", "sh:  a = 7, d = 0x00001357", "sb:  a = 9, d = 0x00000089", "lb:  a = 9 --> should give 0xFFFFFF89", "lbu: a = 9 --> should give 0x00000089", "lh:  a = 6 --> should give 0x00001357", "lhu: a = 5 --> should give 0x00008421", "lw:  a = 1 --> should give 0x12345678"};
     
@@ -51,7 +51,11 @@ int main(int argc, char **argv, char **env) {
         top->a         =         a_vals[i];
         top->we        =        we_vals[i];
         top->writedata = writedata_vals[i];
+<<<<<<< HEAD
         top->memop     =     memop_vals[i];
+=======
+        top->memcontrol     =     memcontrol_vals[i];
+>>>>>>> origin/base_dev
 
         // dump variables into VCD file and toggle clock
         for (int clk = 0; clk < 2; clk++)
