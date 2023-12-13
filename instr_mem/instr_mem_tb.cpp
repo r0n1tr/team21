@@ -17,13 +17,13 @@ int main(int argc, char **argv, char **env) {
     tfp->open("instr_mem.vcd");
 
     // init memory contents
-    const int memory_size = std::pow(2,8);
+    const int memory_size = std::pow(2,8-2);
 
     // run simulation for each possible input address
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < memory_size; i++)
     {
         // set simulation input
-        top->a = i;
+        top->a = i*4;
 
         // dump variables into VCD file and evaluate simulation for clock low then high
         for (int clk = 0; clk < 2; clk++)
@@ -33,7 +33,7 @@ int main(int argc, char **argv, char **env) {
         }
 
         // print current state of top
-        std::cout << "A = " << std::setfill('0') << std::setw(2) << std::hex << i << "    RD = 0x" << std::setw(8) << top->rd << std::dec << std::endl;
+        std::cout << "a = " << std::setfill('0') << std::setw(2) << std::hex << (i*4) << "    instr = 0x" << std::setw(8) << top->instr << std::dec << std::endl;
 
         if (Verilated::gotFinish()) exit(0);
     }

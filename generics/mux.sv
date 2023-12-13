@@ -8,11 +8,6 @@ module mux#(
     output logic [DATA_WIDTH-1:0] out
 );
 
-always_comb begin
-    if (select == 0)
-        out = input0;
-    else 
-        out = input1;
-end
-    
+assign out = select ? input1 : input0;
+
 endmodule

@@ -17,9 +17,9 @@ int main(int argc, char **argv, char **env) {
     tfp->open("sign_extend.vcd");
 
     // init input data (these are the instructions used in lecture 7, except addi which is from lab 4)
-    std::vector<std::string>  instr_names       = {"addi",     "lw  ",     "sw  ",     "or  ",     "beq "};
-    std::vector<unsigned int> instruction_words = {0x0FF00313, 0xFFC4A303, 0x0064A423, 0x0062E233, 0xFE420AE3};
-    std::vector<int> corresponding_immsrc_value = {0,          0,          1,          3,          2};
+    std::vector<std::string>  instr_names       = {"addi",     "lw  ",     "sw  ",     "or  ",     "beq ",     "lui "};
+    std::vector<unsigned int> instruction_words = {0x0FF00313, 0xFFC4A303, 0x0064A423, 0x0062E233, 0xFE420AE3, 0x123450b7};
+    std::vector<int> corresponding_immsrc_value = {0,          0,          1,          3,          2,          4};
 
     std::cout << std::endl;
 
