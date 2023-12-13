@@ -15,7 +15,7 @@ int main(int argc, char **argv, char **env) {
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
     top->trace(tfp, 99);
-    tfp->open("cpu.vcd");
+    tfp->open("cpu2.vcd");
 
     // initialise cpu
     top->clk = 0;
@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **env) {
     top->trigger = 1;
     
     // run simulation for enough cycles for the CPU to reach 255
-    for (int i = 0; i < 250; i++)
+    for (int i = 0; i < 600000; i++)
     {
         // stop resetting clock after cycle 0
         // cpu will take a few cycles to enter the loop, aftwe which there will be an increment every 3 cycles
@@ -42,11 +42,8 @@ int main(int argc, char **argv, char **env) {
         // print output state
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i       << "     ";
         std::cout << "a0 = "   << std::setfill('0') << std::setw(8) << std::hex << (unsigned int)(top->a0) << std::dec << std::endl; // print a0 hex
-<<<<<<< HEAD
         // std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;                    // print a0 binary
-=======
         //std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;                    // print a0 binary
->>>>>>> origin/base_dev
         // std::cout << "a0 = "   << (unsigned int)(top->a0) << std::endl;                                                            // print a0 decimal
         
         if (Verilated::gotFinish()) exit(0);
