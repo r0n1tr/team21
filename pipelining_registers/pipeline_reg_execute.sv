@@ -9,13 +9,14 @@ module pipeline_reg_execute #(
 
     // control path input
     input logic       regwrited,
-    input logic [1:0] resultsrcd,
+    input logic [2:0] resultsrcd,
     input logic       memwrited,
     input logic       jumpd,
     input logic       branchd,
-    input logic [2:0] alucontrold,
+    input logic [3:0] alucontrold,
     input logic       alusrcd,
-    input logic       jalrd,    
+    input logic       jalrd,
+    input logic [2:0] funct3d,
 
     // data path input
     input logic [DATA_WIDTH-1:0]          rd1d,
@@ -29,13 +30,14 @@ module pipeline_reg_execute #(
 
     // control path output
     output logic       regwritee,
-    output logic [1:0] resultsrce,
+    output logic [2:0] resultsrce,
     output logic       memwritee,
     output logic       jumpe,
     output logic       branche,
-    output logic [2:0] alucontrole,
+    output logic [3:0] alucontrole,
     output logic       alusrce,
     output logic       jalre,
+    output logic [2:0] funct3e,
 
     // data path output
     output logic [DATA_WIDTH-1:0]          rd1e,
@@ -51,22 +53,23 @@ module pipeline_reg_execute #(
 always_ff @ (posedge clk) begin
     if(clr) begin
         regwritee   <= 1'b0;
-        resultsrce  <= 2'b0;
+        resultsrce  <= 3'b0;
         memwritee   <= 1'b0;
         jumpe       <= 1'b0;
         branche     <= 1'b0;
-        alucontrole <= 3'b0;
+        alucontrole <= 4'b0;
         alusrce     <= 1'b0;
         jalre       <= 1'b0;
+        funct3e     <= 3'b0;
 
-        rd1e     <= 32'b0;
-        rd2e     <= 32'b0;
-        rs1e     <=  5'b0;
-        rs2e     <=  5'b0;
-        pce      <= 32'b0;
-        rde      <=  5'b0;
-        immexte  <= 32'b0;
-        pcplus4e <= 32'b0; 
+        rd1e     <= DATA_WIDTH'('b0);
+        rd2e     <= DATA_WIDTH'('b0);
+        rs1e     <= REG_FILE_ADDR_WIDTH'('b0);
+        rs2e     <= REG_FILE_ADDR_WIDTH'('b0);
+        pce      <= ADDRESS_WIDTH'('b0);
+        rde      <= REG_FILE_ADDR_WIDTH'('b0);
+        immexte  <= DATA_WIDTH'('b0);
+        pcplus4e <= ADDRESS_WIDTH'('b0);
     end
     else begin
         regwritee   <= regwrited;
@@ -76,6 +79,8 @@ always_ff @ (posedge clk) begin
         branche     <= branchd;
         alucontrole <= alucontrold;
         alusrce     <= alusrcd;
+        jalre       <= jalrd;
+        funct3e     <= funct3d;
 
         rd1e     <= rd1d;
         rd2e     <= rd2d;
@@ -83,7 +88,6 @@ always_ff @ (posedge clk) begin
         rs2e     <= rs2d;
         pce      <= pcd;
         rde      <= rdd;
-        jalre    <= jalrd;
         immexte  <= immextd;
         pcplus4e <= pcplus4d;
     end
