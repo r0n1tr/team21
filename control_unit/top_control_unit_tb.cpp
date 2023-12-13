@@ -11,7 +11,7 @@ void printTopState(const Vtop_control_unit* top, std::string instr_name)
     std::cout << "0x" << std::setfill('0') << std::setw(8) << std::hex << top->instr << std::dec << "   ";
     std::cout << "ZERO = " << ((top->zero) ? "1":"0") << ":  ";
 
-    std::cout << (std::bitset<3>(top->funct3))      << "    ";
+    std::cout << (std::bitset<3>(top->funct3))     << "    ";
     std::cout << (std::bitset<3>(top->resultsrc))  << "       ";
     std::cout << (std::bitset<1>(top->memwrite))   << "        ";
     std::cout << (std::bitset<1>(top->alusrc))     << "      ";
@@ -21,6 +21,7 @@ void printTopState(const Vtop_control_unit* top, std::string instr_name)
     std::cout << (std::bitset<1>(top->branch))     << "      ";
     std::cout << (std::bitset<1>(top->jump))       << "    ";
     std::cout << (std::bitset<1>(top->jalr))       << std::endl;
+
 }
 
 int main(int argc, char **argv, char **env) {
@@ -76,8 +77,13 @@ int main(int argc, char **argv, char **env) {
             jal   x1, 16         f91ff0ef
     */
 
+<<<<<<< HEAD
     std::cout << std::endl << "                                           funct3 resultsrc memwrite alusrc immsrc regwrite alucontrol branch jump jalr" << std::endl << std::endl;
                                                                            
+=======
+    std::cout << std::endl << "                                            pcsrc resultsrc memwrite alusrc immsrc regwrite alucontrol" << std::endl << std::endl;
+
+>>>>>>> origin/base_dev
     // run simulation for 2 clock cycles per instruction; once for flag ZERO = 0 and again for ZERO = 1.
     for (int i = 0; i < mem_contents.size()*2; i++)
     {

@@ -2,7 +2,7 @@
 module data_mem #(
     parameter ADDRESS_WIDTH = 32,
               DATA_WIDTH = 32,
-              MEM_SIZE = 16,
+              MEM_SIZE = 131080,  // in bytes
               BYTE_WIDTH = 8
 )(   
     input  logic                     clk,        // only for writing to data_mem
@@ -10,7 +10,7 @@ module data_mem #(
     input  logic [ADDRESS_WIDTH-1:0] a,          // the address that comes from ALUResult irrespective we are loading or storing
     input  logic                     we,         // write enable flag
     input  logic [DATA_WIDTH-1:0]    writedata,  // data to write to memoory
-    input  logic [2:0]               memcontrol, // desrcibes exact load/store instruction to execute (is from funct3 of load/store instructionss)
+    input  logic [2:0]               memcontrol, // describes exact load/store instruction to execute (is from funct3 of load/store instructionss)
 
     output logic [DATA_WIDTH-1:0] readdata // data read from the memory
 );   
@@ -26,7 +26,8 @@ assign baseaddress_word = a & ~(ADDRESS_WIDTH'('b11));
 // program ram with contents of .mem file
 initial begin
     $display("Loading ram...");
-    $readmemh("data_mem.mem", data_memory); // NOTE: include a blank line after final line of data (otherwise the last byte is not read- at least that's what the testbench for this module implies)
+    //$readmemh("data_mem.mem", data_memory); // NOTE: include a blank line after final line of data (otherwise the last byte is not read- at least that's what the testbench for this module implies)
+    $readmemh("mem_files/sine.mem", data_memory, 20'h10000);
 end;
 
 // synchronously write data

@@ -17,10 +17,10 @@ int main(int argc, char **argv, char **env) {
     tfp->open("instr_mem.vcd");
 
     // init memory contents
-    const int memory_size = std::pow(2,8);
+    const int memory_size = std::pow(2,8-2);
 
     // run simulation for each possible input address
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < memory_size; i++)
     {
         // set simulation input
         top->a = i*4;

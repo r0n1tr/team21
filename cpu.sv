@@ -48,15 +48,9 @@ logic [ADDRESS_WIDTH-1:0] pctargete;
 logic signed [DATA_WIDTH-1:0] rd1d;   
 logic signed [DATA_WIDTH-1:0] rd2d;    
 
-// -- output from sign_extend --
 logic signed [DATA_WIDTH-1:0] immextd; // 32-bit sign extended immediate operand 
 
 // --output from result_mux -- (the mux that has select == resultsrc)
-logic signed [DATA_WIDTH-1:0] resultw;
-
-// ----- pipelining signals -----
-
-// -- output from pipeline register: decode --
     logic [DATA_WIDTH-1:0]    instrd;    
     logic [ADDRESS_WIDTH-1:0] pcd;
     logic [ADDRESS_WIDTH-1:0] pcplus4d;

@@ -15,7 +15,7 @@ logic [BYTE_WIDTH-1:0] rom_array [MEM_SIZE-1:0];
 // program rom with contents of .mem file
 initial begin
     $display("Loading rom...");
-    $readmemh("mem_files/lui_test.mem", rom_array); // NOTE: include a blank line after final line of machine code (otherwise the last byte is not read- at least that's what the testbench for this module implies)
+    $readmemh("mem_files/pdf.mem", rom_array); // NOTE: include a blank line after final line of machine code (otherwise the last byte is not read- at least that's what the testbench for this module implies)
 end;
 
 // asynchronous output

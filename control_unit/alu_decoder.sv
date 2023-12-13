@@ -1,5 +1,9 @@
 // verilator lint_off UNUSED
 module alu_decoder(
+<<<<<<< HEAD
+=======
+    input logic [6:0] op,   // opcode
+>>>>>>> origin/base_dev
     input logic [1:0] aluop,
     input logic [2:0] funct3, 
     input logic [6:0] funct7, 
@@ -24,12 +28,12 @@ always_comb begin
 
         // -- If executing I-type (arithmetic/logical ones only) or R-type instructions, then aluop = 10 --
         6'b10_000_0: alucontrol = 4'b0000;    // add             
-        6'b10_000_1: alucontrol = 4'b0001;    // sub             
+        6'b10_000_1: alucontrol = (op != 7'b001_0011 ? 4'b0001 : 4'b0000); // sub, addi  --> If we are doing an I-Type arithmetic instruction, then funct7 cannot be used so we default to addi (maybe why there is no sub immediate instruction). Otherwise we must be doing an R-Typr instruction (as aluop=10) so, since funct7[4]=1, we sub 
         6'b10_001_?: alucontrol = 4'b0010;    // shift left logic
         6'b10_010_?: alucontrol = 4'b0011;    // set less than          
         6'b10_011_?: alucontrol = 4'b0100;    // set less than unsigned   
         6'b10_100_?: alucontrol = 4'b0101;    // xor              
-        6'b10_101_0: alucontrol = 4'b0110;    // shift right logical             
+        6'b10_101_0: alucontrol = 4'b0110;    // shift right logical       --> even though funct7 doesn't usually exist for I-Type instructions, the shifts only ever use the lower 5 bits (as there's no point shifting more than 2^5=32 bits in a 32bit word), which leaves the upper 7 bits free in the immediate, which are repurposed as funct7. This is *not* the case with e.g. addi, which uses all 12 bits of the immediate, so has no room for funt7, so funct7 cannot be used
         6'b10_101_1: alucontrol = 4'b0111;    // shift right arithmetic             
         6'b10_110_?: alucontrol = 4'b1000;    // or             
         6'b10_111_?: alucontrol = 4'b1001;    // and             
