@@ -209,6 +209,11 @@ When we were looking to implement the jump instructions, instead of adding anoth
 
 ![image](https://github.com/r0n1tr/team21/assets/147700987/87b04ed4-74a7-41d8-a449-4ef101e42f94)
 
+### Data Memory 
+
+
+
+
 
 ### Regfile
 
