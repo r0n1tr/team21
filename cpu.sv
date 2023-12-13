@@ -159,16 +159,18 @@ top_control_unit top_control_unit(
     .funct3(funct3d) // for data_mem, branch_decoder
 );
 
-data_mem data_mem(
+
+memory top_data_mem(
     .clk(clk),
-    
-    .a(aluresultm),
+    .rst(rst),
     .we(memwritem),
-    .writedata(writedatam),
+    .wd(writedatam),
+    .alu_result(aluresultm),
     .memcontrol(funct3m),
 
     .readdata(readdatam)
 );
+
 
 instr_mem instr_mem(
     .a(pcf),
