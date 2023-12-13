@@ -1,4 +1,4 @@
-module memory#(
+module top_memory#(
     parameter       ADDRESS_WIDTH = 32,
                     DATA_WIDTH = 32
 )(

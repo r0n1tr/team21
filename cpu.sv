@@ -160,7 +160,7 @@ top_control_unit top_control_unit(
 );
 
 
-memory top_data_mem(
+top_memory Memory(
     .clk(clk),
     .rst(rst),
     .we(memwritem),
@@ -168,7 +168,7 @@ memory top_data_mem(
     .alu_result(aluresultm),
     .memcontrol(funct3m),
 
-    .readdata(readdatam)
+    .read_data(readdatam)
 );
 
 
