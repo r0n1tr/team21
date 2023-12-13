@@ -27,7 +27,7 @@ assign baseaddress_word = a & ~(ADDRESS_WIDTH'('b11));
 initial begin
     $display("Loading ram...");
     //$readmemh("data_mem.mem", data_memory); // NOTE: include a blank line after final line of data (otherwise the last byte is not read- at least that's what the testbench for this module implies)
-    $readmemh("mem_files/sine.mem", data_memory, 20'h10000);
+    $readmemh("mem_files/gaussian.mem", data_memory, 20'h10000);
 end;
 
 // synchronously write data
