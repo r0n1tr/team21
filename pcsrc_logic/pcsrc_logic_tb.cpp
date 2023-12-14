@@ -7,8 +7,6 @@
 
 int main(int argc, char **argv, char **env) {
 
-	///////           TODO: UPDATE THIS TO UPDATED PCSRC LOGIC MODULE ///////////
-
     Verilated::commandArgs(argc,argv);
 
     // init top verilog instance
