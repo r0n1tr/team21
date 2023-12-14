@@ -1,6 +1,5 @@
 # Data cache
 
-### Cache 
 When we started the implementation of cache, irrespective of which cache we picked, we first designed how it would fit into the pipelined CPU to decrease the data retrieval time. By inserting it between the memory and the writeback registers and adding the following mux and demux, it made sure we would skip the data memory if the hit flag is high.
 
 <img width="1094" alt="top_memory" src="https://github.com/r0n1tr/team21/assets/133985295/7f94f8e2-bba2-4259-ad00-d208838ba8f2">
@@ -10,7 +9,9 @@ When we started the implementation of cache, irrespective of which cache we pick
 
 Since the cache involves comparing the set of the cache to the input of the cache, not to mention the hit-or-miss scenarios, we declared different logic signals to split everything from the cache set and make it easier use in logical operations, as shown below.
 
-#### Cache Read and Writeback
+### Cache Read and Writeback
+
+#### cache_1w.sv
 
 ```verilog
 
@@ -28,9 +29,12 @@ Since the cache involves comparing the set of the cache to the input of the cach
             assign cache_memory[din_set] = cache_set; 
         end
 ```
-#### Cache Reset
+### Cache Reset
 
-If rst is asserted, then all the data in the cache is now useless. Initially, we just set the V flag to 0. However, to do that, you'd have to access the data, set the V flag to 0 through concatenation, and then write back to the memory, 8 times! (or n times dep
+If rst is asserted, then all the data in the cache is now useless. Initially, we just set the V flag to 0. However, to do that, you'd have to access the data, set the V flag to 0 through concatenation, and then write back to the memory, 8 times! 
+Since the data is now useless, we can just set everything to 0, because resetting the cpu means all the sets in the cache is now 0XXXXXXXXXXXXXX , where X is a don't care. 
+
+#### cache_1w.sv
 
 ```verilog
     if (rst) begin
@@ -45,7 +49,11 @@ If rst is asserted, then all the data in the cache is now useless. Initially, we
     end
 ```
 
-### Memory.sv
+### Top Fle
+
+By drawing out the circuit diagram, it made assembling the top file easier. A multiplexer and demultiplexer were used in tandem, with the hit signal controlling them both and hence controlling the output of the top_memory block that orriginated from the cache , a hit, or from the data memory, a miss.
+
+#### top_memory.sv
 
 ```verilog
 module memory#(
@@ -107,12 +115,14 @@ mux memory_mux(
 
 endmodule
 ```
-When integrating cache into the pipelined CPU, we just replaced the data memory block with the top_memory.sv file. In principle, we just unplugged the  wires and plugged them back into another block.
+
 
 ### Cache integration in the CPU top file
 
+When integrating cache into the pipelined CPU, we just replaced the data memory block with the top_memory.sv file. In principle, we just unplugged the  wires and plugged them back into another block.
+
 ```verilog
-memory top_data_mem(
+top_memory Memory(
     .clk(clk),
     .rst(rst),
     .we(memwritem),
@@ -120,6 +130,6 @@ memory top_data_mem(
     .alu_result(aluresultm),
     .memcontrol(funct3m),
 
-    .readdata(readdatam)
+    .read_data(readdatam)
 );
 ```
