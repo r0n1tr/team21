@@ -24,10 +24,11 @@ assign baseaddress_half = a & ~(ADDRESS_WIDTH'('b1));
 assign baseaddress_word = a & ~(ADDRESS_WIDTH'('b11));
 
 // program ram with contents of .mem file
+// using little endian format
 initial begin
     $display("Loading ram...");
     //$readmemh("data_mem.mem", data_memory); // NOTE: include a blank line after final line of data (otherwise the last byte is not read- at least that's what the testbench for this module implies)
-    $readmemh("mem_files/noisy.mem", data_memory, 20'h10000);
+    $readmemh("mem_files/gaussian.mem", data_memory, 20'h10000);
 end;
 
 // synchronously write data
@@ -37,11 +38,11 @@ always_ff @(posedge clk) begin
             3'b000: data_memory[a] <= writedata[BYTE_WIDTH-1 : 0];                // store byte          
             
             3'b001: begin                                                         // store half
-                { data_memory[baseaddress_half + 1] , data_memory[baseaddress_half] } <= writedata[2*BYTE_WIDTH-1 : 0];
+                { data_memory[baseaddress_half] , data_memory[baseaddress_half + 1] } <= writedata[2*BYTE_WIDTH-1 : 0];
             end
             
             3'b010: begin                                                         // store word
-                { data_memory[baseaddress_word + 3] , data_memory[baseaddress_word + 2] , data_memory[baseaddress_word + 1] , data_memory[baseaddress_word] } <= writedata[31:0];
+                { data_memory[baseaddress_word] , data_memory[baseaddress_word + 1] , data_memory[baseaddress_word + 2] , data_memory[baseaddress_word + 3] } <= writedata[31:0];
             end
             
             default: data_memory[MEM_SIZE-1] <= {BYTE_WIDTH{1'b1}};  // (should never execute) write all 1s to byte in highest memory address
@@ -53,18 +54,18 @@ end
 // asynchronously load data 
 always_comb begin
     case (memcontrol)
-        3'b000: readdata = { {(BYTE_WIDTH*3){data_memory[a][BYTE_WIDTH-1]}}  ,  data_memory[a]}; // load byte
+        3'b000: readdata = { {(BYTE_WIDTH*3){data_memory[a][BYTE_WIDTH-1]}}, data_memory[a]} ; // load byte
 
-        3'b100: readdata = { {(BYTE_WIDTH*3){1'b0}}                          ,  data_memory[a]}; // load byte unsigned
+        3'b100: readdata = { {(BYTE_WIDTH*3){1'b0}},                         data_memory[a]}; // load byte unsigned
 
-        3'b001, 3'b101: begin                                                                    // load half, load half unsigned
+        3'b001, 3'b101: begin                                                                  // load half, load half unsigned
             readdata = (memcontrol[2]) ?
-                       { {(BYTE_WIDTH*2){1'b0}},                                            data_memory[baseaddress_half + 1], data_memory[baseaddress_half] } :
-                       { {(BYTE_WIDTH*2){data_memory[baseaddress_half + 1][BYTE_WIDTH-1]}}, data_memory[baseaddress_half + 1], data_memory[baseaddress_half] };
+                       { {(BYTE_WIDTH*2){1'b0}},                                            data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] } :
+                       { {(BYTE_WIDTH*2){data_memory[baseaddress_half + 1][BYTE_WIDTH-1]}}, data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] };
         end
 
         3'b010: begin                                                                           // load word
-            readdata = { data_memory[baseaddress_word + 3] , data_memory[baseaddress_word + 2] , data_memory[baseaddress_word + 1] , data_memory[baseaddress_word] };           
+            readdata = { data_memory[baseaddress_word] , data_memory[baseaddress_word + 1] , data_memory[baseaddress_word + 2] , data_memory[baseaddress_word + 3] };           
         end
 
         default readdata = 32'hdeadbeef; // (should never execute) output deadbeef
