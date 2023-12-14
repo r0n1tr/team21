@@ -22,13 +22,14 @@
 	- [Register File](single_cycle/register_file.md)
     - [Sign extend](single_cycle/sign_extend.md)
 
-- Pipelining ([Test results](#pipelining-test-results))
+- Pipelining
     - [Changes made to single cycle components](pipelining/changes_made_to_single_cycle.md)
     - [Hazard unit](pipelining/hazard_unit.md)
 	- [Pipelining registers](pipelining/pipelining_registers.md)
 
-- Data Cache ([Test results](#pipelining-with-data-cache-test-results))
-	- [Data cache](data_cache/data_cache.md)
+- Data Cache
+    - [Direct mapping](data_cache/data_mapping.md)
+	- [Two way associative](data_cache/two_way_associative.md)
 
 
 

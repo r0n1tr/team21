@@ -5,15 +5,13 @@ Added Files:
 - pipe_decode.sv
 - pipe_execute.sv
 - pipe_memory.sv
-- hazard_unit.sv
 
+Here we have our four pipeline registers that all synchronously work to clock data from the input to the output for relevant signals between each stage.
 
-We implemented 4 synchronous registers with implicit signals omitted. This is to show the logic within each register at each stage of the pipeline in order to reduce time taken for programs to run, there is an always_ff at the posedge of a clock that upadtes output with input. We have also added a 'clear' signal to our first two registers as they are controlled by the hazard unit to either stall or flush the register of its information stored. (control and Data Hazards)
 
 
 ```verilog 
 // pipe fetch
-always_ff @ (posedge clk) begin
     if(clr) begin
         instrd   <= 32'b0;
         pcd      <= 32'b0;
@@ -24,10 +22,11 @@ always_ff @ (posedge clk) begin
         pcd      <= pcf;
         pcplus4d <= pcplus4f;
     end
-end
+```
+The fetch register required two control signals ```Clear``` and ```Enable``` to either ```Flush``` or ```Stall``` the program counter register to avoid hazards.
 
+```verilog
 // pipe decode
-always_ff @ (posedge clk) begin
     if(clr) begin
         regwritee   <= 1'b0;
         resultsrce  <= 2'b0;
@@ -47,7 +46,6 @@ always_ff @ (posedge clk) begin
         immexte  <= 32'b0;
         pcplus4e <= 32'b0;
     end
-
     else begin
         regwritee   <= regwrited;
         resultsrce  <= resultsrcd;
@@ -67,7 +65,9 @@ always_ff @ (posedge clk) begin
         immexte  <= immextd;
         pcplus4e <= pcplus4d;
     end
-end
+```
+The first two pipeline registers have a ```clear``` signal to act as our ```flush``` signal to avoid any ```Data``` or ```Control``` hazards which will be further explained in the hazard unit page.
+```verilog
 
 // pipe execute
 always_ff @(posedge clk) begin
@@ -92,4 +92,4 @@ always_ff @(posedge clk) begin  
     pcplus4w   <= pcplus4m;
 end
 ```
-We implemented 4 synchronous registers with implicit signals omitted. This is to show the logic within each register at each stage of the pipeline in order to reduce time taken for programs to run. We have added a 'clear' signal to our first two registers as they are controlled by the hazard unit to either stall or flush the register of its information stored.
+Unlike the initial two registers, the final two do not required any control signals but simply acted a flip flop but for multiple signals of different lengths. 
