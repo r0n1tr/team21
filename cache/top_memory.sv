@@ -8,6 +8,7 @@ module top_memory#(
     input logic [DATA_WIDTH-1:0] wd,
     input logic [ADDRESS_WIDTH-1:0] alu_result,
     input logic [2:0] memcontrol,
+    input logic [2:0] resultsrcm,
     
     output logic [DATA_WIDTH-1:0] read_data
     
@@ -24,6 +25,8 @@ cache_1w cache_test(
     .din(alu_result),
     .rd(rd),
     .rst(rst),
+    .we(we),
+    .resultsrcm(resultsrcm),
 
     .dout(demux_input),
     .hit(hit)
