@@ -7,7 +7,8 @@
 ### Cache 
 When we started the implementation of cache, irrespective of which cache we picked, we first designed how it would fit into the pipelined CPU to increase the data retrieval time. By inserting it between the memory and the writeback registers and adding the following mux and demux, it made sure we would skip the data memory if the Hit flag is high.
 
-![memory top diagram](../images/memory_top_diagram.png)
+<img width="1094" alt="top_memory" src="https://github.com/r0n1tr/team21/assets/133985295/7f94f8e2-bba2-4259-ad00-d208838ba8f2">
+
 
 ### One Way Cache
 
@@ -15,13 +16,14 @@ When we started the implementation of cache, irrespective of which cache we pick
 module cache_1w#(
 
     parameter   DATA_WIDTH = 32,
-                SET_WIDTH = 8,
-                ADDRESS_WIDTH = 32
+                SET_WIDTH = 8
 )(
     input logic [DATA_WIDTH-1:0] din, // adress into cache from alu for sw or lw
     input logic [DATA_WIDTH-1:0] rd,  // the data that is inserted into cache from data memory
     input logic rst, // to reset v flag
-    
+    input logic [2:0] resultsrcm,
+    input logic we,
+
     output logic [DATA_WIDTH-1:0] dout, // data out from the cache
     output logic hit
 );
@@ -42,44 +44,21 @@ logic [59:0] cache_rst;
 logic [59:0] cache_memory [SET_WIDTH-1:0]; //initializing ram
 initial begin
     $display("Loading ram...");
-    $readmemh("cache_1w.mem", cache_memory);
+    $readmemh("cache/cache_1w.mem", cache_memory);
 end
 
-always_comb begin   
+always_comb begin
     if (rst) begin
-        cache_rst = cache_memory[0];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[0] = cache_rst;
-
-        cache_rst = cache_memory[1];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[1] = cache_rst;
-
-        cache_rst = cache_memory[2];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[2] = cache_rst;
-
-        cache_rst = cache_memory[3];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[3] = cache_rst;
-
-        cache_rst = cache_memory[4];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[4] = cache_rst;
-
-        cache_rst = cache_memory[5];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[5] = cache_rst;
-
-        cache_rst = cache_memory[6];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[6] = cache_rst;
-
-        cache_rst = cache_memory[7];
-        cache_rst = {1'b0,cache_rst[58:0]};
-        cache_memory[7] = cache_rst;
+     cache_memory[0] = 60'b0;
+     cache_memory[1] = 60'b0;
+     cache_memory[2] = 60'b0;
+     cache_memory[3] = 60'b0;
+     cache_memory[4] = 60'b0;
+     cache_memory[5] = 60'b0;
+     cache_memory[6] = 60'b0;
+     cache_memory[7] = 60'b0;
     end
-    
+
     else begin
 
         cache_set = cache_memory[din_set]; 
@@ -87,18 +66,16 @@ always_comb begin
         cache_tag = cache_set[58:32]; 
         cache_data = cache_set[31:0]; 
 
-        hit = V && (din_tag == cache_tag);
+        hit = V && (din_tag == cache_tag) && (resultsrcm == 001) && ~we;
         // fix hit logic
         if (hit) assign dout = cache_data; 
-        else begin      
+        else begin
             assign dout = din; // since we have to go to memory 
             assign cache_set = {1'b1, din[31:5], rd}; // assign new memory to cache
             assign cache_memory[din_set] = cache_set; 
         end
     end
 end
-
-endmodule
 ```
 To make it easier to integrate into the cpu top file, we mde a top file called memory.sv and connected the cache to the data memory.
 
