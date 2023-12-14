@@ -21,28 +21,25 @@ int main(int argc, char **argv, char **env) {
     tfp->open("pcsrc_logic.vcd");
 
     // simulation data
-    std::vector<int> jalr_vals   = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1};         
-    std::vector<int> jump_vals   = {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1};         
-    std::vector<int> branch_vals = {0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1}; 
-    std::vector<int> zero_vals   = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+    std::vector<int> should_jalr_vals   = {0, 0, 0, 0, 1, 1, 1, 1};        
+    std::vector<int> should_jal_vals    = {0, 0, 1, 1, 0, 0, 1, 1};        
+    std::vector<int> should_branch_vals = {0, 1, 0, 1, 0, 1, 0, 1};
 
-    std::cout << std::endl << "jalr jump branch zero  |  pcsrce" << std::endl;
-    std::cout              << "--------------------------------" << std::endl;
+    std::cout << std::endl << "should_jalr should_jal should_branch  |  pcsrce" << std::endl;
+    std::cout              << "------------------------------------------------" << std::endl;
     
     // run simulation for many clock cycles
-    for (int i = 0; i < jalr_vals.size(); i++)
+    for (int i = 0; i < should_jalr_vals.size(); i++)
     {
         // update simulation inputs
-        top->jalr   =   jalr_vals[i];
-        top->jump   =   jump_vals[i];
-        top->branch = branch_vals[i];
-        top->zero   =   zero_vals[i];
+        top->should_jalr   =   should_jalr_vals[i];
+        top->should_jal    =   should_jal_vals[i];
+        top->should_branch = should_branch_vals[i];
         
         // print input state
-        std::cout << ((top->jalr)   ? "1":"0") << "    ";
-        std::cout << ((top->jump)   ? "1":"0") << "    ";
-        std::cout << ((top->branch) ? "1":"0") << "      ";
-        std::cout << ((top->zero)   ? "1":"0") << "     |  ";
+        std::cout << ((top->should_jalr)   ? "1":"0") << "           ";
+        std::cout << ((top->should_jal)    ? "1":"0") << "          ";
+        std::cout << ((top->should_branch) ? "1":"0") << "                 ";
 
         // dump variables into VCD file and toggle clock
         for (int clk = 0; clk < 2; clk++)
