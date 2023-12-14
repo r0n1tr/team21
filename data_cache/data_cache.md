@@ -4,7 +4,10 @@
 
 ### Cache 
 
-To decide what kind of cache to implement, we implemented a one way cache first and then tried making a two way associative cache. The one way cache was implement below:
+### Cache 
+When we started the implementation of cache, irrespective of which cache we picked, we first designed how it would fit into the pipelined CPU to increase the data retrieval time. By inserting it between the memory and the writeback registers and adding the following mux and demux, it made sure we would skip the data memory if the Hit flag is high.
+
+![memory top diagram](../images/memory_top_diagram.png)
 
 ### One Way Cache
 

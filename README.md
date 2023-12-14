@@ -136,5 +136,3 @@ The following table indicates who contributed to what parts of the CPU.
 ### PDF program evidence
 
 
-
-
