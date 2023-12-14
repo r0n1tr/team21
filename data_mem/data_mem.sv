@@ -28,7 +28,7 @@ assign baseaddress_word = a & ~(ADDRESS_WIDTH'('b11));
 initial begin
     $display("Loading ram...");
     //$readmemh("data_mem.mem", data_memory); // NOTE: include a blank line after final line of data (otherwise the last byte is not read- at least that's what the testbench for this module implies)
-    $readmemh("mem_files/sine.mem", data_memory, 20'h10000);
+    $readmemh("mem_files/gaussian.mem", data_memory, 20'h10000);
 end;
 
 // synchronously write data
@@ -54,14 +54,14 @@ end
 // asynchronously load data 
 always_comb begin
     case (memcontrol)
-        3'b000: readdata = { data_memory[a] , {(BYTE_WIDTH*3){data_memory[a][BYTE_WIDTH-1]}}}; // load byte
+        3'b000: readdata = { {(BYTE_WIDTH*3){data_memory[a][BYTE_WIDTH-1]}}, data_memory[a]} ; // load byte
 
-        3'b100: readdata = { data_memory[a] , {(BYTE_WIDTH*3){1'b0}}                        }; // load byte unsigned
+        3'b100: readdata = { {(BYTE_WIDTH*3){1'b0}},                         data_memory[a]}; // load byte unsigned
 
         3'b001, 3'b101: begin                                                                  // load half, load half unsigned
             readdata = (memcontrol[2]) ?
-                       { data_memory[baseaddress_half], {(BYTE_WIDTH*2){1'b0}},                                            data_memory[baseaddress_half + 1] } :
-                       { data_memory[baseaddress_half], {(BYTE_WIDTH*2){data_memory[baseaddress_half + 1][BYTE_WIDTH-1]}}, data_memory[baseaddress_half + 1] };
+                       { {(BYTE_WIDTH*2){1'b0}},                                            data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] } :
+                       { {(BYTE_WIDTH*2){data_memory[baseaddress_half + 1][BYTE_WIDTH-1]}}, data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] };
         end
 
         3'b010: begin                                                                           // load word
