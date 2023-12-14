@@ -18,10 +18,11 @@ logic [DATA_WIDTH-1:0] a;
 logic [DATA_WIDTH-1:0] demux_input;
 logic [DATA_WIDTH-1:0] mux_input0;
 logic [DATA_WIDTH-1:0] mux_input1;
+logic [DATA_WIDTH-1:0] rd;
 
 cache_1w cache_test(
     .din(alu_result),
-    .rd(mux_input0),
+    .rd(rd),
     .rst(rst),   
 
     .dout(demux_input),
@@ -36,19 +37,19 @@ demux cache_demux(
     .output1(mux_input1)
 );
 
-data_mem data_memory(
+data_mem test(
     .a(a),
     .clk(clk),
     .we(we),
     .writedata(wd),
     .memcontrol(memcontrol),
 
-    .readdata(mux_input0)
+    .readdata(rd)
 
 );
 
 mux memory_mux(
-    .input0(mux_input0),
+    .input0(rd),
     .input1(mux_input1),
     .select(hit),
 
