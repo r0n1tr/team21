@@ -1,4 +1,4 @@
-module cache(
+module cache_2w #(
 
     parameter   DATA_WIDTH = 32,
                 SET_WIDTH = 4
@@ -20,17 +20,17 @@ logic [119:0] cache_memory [SET_WIDTH-1:0];
 
 initial begin
     $display("Loading ram...");
-    $readmemh("cache_2w.mem", cache_memory);
+    $readmemh("cache/cache_2w.mem", cache_memory);
 end;
 
 logic [121:0] cache_set = cache_memory[din_set];
 
-logic V_way_1 = cache_set[121];
-logic [27:0] cache_way_1_tag = cache_set[120:93];   
-logic [31:0] cache_way_1_data = cache_set[92:61];
+logic V_way_1 = cache_set[120];
+logic [27:0] cache_way_1_tag = cache_set[119:92];   
+logic [31:0] cache_way_1_data = cache_set[91:60];
 
-logic V_way_0 = cache_set[60];
-logic [27:0] cache_way_0_tag = cache_set[59:32];
+logic V_way_0 = cache_set[59];
+logic [27:0] cache_way_0_tag = cache_set[58:32];
 logic [31:0] cache_way_0_data = cache_set[31:0];
 
 logic hit_1;
@@ -39,54 +39,34 @@ logic hit_0;
 assign hit_1 = V_way_1 & (din_tag == cache_way_1_tag);
 assign hit_0 = V_way_0 & (din_tag == cache_way_0_tag);
 
-hit <= hit_0 | hit_1;
+assign hit = hit_0 | hit_1;
 
 always_comb begin
  if (rst) begin
-    logic [121:0] cache_rst = cache_memory[0];
-
-    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
-    cache_memory[0] = cache_rst;
-
-    cache_rst = cache_memory[1];
-    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
-    cache_memory[1] = cache_rst;
-
-    cache_rst = cache_memory[2];
-    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
-    cache_memory[2] = cache_rst;
-
-    cache_rst = cache_memory[3];
-    cache_rst = {1'b0, cache_rst[120:61], 1'b0, cache_rst[59:0]};
-    cache_memory[3] = cache_rst;
+        cache_memory[0] = 60'b0;
+        cache_memory[1] = 60'b0;
+        cache_memory[2] = 60'b0;
+        cache_memory[3] = 60'b0;
  end 
-end 
-
-
-
-always_comb begin
-if (hit_1)begin
-    
-    dout <= cache_way_1_data;
-    u <= 1'b0;       // least recently used in set is way 0 
-end                          
-
-else if (hit_0) begin
-    dout <= cache_way_0_data;
-    u <= 1'b1;
-end 
-else begin 
-    assign dout = din;
+ else if(hit_1) begin
+    dout = cache_way_1_data;
+    u = 1'b0;       // least recently used in set is way 0 
+ end
+ else if(hit_0) begin
+    dout = cache_way_0_data;
+    u = 1'b1;
+ end
+ else begin
+    dout = din;
     if (u) begin 
         cache_set [121:61] = {1'b1,din[31:4], rd}; 
         cache_memory[din_set] = cache_set;
     end 
     else begin
     cache_set [60:0] = {1'b1,din[31:4], rd};
-    cacche_memory[din_set] = cache_set;
+    cache_memory[din_set] = cache_set;
     end 
+ end
 end 
-end 
-
 
 endmodule

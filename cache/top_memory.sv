@@ -20,7 +20,7 @@ logic [DATA_WIDTH-1:0] mux_input0;
 logic [DATA_WIDTH-1:0] mux_input1;
 logic [DATA_WIDTH-1:0] rd;
 
-cache_1w cache_test(
+cache_2w cache_test(
     .din(alu_result),
     .rd(rd),
     .rst(rst),   
