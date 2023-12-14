@@ -28,7 +28,7 @@
 	- [Pipelining registers](pipelining/pipelining_registers.md)
 
 - Data Cache
-    - [Direct mapping](data_cache/data_mapping.md)
+    - [Direct mapping](data_cache/direct_mapping.md)
 	- [Two way associative](data_cache/two_way_associative.md)
 
 
