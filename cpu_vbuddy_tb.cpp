@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **env)
   // init trace dump
   Verilated::traceEverOn(true);
   top->trace(tfp, 99);
-  tfp->open("cpu.vcd");
+  tfp->open("cache_test.vcd");
  
   // init Vbuddy
   if (vbdOpen() != 1) return(-1);
@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **env)
     }
       //std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     " << std::endl;
 
-    if (i > 600000) // 8 instructions in build loop * (4096x16 bytes) is appxox 600k cycles needed for calcuating pdf. Don't output anything til then
+    if (i > 600000 && i%3==0) // 8 instructions in build loop * (4096x16 bytes) is appxox 600k cycles needed for calcuating pdf. Don't output anything til then
     {
       if ((int)(top->a0)==0) 
       {

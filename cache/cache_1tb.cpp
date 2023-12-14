@@ -1,4 +1,4 @@
-#include "Vmemory.h"
+#include "Vtop_memory.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include <iostream>
@@ -9,12 +9,12 @@ int main(int argc, char **argv, char **env){
 
     Verilated::commandArgs(argc, argv);
     // init top verilog instance
-    Vmemory* top = new Vmemory;
+    Vtop_memory* top = new Vtop_memory;
     // init trace dump
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
     top->trace (tfp, 99);
-    tfp->open ("memory.vcd");
+    tfp->open ("top_memory.vcd");
 
     // initialize simulation inputs
     top->clk = 1;
