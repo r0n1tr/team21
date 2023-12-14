@@ -56,7 +56,7 @@ always_comb begin
         if (hit) dout = cache_data; 
         else begin      
             dout = din; // since we have to go to memory 
-            cache_set = {{1'b1}, {din[31:5]}, {rd}}; // assign new memory to cache
+            cache_set = {{1'b1}, {din_tag}, {rd}}; // assign new memory to cache
             //cache_memory[din_set] = cache_set; 
         end
     end
