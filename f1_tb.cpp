@@ -41,19 +41,14 @@ int main(int argc, char **argv, char **env)
       top->eval ();
     }
       //std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     " << std::endl;
-
-    if (i > 600000 && i%3==0) // 8 instructions in build loop * (4096x16 bytes) is appxox 600k cycles needed for calcuating pdf. Don't output anything til then
-    {
-      if ((int)(top->a0)==0) 
-      {
         std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     ";
         std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
-      }
+      
       
       // plot a0
-      vbdPlot((int)(top->a0), 0, 255);
+      //vbdPlot((int)(top->a0), 0, 255);
       vbdCycle(i);
-    }
+    
 
     // either simulation finished, or 'q' is pressed
     if ((Verilated::gotFinish()) || (vbdGetkey()=='q')) exit(0);

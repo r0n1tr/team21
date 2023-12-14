@@ -14,7 +14,7 @@ module cache_1w#(
 );
 
 // input data's tag and set
-logic [26:0] din_tag = din[32:5];   // tag 
+logic [26:0] din_tag = din[31:5];   // tag 
 logic [2:0] din_set = din[4:2];  // set
 
 logic [59:0] cache_set; // cache set
