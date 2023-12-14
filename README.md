@@ -86,8 +86,8 @@ The following table indicates who contributed to what parts of the CPU.
 | Register file            | top_pc.sv, pcmux.sv, pcreg.sv                                                      |       | 0     |        |        |
 | Sign extend              | top_pc.sv, pcmux.sv, pcreg.sv                                                      | 0     |       |        |        |
 | _**Pipelining**_         | -                                                                                  | -     | -     | -      | -      |
-| Decode Stage Register    | pipeline_reg_decode.sv                                                             |       | 1     |        | 0      |
-| Execute Stage Register   | pipeline_reg_execute.sv                                                            |       | 1     |        | 0      |
+| Decode Stage Register    | pipeline_reg_decode.sv                                                             |       | 1     | 0      |        |
+| Execute Stage Register   | pipeline_reg_execute.sv                                                            |       | 1     | 0      |        |
 | Memory Stage Register    | pipeline_reg_memory.sv                                                             |       | 0     |        |        |
 | Writeback Stage Register | pipeline_reg_writeback.sv                                                          |       | 0     |        |        |
 | Hazard unit              | Hazard_unit.sv                                                                     |       | 1     |        | 0      |
