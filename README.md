@@ -133,4 +133,13 @@ Here is a waveform showing you the instructions for the F1 Lights program read i
 
 For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above. To ensure functionality a folder labelled ["vcd_files"](vcd_files/) that have every single file for each reference program on every single version.
 
+### Cache working with the pipelined CPU
+
+![image](https://github.com/r0n1tr/team21/assets/133985295/676a8e19-4cfd-4efd-914f-ffa6afc1a305)
+
+When din = 0x000000C8 , the cache checks set 2 if the tags match and the V flag is high, i.e if it's a hit or miss. The hit signal being low indicates a miss, resulting in din propogating to the input of the data memory, a . The data memory returns 0x0 , which is written back, resulting in cache_memory[2] = 0x800000600000000. The 8 at the end is a result of the V flag being set to high, and the tag matches with the tag you'd retrieve from din after neglecting the least significant 5 bits of the word. Therefore, The cache works.
+
+### PDF Program Evidence
+
+
 
