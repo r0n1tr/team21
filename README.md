@@ -83,8 +83,8 @@ The following table indicates who contributed to what parts of the CPU.
 | Data Memory              | data_mem.sv                                                                        | 0     |       | 1      |        |
 | Instruction Memory       | instr_mem.sv                                                                       | 0     |       |        |        |
 | Program Counter          | top_pc.sv, pcmux.sv, pcreg.sv                                                      | 1     | 1     | 0      | 1      |
-| Register file            | top_pc.sv, pcmux.sv, pcreg.sv                                                      |       | 0     |        |        |
-| Sign extend              | top_pc.sv, pcmux.sv, pcreg.sv                                                      | 0     |       |        |        |
+| Register file            | reg_file.sv                                                                        |       | 0     |        |        |
+| Sign extend              | sign_extend.sv                                                                     | 0     |       |        |        |
 | _**Pipelining**_         | -                                                                                  | -     | -     | -      | -      |
 | Decode Stage Register    | pipeline_reg_decode.sv                                                             |       | 1     | 0      |        |
 | Execute Stage Register   | pipeline_reg_execute.sv                                                            |       | 1     | 0      |        |
