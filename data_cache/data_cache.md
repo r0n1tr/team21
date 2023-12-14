@@ -1,33 +1,16 @@
 # Data cache
 
-*Perhaps have sepate files for one-way and two-way cache? idk cache*
-
 ### Cache 
-
-### Cache 
-When we started the implementation of cache, irrespective of which cache we picked, we first designed how it would fit into the pipelined CPU to increase the data retrieval time. By inserting it between the memory and the writeback registers and adding the following mux and demux, it made sure we would skip the data memory if the Hit flag is high.
+When we started the implementation of cache, irrespective of which cache we picked, we first designed how it would fit into the pipelined CPU to decrease the data retrieval time. By inserting it between the memory and the writeback registers and adding the following mux and demux, it made sure we would skip the data memory if the hit flag is high.
 
 <img width="1094" alt="top_memory" src="https://github.com/r0n1tr/team21/assets/133985295/7f94f8e2-bba2-4259-ad00-d208838ba8f2">
 
 
 ### One Way Cache
 
+Since the cache involves comparing the set of the cache to the input of the cache, not to mention the hit-or-miss scenarios, we declared different logic signals to split everything from the cache set and make it easier to
+
 ```verilog
-module cache_1w#(
-
-    parameter   DATA_WIDTH = 32,
-                SET_WIDTH = 8
-)(
-    input logic [DATA_WIDTH-1:0] din, // adress into cache from alu for sw or lw
-    input logic [DATA_WIDTH-1:0] rd,  // the data that is inserted into cache from data memory
-    input logic rst, // to reset v flag
-    input logic [2:0] resultsrcm,
-    input logic we,
-
-    output logic [DATA_WIDTH-1:0] dout, // data out from the cache
-    output logic hit
-);
-
 // input data's tag and set
 logic [26:0] din_tag = din[31:5];   // tag 
 logic [2:0] din_set = din[4:2];  // set
@@ -66,7 +49,7 @@ always_comb begin
         cache_tag = cache_set[58:32]; 
         cache_data = cache_set[31:0]; 
 
-        hit = V && (din_tag == cache_tag) && (resultsrcm == 001) && ~we;
+        hit = V && (din_tag == cache_tag);
         // fix hit logic
         if (hit) assign dout = cache_data; 
         else begin
@@ -77,7 +60,6 @@ always_comb begin
     end
 end
 ```
-To make it easier to integrate into the cpu top file, we mde a top file called memory.sv and connected the cache to the data memory.
 
 ### Memory.sv
 
@@ -141,7 +123,7 @@ mux memory_mux(
 
 endmodule
 ```
-When integrating cache into the pipelined CPU, it was just a matter of unplugging wires and plugging it back into another block.
+When integrating cache into the pipelined CPU, we just replaced the data memory block with the top_memory.sv file. In principle, we just unplugged the  wires and plugged them back into another block.
 
 ### Cache integration in the CPU top file
 
