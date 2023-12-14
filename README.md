@@ -98,51 +98,38 @@ The following table indicates who contributed to what parts of the CPU.
 
 ## Build instructions
 
-
+**add shell scripts and other stuff**
 
 ## Single-cycle test results
-
-**Add working evidence of each test program**
-
-### F1 program evidence
-
-**insert evidence**
-<iframe width="560" height="315" src="https://youtube.com/shorts/pcnGlPFE5ms?feature=share" frameborder="1" allowfullscreen></iframe>
+Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
 
 ![F1 Waveform](images/f1_waveform.png)
 
+
+#### F1
+![F1 Program](https://github.com/r0n1tr/team21/blob/main/cpu_f1.mp4)
+
 ### PDF program evidence
+
+
+#### Gauss
+
+![Gauss Program](cpu_gauss.mp4)
+
+#### Sine
+
+![Sine Program](cpu_sine.mp4)
+
+#### Noise 
+
+![Noise Program](cpu_noise.mp4)
 
 #### Triangle
 
-#### F1
-
-![F1 Program](cpu_f1.mp4)
 ![CPU Triangle](https://www.youtube.com/embed/_LAK4qxv8jM)
-
-
-
-
-**insert evidence**
-
-
-
-
-
-## Pipelining test results
-
-### F1 program evidence
-
-### PDF program evidence
-
-
-
-
 
 ## Pipelining with Data Cache test results
 
-### F1 program evidence
-
-### PDF program evidence
+For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above. To ensure functionality a folder labelled ["vcd_files"](vcd_files/) that have every single file for each reference program on every single version.
 
 

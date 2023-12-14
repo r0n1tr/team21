@@ -5,43 +5,10 @@ The ALU is broken down into 3 main files:
 - alu.sv
 - top_alu.sv
 
-By having a top file for each sub-module we could call testbenches to validify functionality as well as have a concise top-most file when connecting all the modules together.
+By having a top file for each sub-module we could call testbenches to validify functionality as well as have a concise top file when connecting all the modules together.
 
-```verilog 
-module top_alu #(
-    parameter DATA_WIDTH = 32
-)(
-    input logic                         alusrc,
-    input logic        [3:0]            alucontrol,
-    input logic signed [DATA_WIDTH-1:0] rd1,    // comes from reg_file
-    input logic signed [DATA_WIDTH-1:0] rd2,    // comes from reg_file
-    input logic signed [DATA_WIDTH-1:0] immext,
+![top_alu_schematic](image.png)
 
-    output logic signed [DATA_WIDTH-1:0] aluresult, // output from alu
-    output logic                         zero       // zero flag
-);
-  
-// output from alu_mux
-logic signed [DATA_WIDTH-1:0] srcb;    
-
-alu_mux alu_mux(
-    .input0(rd2),
-    .input1(immext),
-    .alusrc(alusrc),
-    
-    .out(srcb)
-);
-
-alu alu(
-    .aluop1(rd1),
-    .aluop2(srcb),
-    .alucontrol(alucontrol),
-
-    .aluresult(aluresult),
-    .zero(zero)
-);
-endmodule
-```
 
 ```verilog
 
@@ -63,4 +30,6 @@ always_comb begin
 end
 ```
 
-The combinational block above shows all the instructions we implemented for our ALU as well as having our zero flag functionality concisely in one statement.
+The case statement controlled by ``alucontrol``` has designed to be 4 bits long due to the 10 instructions for our design requirements. Although we dont't us all states of the alucontrol switch we have a default case if none of the instructions implemented are called in order to control undefined behaviour.
+
+The combinational block above shows all the instructions we implemented for our ALU as well as having our zero flag functionality concisely in one statement. We additionally added the ```$unsigned``` and ```$signed``` keywords to use ```SLT``` for unsigned and signed inputs. 
