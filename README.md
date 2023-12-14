@@ -614,7 +614,7 @@ Note: 0 = Main Contributor, 1 = Co-Contributor
 |**Data Cache**| ----|----|----|----|----|
 |Data Cache (1-way)|cache_1w.mem, cache_1w.sv| ||1|0|
 |Data Cache (2-way)| cache_2w.mem, cache_2w.sv|||0|1|
-|Top-Level Debugging|memory.sv, cache_1wtb.cpp||||0|
+|Cache testing|memory.sv, cache_1wtb.cpp||||0|
 
 ## Specifications
 
