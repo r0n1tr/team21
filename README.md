@@ -115,6 +115,9 @@ The following table indicates who contributed to what parts of the CPU.
 
 #### Triangle
 
+#### F1
+
+![F1 Program](cpu_f1.mp4)
 ![CPU Triangle](https://www.youtube.com/embed/_LAK4qxv8jM)
 
 
