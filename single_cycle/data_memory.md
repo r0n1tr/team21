@@ -1,0 +1,3 @@
+# Data Memory 
+
+When we initially designed the data memory it was only able to carry out the load word and store word instructions but after looking at the pdf program we had to greatly modify it be able to all the byte adresing instructions. (lbu, lb, lhu, lh, sbu, sb, ah, shu). In the Risc-V Specifications we realized that the difference between them comes in the function 3 [12:14] of the instruction. Therefore we made case statments to in the data memory to indicate this.
