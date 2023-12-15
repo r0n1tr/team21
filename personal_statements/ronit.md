@@ -17,7 +17,7 @@ Additionally, I foolishly attempted to implement pipelining without the hazard u
 
 ## F1 Program
 
-There were several iterations for the F1 Program from individuals within the group but by the end of the functioning ```BaseRISCV32I CPU``` we had collectively decided to go forward with my version that is listed under ![F1 Program](team21/single_cycle/f1_program.md) which used the ```add``` function instead of ```slli``` due to simplicity and pre-existing instructions. I also added a jump function so that it could repeat the program for as many cycles as the test bench ran for.
+There were several iterations for the F1 Program from individuals within the group but by the end of the functioning ```BaseRISCV32I CPU``` we had collectively decided to go forward with my version that is listed under ![F1 Program](single_cycle/f1_program.md) which used the ```add``` function instead of ```slli``` due to simplicity and pre-existing instructions. I also added a jump function so that it could repeat the program for as many cycles as the test bench ran for.
 
 # Things I learnt
 
