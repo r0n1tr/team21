@@ -203,7 +203,7 @@ cache_memory[din_set_sel] = cache_set;
 
 <img width="904" alt="fjoejfow" src="https://github.com/r0n1tr/team21/assets/133985295/9830da9c-f16e-4274-b946-f691d5ca650c">
 
-Lets focus on the second clock cycle, when alu_result = 0x4. the cache checks mem[0x1], the respective set of alu_result. The tags match and V = 1, so the hit signal stays high. Hit is high in the first cycle because after the miss, the correct data got written to the cache and all the conditions are satisfied for hit to go high. 
+Let's focus on the second clock cycle when alu_result = 0x4, the cache checks mem[0x1], the respective set of alu_result. The tags match and V = 1, so the hit signal stays high. Hit is high in the first cycle because after the miss, the correct data got written to the cache and all the conditions are satisfied for hit to go high. 
 
 ``` verilog
 hit = (din_tag == cache_tag) & V;
@@ -218,3 +218,14 @@ The cache outputs the data from its memory, i.e dout = mem[0x1] = 0x000000C1. Th
 The reset just sets V = 0 for all sets in the cache. As you can see, cache_memory[0], cache_memory[1], cache_memory[3], and cache_memory[5] have have been reset. The rest of the sets had V = 0 before the reset, hence no change. 
 
 You may notice that cache_memory[0] gets overwritten to 0x8000000F4F3F2F1. alu_result = 0x0 after the second clock cycle. This is scenario 1 happening.
+
+### Additional Contributions
+
+- Helped debug the lab 4 cpu
+- Generalised a multiplexer and made a demultiplexer
+- Used my one-way cache as the basis for the two-way cache, which Daniel then completed.
+
+## Conclusion
+
+I enjoyed working with the RISCV CPU and with my team. Even though I got stuck with the test bench in Lab 4, it didn't stop me from doing more in the actual project. This project enabled me to improve my skills in System Verilog and debugging code. It also allowed me to prove that when it comes to writing code, a messy, inefficient but working code can always be re-formatted and made efficient, whereas an efficient, properly formatted code that doesn't run, can't be fixed until you do it the first way. That is how I got the one-way cache working, and it's how I'll encourage others to tackle problems in writing code.   
+
