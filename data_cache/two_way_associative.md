@@ -51,4 +51,7 @@ else if(hit_1) begin
 
 ```
 
+We would have connected this exactly the same to the direct mapped cache and integrated it within top_memory as shown below :
+
+
 
