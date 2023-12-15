@@ -34,7 +34,7 @@
 
 - [Test results](#test-results)
 
-- [Pipelining with Data Cache test results](pipelining-with-data-cache-test-results)
+- [Pipelining with Data Cache test results](#pipelining-with-data-cache-test-results)
 
 
 
