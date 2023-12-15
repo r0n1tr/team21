@@ -30,6 +30,10 @@ For the trigger signal, we want the F1 machine code to be executed, so with the 
 
 For the CPU to execute instructions as normal, rst must be low. If rst is high, we continuously run " li a0,0 " until it's low. Since rst is defined to reset the processor and start the f1 programme again, the CPU will execute the f1 programme after rst is deasserted. ( with trigger being asserted)
 
+## Pipelined CPU
+
+### Hazard Unit
+
 
 
 
