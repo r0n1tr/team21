@@ -42,41 +42,6 @@ From the project, we have produced three variants of a RISCV32I CPU. Each can be
 - Pipelined with data cache ([```datacacheRISCV32I```](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
 
 Alternatively, for ease of navigation, the contents of all branches have been placed in different folders in the [```rtl```](https://github.com/r0n1tr/team21/tree/rtl) branch. 
-To begin viewing the CPUs, clone this repository and switch to the branch labelled ```rtl```.
-
-## Base
-
-
-Pasting the following command in the terminal in ```rtl/rtl-base``` in the ```base``` directory and it should run the Gaussian PDF on your Vbuddy.
-
-```
-$ ./base_vbuddy.sh
-```
-
-
-## Pipeline
-
-Pasting the following command in ```rtl/rtl-pipeline``` should plot the Noisy PDF onto the Vbuddy.
-
-```
-$ ./pipeline.sh
-```
-
-
-## Cache
-
-Pasting the following command in ```rtl/rtl-cache``` will run the F1 Lights on your Vbuddy.
-```
-$ ./f1.sh
-```
-
-Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "f1_test" to "pdf" and then run:
-
-```
-$ ./cache.sh
-```
-
-This will plot the Triangle PDF onto your Vbuddy.
 
 Each variant has all instructions in the below table implemented:
 
@@ -136,7 +101,41 @@ The following table indicates who contributed to what parts of the CPU.
 
 ## Build instructions
 
-**add shell scripts and other stuff**
+To begin viewing the CPUs, clone this repository and switch to the branch labelled ```rtl```.
+
+### Base
+
+
+Pasting the following command in the terminal in ```rtl/rtl-base``` in the ```base``` directory and it should run the Gaussian PDF on your Vbuddy.
+
+```
+$ ./base_vbuddy.sh
+```
+
+
+### Pipeline
+
+Pasting the following command in ```rtl/rtl-pipeline``` should plot the Noisy PDF onto the Vbuddy.
+
+```
+$ ./pipeline.sh
+```
+
+
+### Cache
+
+Pasting the following command in ```rtl/rtl-cache``` will run the F1 Lights on your Vbuddy.
+```
+$ ./f1.sh
+```
+
+Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "f1_test" to "pdf" and then run:
+
+```
+$ ./cache.sh
+```
+
+This will plot the Triangle PDF onto your Vbuddy.
 
 ## Single-cycle test results
 Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
