@@ -208,7 +208,8 @@ The cache outputs the data from its memory, i.e dout = mem[0x1] = 0x000000C1. Th
 
 #### Scenario 3: A Reset
 
-<img width="452" alt="Picture4" src="https://github.com/r0n1tr/team21/assets/133985295/7ae78a95-4ff9-4201-b9e0-54d313a5cbbd">
+<img width="1037" alt="Screenshot 2023-12-15 012008" src="https://github.com/r0n1tr/team21/assets/133985295/ed44ad94-7c3a-4f08-bc1e-f8a0aaae8687">
+
 
 The reset just sets V = 0 for all sets in the cache. As you can see, cache_memory[0], cache_memory[1], cache_memory[3], and cache_memory[5] have have been reset. The rest of the sets had V = 0 before the reset, hence no change. 
 
