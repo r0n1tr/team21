@@ -10,7 +10,7 @@
 
 - [Build instructions](#build-instructions)
 
-- Single Cycle ([Test results](#single-cycle-test-results))
+- Single Cycle
     - [ALU](single_cycle/alu.md)
     - [Control Unit](single_cycle/control_unit.md)
 	- [Data Memory](single_cycle/data_memory.md)
@@ -31,6 +31,14 @@
 - Data Cache
     - [Direct mapping](data_cache/direct_mapping.md)
 	- [Two way associative](data_cache/two_way_associative.md)
+
+- [Test results](#test-results)
+
+- [Verifying test results](#verifying-test-result)
+
+- [Base test results](#base-test-resutlts)
+
+- [Pipelining with Data Cache test results](#pipelining-with-data-cache-test-results)
 
 
 
@@ -59,8 +67,8 @@ You will find a similar hierachy in this documentation. You can access the relev
 
 ## Personal statements
 
-| Name                          | GitHub               | Link to Personal Statement                 |
-|-------------------------------|----------------------|--------------------------------------------|
+| Name                          | GitHub               | Link to Personal Statement                          |
+|-------------------------------|----------------------|-----------------------------------------------------|
 | Danial Dehghan                | **daniald1**         | [Danial's Statement](personal_statements/danial.md) |
 | Mohammed Tayyab Khalid        | **MohammedTK22**     | [Tayyab's Statement](personal_statements/tayyab.md) |
 | Ronit Ravi                    | **r0n1tr**           | [Ronit's Statement](personal_statements/ronit.md)   |
@@ -147,14 +155,12 @@ $ ./f1_cache.sh
 ```
 
 This will plot the F1 Lights onto your Vbuddy.
+> Information: We have other testbenches under each submodule folder that when run evaluates all possbile use cases for the corresponding module and prints out the states and output into the terminal.
+> 
+> DISCLAIMER: Do not test other .mem files for validity as they are not in little-endian form, there were used purely for testing in the past and are now all deprecated apart from the files used in the shell scripts.
 
-```
-DISCLAIMER:
 
-Do not test other .mem files for validity as they are not in little-endian form, there were used purely for testing in the past and are now all deprecated apart from the files used in the shell scripts.
-```
-
-## Single-cycle test results
+## Test results
 Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
 
 ![F1 Waveform](images/f1_waveform.png)
@@ -189,10 +195,27 @@ https://github.com/r0n1tr/team21/assets/138166258/bc487b51-a17c-4706-ae09-f2ee47
 
 https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb81988ecdc
 
+## Verifying test result
+
+We wrote a program call pdf_expected_output.cpp that you can find in mem_files that should perform the same operation as the pdf assembly. We took the results and plotted them in excel (see below) which matches the plots on vbuddy, giving us reason to believe our cpu works.
+
+![image](https://github.com/r0n1tr/team21/assets/138166258/168aa70f-6bb5-4b8b-b67a-67090196d976)
+
+![image](https://github.com/r0n1tr/team21/assets/138166258/153fcf61-c112-4557-948e-e94f36a247e6)
+
+![image](https://github.com/r0n1tr/team21/assets/138166258/822644bd-8413-40d4-8452-a7e69e95edc2)
+
+![image](https://github.com/r0n1tr/team21/assets/138166258/8c0efd0e-fa4e-4197-9527-d78771bcbdd0)
+
+## Base test results
+
+Here's a screenshot of the pdf program working in the base CPU. This is during the build loop, since the instruction memory address is cycling between addresses 52 thorugh 80. To see the entire simulation, follow the above build instrctions andopen the resulting .vcd file in GTKWave.
+
+![PDF Breakdown](https://github.com/r0n1tr/team21/assets/138166258/d86d0047-27aa-4eb8-99a5-4f988243db21)
+
 ## Pipelining with Data Cache test results
 
-For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above. To ensure functionality a folder labelled ["vcd_files"](vcd_files/) that have every single file for each reference program on every single version.
-
+For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above.
 ### Cache working with the pipelined CPU
 
 ![image](https://github.com/r0n1tr/team21/assets/133985295/676a8e19-4cfd-4efd-914f-ffa6afc1a305)
