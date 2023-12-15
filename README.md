@@ -199,7 +199,8 @@ https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb819
 
 ## Verifying test result
 
-We wrote a program call pdf_expected_output that you can find in mem_files that should perform the same operation as the pdf assembly. We took the results and plotted them in excel (see below) which matches the plots on vbuddy, giving us reason to believe our cpu works
+We wrote a program call pdf_expected_output.cpp that you can find in mem_files that should perform the same operation as the pdf assembly. We took the results and plotted them in excel (see below) which matches the plots on vbuddy, giving us reason to believe our cpu works.
+
 ![image](https://github.com/r0n1tr/team21/assets/138166258/168aa70f-6bb5-4b8b-b67a-67090196d976)
 
 ![image](https://github.com/r0n1tr/team21/assets/138166258/153fcf61-c112-4557-948e-e94f36a247e6)
@@ -210,9 +211,7 @@ We wrote a program call pdf_expected_output that you can find in mem_files that 
 
 ## Base test results
 
-### PDF
-
-Here's a screenshot of the pdf program working in the base CPU. This is during the build loop. To see the entire simulation, follow the above build instrctions andopen the rsulting.vcd file in GTKwave.
+Here's a screenshot of the pdf program working in the base CPU. This is during the build loop. To see the entire simulation, follow the above build instrctions andopen the resulting .vcd file in GTKWave.
 
 ![PDF Breakdown](https://github.com/r0n1tr/team21/assets/138166258/d86d0047-27aa-4eb8-99a5-4f988243db21)
 
