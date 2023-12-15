@@ -191,7 +191,7 @@ https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb819
 
 ## Pipelining with Data Cache test results
 
-For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above. To ensure functionality a folder labelled ["vcd_files"](vcd_files/) that have every single file for each reference program on every single version.
+For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above.
 
 ### Cache working with the pipelined CPU
 
