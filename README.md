@@ -34,6 +34,10 @@
 
 - [Test results](#test-results)
 
+- [Verifying test results]((#verifying-test-results)
+
+- [Base test results](#base-test-resutlts)
+
 - [Pipelining with Data Cache test results](#pipelining-with-data-cache-test-results)
 
 
@@ -193,11 +197,15 @@ https://github.com/r0n1tr/team21/assets/138166258/bc487b51-a17c-4706-ae09-f2ee47
 
 https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb81988ecdc
 
+## Verifying test result
+
+We wrote a program call pdf_expected_output that you can find in mem_files that should perform the same operation as the pdf assembly. We took the results and plotted them in excel (see below) which matches the plots on vbuddy, giving us reason to believe our cpu works
+
 ## Base test results
 
 ### PDF
 
-We wrote a program call pdf_expected_output that you can find in mem_files that should perform the same operation as the pdf assembly. We took the results and plotted them in excel (see below) which matches the plots on vbuddy, giving us reason to believe our cpu works
+Here's a screenshot of the pdf program working in the bsae CPU. This is during the build loop. To see the entire simulation, follow the above build instrctions andopen the rsulting.vcd file in GTKwave.
 
 ![PDF Breakdown](https://github.com/r0n1tr/team21/assets/138166258/d86d0047-27aa-4eb8-99a5-4f988243db21)
 
