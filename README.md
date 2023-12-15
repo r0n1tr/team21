@@ -51,7 +51,7 @@ Documentation is provided in the [main](https://github.com/r0n1tr/team21/tree/ma
 
 To help maintain an organised workspace, the CPU has been broken down in a hierarchical manner:
 
-![Hierarchical Design](images/hierarchy.png)
+![Hierarchical Design](images/rtl.png)
 
 You will find a similar hierachy in this documentation. You can access the relevant documentation files from the [table of contents](#table-of-contents) above. With the exception of personal statements, all documentation in this branch form a joint statement by Team 21.
 
