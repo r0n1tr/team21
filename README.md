@@ -34,7 +34,7 @@
 
 - [Test results](#test-results)
 
-- [Verifying test results]((#verifying-test-results)
+- [Verifying test results](#verifying-test-result)
 
 - [Base test results](#base-test-resutlts)
 
