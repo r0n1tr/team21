@@ -30,6 +30,6 @@ always_comb begin
 end
 ```
 
-The case statement controlled by ``alucontrol``` has designed to be 4 bits long due to the 10 instructions for our design requirements. Although we dont't us all states of the alucontrol switch we have a default case if none of the instructions implemented are called in order to control undefined behaviour.
+The case statement controlled by ```alucontrol``` has designed to be 4 bits long due to the 10 instructions for our design requirements. Although we dont't us all states of the alucontrol switch we have a default case if none of the instructions implemented are called in order to control undefined behaviour.
 
 The combinational block above shows all the instructions we implemented for our ALU as well as having our zero flag functionality concisely in one statement. We additionally added the ```$unsigned``` and ```$signed``` keywords to use ```SLT``` for unsigned and signed inputs. 

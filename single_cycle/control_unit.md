@@ -1,91 +1,54 @@
 # Control Unit
 
-The Control Unit is made of:
-- alu_decoder.sv
-- branch_decoder.sv
-- main_decoder.sv
-- pcsrc_logic.sv
-- top_control_unit.sv
+The control unit is tasked with taking in relevant parts of an instruction, and putting forth the correct control signals to other parts of the CPU. 
+The control unit consists of several files under the ```control_unit``` folder. These files are for the following:
 
-```systemverilog 
-main_decoder main_decoder(
-    .op(instr[6:0]),
-    .zero(zero),  
-  
-    .regwrite(regwrite),
-    .immsrc(immsrc),
-    .alusrc(alusrc),
-    .memwrite(memwrite),
-    .resultsrc(resultsrc),
-    .branch(branch),
-    .aluop(aluop),  // aluop goes to alu_decoder
-    .jump(jump),
-    .jalr(jalr)
-);
+- [Main decoder](#main-decoder)
+- [ALU decoder](#alu-decoder)
+- [Branch decoder](#branch-decoder)
+- [PCsrc logic](#pcsrc-logic)
+- [Top control unit](#top-control-unit)
 
-alu_decoder alu_decoder(
-    .aluop(aluop),
-    .funct3(instr[14:12]),
-    .funct7(instr[31:25]),
-  
-    .alucontrol(alucontrol)
-);
+The implementation of each is detailed as follows.
 
-branch_decoder branch_decoder(
-    .branch(branch),
-    .zero(zero),  
-    .funct3(instr[14:12]),
+## Main decoder
 
-    .should_branch(should_branch)
-);
+### Purpose
 
-pcsrc_logic pcsrc_logic(
-    .should_branch(should_branch),
-    .should_jal(jump),  
-    .should_jalr(jalr),
-    
-    .pcsrc
-);
-```
+### Inputs
 
-Omitting the implicitly stated internal wires and input and output signals,. We designed the control unit in a way where we could separate decoding control signals and ALU operators into different blocks for simplicity, using combinational block as such:
+- `[6:0] op` - 7-bit opcode. Tells us which family of instructions are being executed.
+- `zero` - The zero flag. Is asserted by the ALU when `aluresult == 0`. 
 
-```verilog
+### Outputs
 
-case (op)              
-        7'b000_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10001_0001_00000;  // load instructions
-        7'b010_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b00011_1000_00000;  // store instructions
-        7'b011_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10000_0000_01000;  // R-Type (all of which are arithmetic/logical)
-        7'b110_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b00100_0000_10100;  // B-Type
-        7'b001_0011: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10001_0000_01000;  // I-Type (arithmetic/logical ones only)
-        7'b110_1111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10110_0010_00010;  // jal
-        7'b110_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b10001_0010_00001;  // jalr
-        7'b011_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b11000_0011_00000;  // lui
-        7'b001_0111: {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b11000_0100_00000;  // auipc
-        default:     {regwrite, immsrc, alusrc, memwrite, resultsrc, branch, aluop, jump, jalr} = 14'b11111_1111_11111;  // should never execute
-    endcase
-```
+- `      regwrite`  - Write enable for register file
+- `[2:0] immsrc`    - Tells sign extend block how the immediate is encoded in the instruction (is different for `I`, `S`, `B`, `J`, and `U` type instrutions)
+- `      alusrc`    - Tells the ALU whether to use (i) two register operands or (ii) a register operand and an immediate operand
+- `      memwrite`  - Write enable for memory
+- `[2:0] resultsrc` - Which item the result mux should output to the result line (refer to [result mux](result_mux.md))
+- `      branch`    - Whether we are executing a B-Type instruction (i.e., a branch) (refer to [branch decoder](#branch-decoder))
+- `[1:0] aluop`     - Refer to [ALU decoder](#alu-decoder)
+- `      jump`      - Whether we are executing a J-Type instruction (i.e., `JAL`) (refer to [branch decoder](#branch-decoder))
+- `      jalr`      - Whether we are executing instruction `JALR` (refer to [branch decoder](#branch-decoder))
 
-By adding an extra 'jalr' flag to our decoder, this allowed us to control when we wanted to store the program counter into a register ready for the return from a subroutine.
+### Implementation notes
+
+The main decoder simply takes the 
 
 
-## Branch Decoder:
 
-```verilog
-always_comb begin
-    should_branch = 1'b0; // init to 0
+## ALU decoder
 
-    if (branch) begin
-        if (funct3 == 3'b000 && zero ) should_branch = 1'b1; // beq
-        if (funct3 == 3'b001 && ~zero) should_branch = 1'b1; // bne
+The zero flag can be used in interesting ways. Certain ALU operations have special meaning when the result is 0. 
 
-        if (funct3 == 3'b100 && ~zero) should_branch = 1'b1; // blt  
-        if (funct3 == 3'b101 && zero ) should_branch = 1'b1; // bge
+For instance, if we subtract two numbers and the result is 0, we know those two numbers are equal. This is useful for instructions `BEQ` and `BNE`, as we can just tell the ALU to perform a subtraction and branch depending on the value of `zero`. This is done in the [`branch decoder`](#branch-decoder).
 
-        if (funct3 == 3'b110 && ~zero) should_branch = 1'b1; // bltu
-        if (funct3 == 3'b111 && zero ) should_branch = 1'b1; // bgeu
-    end
-end
-```
+## Branch decoder
 
-**Ziean add explanation to this cos i have no idea**
+## PCsrc logic
+
+## Top control unit
+
+
+
