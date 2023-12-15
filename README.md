@@ -4,7 +4,7 @@
 
 - [Quick start](#quick-start)
 
-- [Personal statements](#personal_statements)
+- [Personal statements](#personal-statements)
 
 - [Contribution table](#contribution-table)
 
@@ -61,10 +61,10 @@ You will find a similar hierachy in this documentation. You can access the relev
 
 | Name                          | GitHub               | Link to Personal Statement                 |
 |-------------------------------|----------------------|--------------------------------------------|
-| Danial Dehghan                | **daniald1**         | [Danial's Statement](statements/danial.md) |
-| Mohammed Tayyab Khalid        | **MohammedTK22**     | [Tayyab's Statement](statements/tayyab.md) |
-| Ronit Ravi                    | **r0n1tr**           | [Ronit's Statement](statements/ronit.md)   |
-| Ziean Ahmed Sheikh            | **za722-ic**         | [Ziean's Statement](statements/ziean.md)   |
+| Danial Dehghan                | **daniald1**         | [Danial's Statement](personal_statements/danial.md) |
+| Mohammed Tayyab Khalid        | **MohammedTK22**     | [Tayyab's Statement](personal_statements/tayyab.md) |
+| Ronit Ravi                    | **r0n1tr**           | [Ronit's Statement](personal_statements/ronit.md)   |
+| Ziean Ahmed Sheikh            | **za722-ic**         | [Ziean's Statement](personal_statements/ziean.md)   |
 
 ## Contribution table
 
