@@ -32,7 +32,7 @@ Since the cache involves comparing the set of the cache to the input of the cach
 ### Cache Reset
 
 If rst is asserted, then all the data in the cache is now useless. Initially, we just set the V flag to 0. However, to do that, you'd have to access the data, set the V flag to 0 through concatenation, and then write back to the memory, 8 times! 
-Since the data is now useless, we can just set everything to 0, because resetting the cpu means all the sets in the cache is now 0XXXXXXXXXXXXXX , where X is a don't care. 
+Since the data is now useless, we can just set everything to 0, because resetting the CPU means all the bits in the sets of the cache are now 0XXXXX.........X, where X is a don't care. 
 
 #### cache_1w.sv
 
