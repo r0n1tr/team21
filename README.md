@@ -108,7 +108,6 @@ Here is a waveform showing you the instructions for the F1 Lights program read i
 
 
 #### F1
-![F1 Program](https://github.com/r0n1tr/team21/blob/main/cpu_f1.mp4)
 
 
 
@@ -121,40 +120,21 @@ https://github.com/r0n1tr/team21/assets/138166258/7664222d-c19f-4ca5-841a-f18ce6
 
 #### Gauss
 
-![Gauss Program](cpu_gauss.mp4)
-
-
-
 https://github.com/r0n1tr/team21/assets/138166258/592425f5-488d-46e7-aeeb-0efe4ae33906
 
 
 
 #### Sine
 
-![Sine Program](cpu_sine.mp4)
-
-
 https://github.com/r0n1tr/team21/assets/138166258/8ed0807e-4cba-42b1-a82c-dee49bd39e88
-
-
 
 #### Noise 
 
-![Noise Program](cpu_noise.mp4)
-
-
 https://github.com/r0n1tr/team21/assets/138166258/bc487b51-a17c-4706-ae09-f2ee472b4ed7
-
-
 
 #### Triangle
 
-![CPU Triangle](https://www.youtube.com/embed/_LAK4qxv8jM)
-
-
 https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb81988ecdc
-
-
 
 ## Pipelining with Data Cache test results
 
