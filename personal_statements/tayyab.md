@@ -182,7 +182,7 @@ Above is the waveforms you’d get as a result of running the cahce_1wtb.cpp tes
 
 #### Scenario 1: A Miss
 
-<img width="203" alt="khiho" src="https://github.com/r0n1tr/team21/assets/133985295/35262436-c9a0-46d8-b107-7010d041351f">
+<img width="406" alt="khiho" src="https://github.com/r0n1tr/team21/assets/133985295/35262436-c9a0-46d8-b107-7010d041351f">
 
 Initially, din is 0x0. The tags of din and the cache match, but V=0 in set 000, so it’s a miss. Therefore, the output of the cache is the input, i.e.  dout = din. 
 That’s fed into the demultiplexer, which directs the data to the data memory since the hit signal controls it. Data memory retrieves 0XF4F3F2F1 and is sent to input0 of the multiplexer, which outputs output0 since the hit signal also controls the multiplexer. Therefore, read_data = mem[0x0] from the data memory.
@@ -197,7 +197,7 @@ cache_memory[din_set_sel] = cache_set;
 
 #### Scenario 2: A Hit
 
-<img width="452" alt="fjoejfow" src="https://github.com/r0n1tr/team21/assets/133985295/9830da9c-f16e-4274-b946-f691d5ca650c">
+<img width="904" alt="fjoejfow" src="https://github.com/r0n1tr/team21/assets/133985295/9830da9c-f16e-4274-b946-f691d5ca650c">
 
 Lets focus on the second clock cycle, when alu_result = 0x4. the cache checks mem[0x1], the respective set of alu_result. The tags match and V = 1, so the hit signal stays high. Hit is high in the first cycle because after the miss, the correct data got written to the cache and all the conditions are satisfied for hit to go high. 
 
