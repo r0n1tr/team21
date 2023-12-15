@@ -19,11 +19,11 @@ int main(int argc, char **argv, char **env)
   // init trace dump
   Verilated::traceEverOn(true);
   top->trace(tfp, 99);
-  tfp->open("cache_f1.vcd");
+  tfp->open("pipeline_f1.vcd");
  
   // init Vbuddy
   if (vbdOpen() != 1) return(-1);
-  vbdHeader("Cache: F1");
+  vbdHeader("Pipeline: F1");
 
   // initialize simulation input 
   top->clk = 1;
