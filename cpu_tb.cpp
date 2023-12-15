@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **env) {
     top->trigger = 1;
     
     // run simulation for enough cycles for the CPU to reach 255
-    for (int i = 0; i < 10000; i++)
+    for (int i = 0; i < 250; i++)
     {
         // stop resetting clock after cycle 0
         // cpu will take a few cycles to enter the loop, aftwe which there will be an increment every 3 cycles

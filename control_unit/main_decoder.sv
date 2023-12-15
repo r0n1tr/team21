@@ -1,7 +1,6 @@
 // verilator lint_off UNUSED
 module main_decoder(
     input  logic [6:0] op,     // 7-bit opcode
-    input  logic       zero,   // Zero flag
     
     // control signals
     output logic       regwrite,

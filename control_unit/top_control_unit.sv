@@ -24,7 +24,6 @@ assign funct3 = instr[14:12]; // memcontrol of data_mem = funct3
     
 main_decoder main_decoder(
     .op(instr[6:0]),
-    .zero(zero),  
 
     .regwrite(regwrite),
     .immsrc(immsrc),
