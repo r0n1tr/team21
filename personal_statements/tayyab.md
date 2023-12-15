@@ -70,11 +70,109 @@ However, these have then been modified to work with our CPU.
 
 end
 ```
+## Pipelined CPU with Cache
 
+To decide on what type of cache to implement, I felt that we need to first get a one way cache working before getting two way working. With the help of Daniel, I got to implement the one way cache and sucessfully test it on it's on and with the pipelined CPU. When Peter Cheung taught us about cache, he used an exambple of taking a book from a shelf. I used that example to design the one way cache. To describe what my cache does, you're taking a row of books ( a set) from a designated shelf ( from the cache memory) and are comparing it to anther set of books, i.e when comparing tags and checking the V flag. If it's a hit, you send a copy of books ( not including the tag or V flag) out. If it's a miss, you buy the correct books, replace them in your set and but the set back on the shelf. 
 
+One issue would've been readability, so I split the data up. 
+``` verilog
+// logic declared before this part of the code
+        cache_set = cache_memory[din_set]; 
+        V = cache_set[59]; 
+        cache_tag = cache_set[58:32]; 
+        cache_data = cache_set[31:0]; 
 
+        hit = V && (din_tag == cache_tag);
+        if (hit) assign dout = cache_data; 
+        else begin
+            assign dout = din; // since we have to go to memory 
+            assign cache_set = {1'b1, din[31:5], rd}; // assign new memory to cache
+            assign cache_memory[din_set] = cache_set; 
+        end
+```
 
+The idea of resetting the cache memory came from Daniel. If rst is asserted, the processor restarts and the data in the cache memory is now useless. Initially, we just set the V flag to zero for all sets in the cache, but if that stops the hit from being asserted, then we can set all sets in the cache memory to 60'b0 as all the 60 bits of the sets of the cache are now 0XXXXX.........X, where X is a don't care. Credit to Ronit for pointing that out.
 
+```verilog
+    if (rst) begin
+     cache_memory[0] = 60'b0;
+     cache_memory[1] = 60'b0;
+     cache_memory[2] = 60'b0;
+     cache_memory[3] = 60'b0;
+     cache_memory[4] = 60'b0;
+     cache_memory[5] = 60'b0;
+     cache_memory[6] = 60'b0;
+     cache_memory[7] = 60'b0;
+    end
+```
+
+<img width="547" alt="top_memory" src="https://github.com/r0n1tr/team21/assets/133985295/65bc2f61-6ff7-4edd-81c8-610baffb31ed">
+
+Circuit designed by Daniel.
+
+#### top_memory.sv
+```verilog
+module memory#(
+    parameter       ADDRESS_WIDTH = 32,
+                    DATA_WIDTH = 32
+)(
+    input logic clk,
+    input logic rst,
+    input logic we,
+    input logic [DATA_WIDTH-1:0] wd,
+    input logic [ADDRESS_WIDTH-1:0] alu_result,
+    input logic [2:0] memcontrol,
+    
+    output logic [DATA_WIDTH-1:0] read_data
+    
+);
+
+logic hit;
+logic [DATA_WIDTH-1:0] a;
+logic [DATA_WIDTH-1:0] demux_input;
+logic [DATA_WIDTH-1:0] mux_input0;
+logic [DATA_WIDTH-1:0] mux_input1;
+
+cache_1w cache_test(
+    .din(alu_result),
+    .rd(mux_input0),
+    .rst(rst),   
+
+    .dout(demux_input),
+    .hit(hit)
+);
+
+demux cache_demux(
+    .input_data(demux_input),
+    .select(hit),
+
+    .output0(a),
+    .output1(mux_input1)
+);
+
+data_mem data_memory(
+    .a(a),
+    .clk(clk),
+    .we(we),
+    .writedata(wd),
+    .memcontrol(memcontrol),
+
+    .readdata(mux_input0)
+
+);
+
+mux memory_mux(
+    .input0(mux_input0),
+    .input1(mux_input1),
+    .select(hit),
+
+    .out(read_data)
+);
+
+endmodule
+```
+
+With the cache ready, I had to test it.
 
 
 
