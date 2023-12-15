@@ -86,7 +86,7 @@ One issue would've been readability, so I split the data up.
         cache_tag = cache_set[58:32]; 
         cache_data = cache_set[31:0]; 
 
-        hit = V && (din_tag == cache_tag);
+        hit = V && (din_tag == cache_tag) && (resultsrcm == 3'b001) && ~we;
         if (hit) assign dout = cache_data; 
         else begin
             assign dout = din; // since we have to go to memory 
@@ -94,6 +94,7 @@ One issue would've been readability, so I split the data up.
             assign cache_memory[din_set] = cache_set; 
         end
 ```
+The (resultsrcm == 3'b001) && ~we being added to the hit signal ensures that we're only using the cache when a store word or load word instruction is being executed by the CPU.
 
 The idea of resetting the cache memory came from Daniel. If rst is asserted, the processor restarts and the data in the cache memory is now useless. Initially, we just set the V flag to zero for all sets in the cache, but if that stops the hit from being asserted, then we can set all sets in the cache memory to 60'b0 as all the 60 bits of the sets of the cache are now 0XXXXX.........X, where X is a don't care. Credit to Ronit for pointing that out.
 
