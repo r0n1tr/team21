@@ -23,15 +23,15 @@ To be a high level starting point of decoding instructions.
 
 ### Outputs
 
-- `      regwrite`  - Write enable for register file
+- `regwrite`        - Write enable for register file
 - `[2:0] immsrc`    - Tells sign extend block how the immediate is encoded in the instruction (is different for `I`, `S`, `B`, `J`, and `U` type instrutions)
-- `      alusrc`    - Tells the ALU whether to use (i) two register operands or (ii) a register operand and an immediate operand
-- `      memwrite`  - Write enable for data memory
+- `alusrc`          - Tells the ALU whether to use (i) two register operands or (ii) a register operand and an immediate operand
+- `memwrite`        - Write enable for data memory
 - `[2:0] resultsrc` - Which item the result mux should output to the result line (refer to [result mux](result_mux.md))
-- `      branch`    - Whether we are executing a B-Type instruction (i.e., a branch) (refer to [branch decoder](#branch-decoder))
+- `branch`          - Whether we are executing a B-Type instruction (i.e., a branch) (refer to [branch decoder](#branch-decoder))
 - `[1:0] aluop`     - Refer to [ALU decoder](#alu-decoder)
-- `      jump`      - Whether we are executing a J-Type instruction (i.e., `JAL`) (refer to [branch decoder](#branch-decoder))
-- `      jalr`      - Whether we are executing instruction `JALR` (refer to [branch decoder](#branch-decoder))
+- `jump`            - Whether we are executing a J-Type instruction (i.e., `JAL`) (refer to [branch decoder](#branch-decoder))
+- `jalr`            - Whether we are executing instruction `JALR` (refer to [branch decoder](#branch-decoder))
 
 ### Implementation notes
 
@@ -92,8 +92,8 @@ To decide whether we should branch based on the current instruction.
 
 ### Inputs
 
-- `      branch` - Whether we are currently executing a branch instruction
-- `      zero`   - The zero flag. Is asserted by the ALU when `aluresult == 0`. 
+- `branch`       - Whether we are currently executing a branch instruction
+- `zero`         - The zero flag. Is asserted by the ALU when `aluresult == 0`. 
 - `[2:0] funct3` - Used to define exactly which branch instruction is executed (if any)
 
 ### Outputs
@@ -144,17 +144,17 @@ To act as the interface of the control unit for the rest of the CPU. To connect 
 
 ### Inputs
 
-- `[31:0] instr`    - 32-bit instruction
-- `       zero`     - The zero flag. Is asserted by the ALU when `aluresult == 0`. 
+- `[31:0] instr` - 32-bit instruction
+- `zero`         - The zero flag. Is asserted by the ALU when `aluresult == 0`. 
 
 ### Outputs
 
 - `[1:0] pcsrc`     - Indicates what value the PC shoud next take on
 - `[2:0] resultsrc` - Which item the result mux should output to the result line (refer to result mux)
-- `      memwrite`  - Write enable for data memory
-- `      alusrc`    - Tells the ALU whether to use (i) two register operands or (ii) a register operand and an immediate operand
+- `memwrite`        - Write enable for data memory
+- `alusrc`          - Tells the ALU whether to use (i) two register operands or (ii) a register operand and an immediate operand
 - `[2:0] immsrc`    - Tells sign extend block how the immediate is encoded in the instruction (is different for `I`, `S`, `B`, `J`, and `U` type instrutions)
-- `      regwrite`  - Write enable for register file
+- `regwrite`        - Write enable for register file
 - `[2:0] funct3`    - Only used externally by data memory as `memcontrol` (to know what kind of load/store operation to perform)
 - `[3:0] alucontrol`- Control signal that tells the ALU which operation to execute
 
