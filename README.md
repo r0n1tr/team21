@@ -193,6 +193,15 @@ https://github.com/r0n1tr/team21/assets/138166258/bc487b51-a17c-4706-ae09-f2ee47
 
 https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb81988ecdc
 
+## Base test results
+
+### PDF
+![image](https://github.com/r0n1tr/team21/assets/138166258/d86d0047-27aa-4eb8-99a5-4f988243db21)
+
+![Base PDF](https://github.com/r0n1tr/team21/assets/138166258/57040bb4-d1fd-4961-b478-41abd859714d)
+
+### F1
+
 ## Pipelining with Data Cache test results
 
 For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above.
