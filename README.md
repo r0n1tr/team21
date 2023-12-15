@@ -37,11 +37,12 @@
 
 From the project, we have produced three variants of a RISCV32I CPU. Each can be found within their own branch in this repository:
 
-- Single cycle ([baseRISCV32I](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
-- Pipelined ([pipelinedRISCV32I](https://github.com/r0n1tr/team21/tree/pipelinedRISCV32I) branch)
-- Pipelined with data cache ([datacacheRISCV32I](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
+- Single cycle ([```baseRISCV32I```](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
+- Pipelined ([```pipelinedRISCV32I```](https://github.com/r0n1tr/team21/tree/pipelinedRISCV32I) branch)
+- Pipelined with data cache ([```datacacheRISCV32I```](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
 
-Clone repository and switch to the branch labelled ```rtl```.
+Alternatively, for ease of navigation, the contents of all branches have been placed in different folders in the ```rtl``` branch. 
+To begin viewing the CPUs, clone this repository and switch to the branch labelled ```rtl```.
 
 ## Base
 
