@@ -93,10 +93,10 @@ The following table indicates who contributed to what parts of the CPU.
 | Execute Stage Register   | pipeline_reg_execute.sv                                                            |       | 1     | 0      |        |
 | Memory Stage Register    | pipeline_reg_memory.sv                                                             |       | 0     |        |        |
 | Writeback Stage Register | pipeline_reg_writeback.sv                                                          |       | 0     |        |        |
-| Hazard unit              | Hazard_unit.sv                                                                     |       | 1     |        | 0      |
+| Hazard unit              | hazard_unit.sv                                                                     |       | 1     |        | 0      |
 | _**Data Cache**_         | -                                                                                  | -     | -     | -      | -      |
 | Data Cache (1-way)       | cache_1w.mem, cache_1w.sv                                                          |       |       | 1      | 0      |
-| Data Cache (2-way)       |  cache_2w.mem, cache_2w.sv                                                         |       |       | 0      | 1      |
+| Data Cache (2-way)       | cache_2w.mem, cache_2w.sv                                                          |       |       | 0      | 1      |
 
 
 ## Build instructions
