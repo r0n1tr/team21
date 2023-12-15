@@ -34,7 +34,18 @@ For the CPU to execute instructions as normal, rst must be low. If rst is high, 
 
 ### Hazard Unit
 
-
+With the CPU now pipelined, we had to implement a hazard unit to combat any data or control hazards. For the data hazards, we simply had to compare the source registers to the destination registers. We also have to check if the destination register is being written to. I thought that was it and I wrote logic that forwarded data from the memory or write back stage of the pipelined CPU. I forgot to factor one important thing, what if the destination register is the zero register? Then no forwarding would be needed. I only realised this after referring to Digital Design and Computer Architecture: RISC-V Edition by Sarah Harris, David Harris. 
+```verilog
+always_comb begin
+    // rs1 forwarding to avoid data hazards
+    if ((rs1e == rdm) && regwritem && (rs1e != 0))          forwardae = 2'b10; 
+    else if ((rs1e == rdw) && regwritew && (rs1e != 0))     forwardae = 2'b01; // forward (writeback stage)
+    else                                                    forwardae = 2'b00; // no hazard --> no forwarding needed
+    // rs2 forwarding to avoid data hazards
+    if (((rs2e == rdm) && regwritem) && (rs2e != 0))        forwardbe = 2'b10; // forward (memory stage)
+    else if ((rs2e == rdw) & regwritew && (rs2e != 0))      forwardbe = 2'b01; // forward (writeback stage)
+    else                                                    forwardbe = 2'b00; // no hazard --> no forwarding needed
+```
 
 
 
