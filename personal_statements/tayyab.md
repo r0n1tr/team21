@@ -172,7 +172,44 @@ mux memory_mux(
 endmodule
 ```
 
-With the cache ready, I had to test it.
+With the cache ready, I we can now test it.
 
 
 
+<img width="545" alt="Picture1" src="https://github.com/r0n1tr/team21/assets/133985295/d76b0129-68cb-4015-8018-2298a1d183b0">
+
+Above is the waveforms you’d get as a result of running the cahce_1wtb.cpp testbench. Initially, the testbench was made to test the reset of the cache, but it also demonstrated the cache working with all possible scenarios, a hit and a miss alongside a reset.
+
+#### Scenario 1: A Miss
+
+<img width="203" alt="khiho" src="https://github.com/r0n1tr/team21/assets/133985295/35262436-c9a0-46d8-b107-7010d041351f">
+
+Initially, din is 0x0. The tags of din and the cache match, but V=0 in set 000, so it’s a miss. Therefore, the output of the cache is the input, i.e.  dout = din. 
+That’s fed into the demultiplexer, which directs the data to the data memory since the hit signal controls it. Data memory retrieves 0XF4F3F2F1 and is sent to input0 of the multiplexer, which outputs output0 since the hit signal also controls the multiplexer. Therefore, read_data = mem[0x0] from the data memory.
+
+At the same time, the output of data memory, readdata, is fed back to the cache. rd = readdata.
+Because of the miss, mem[0x0] of the cache gets overwritten to 0x8000000F4F3F2F1. Data is written back by the following concatenation. 
+
+``` verilog  
+cache_set = {1'b1, din[31:5], rd};
+cache_memory[din_set_sel] = cache_set;
+```
+
+#### Scenario 2: A Hit
+
+<img width="452" alt="fjoejfow" src="https://github.com/r0n1tr/team21/assets/133985295/9830da9c-f16e-4274-b946-f691d5ca650c">
+
+Lets focus on the second clock cycle, when alu_result = 0x4. the cache checks mem[0x1], the respective set of alu_result. The tags match and V = 1, so the hit signal stays high. Hit is high in the first cycle because after the miss, the correct data got written to the cache and all the conditions are satisfied for hit to go high. 
+
+``` verilog
+hit = (din_tag == cache_tag) & V;
+```
+The cache outputs the data from its memory, i.e dout = mem[0x1] = 0x000000C1. The demultiplexer outputs this to output1, which is connected to the multiplexer at the end. The mux outputs this, giving us read_data = 0x000000C1, which was retrieved from the cache.
+
+#### Scenario 3: A Reset
+
+<img width="452" alt="Picture4" src="https://github.com/r0n1tr/team21/assets/133985295/7ae78a95-4ff9-4201-b9e0-54d313a5cbbd">
+
+The reset just sets V = 0 for all sets in the cache. As you can see, cache_memory[0], cache_memory[1], cache_memory[3], and cache_memory[5] have have been reset. The rest of the sets had V = 0 before the reset, hence no change. 
+
+You may notice that cache_memory[0] gets overwritten to 0x8000000F4F3F2F1. alu_result = 0x0 after the second clock cycle. This is scenario 1 happening.
