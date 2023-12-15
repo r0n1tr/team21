@@ -10,7 +10,7 @@
 
 - [Build instructions](#build-instructions)
 
-- Single Cycle ([Test results](#single-cycle-test-results))
+- Single Cycle
     - [ALU](single_cycle/alu.md)
     - [Control Unit](single_cycle/control_unit.md)
 	- [Data Memory](single_cycle/data_memory.md)
@@ -31,6 +31,10 @@
 - Data Cache
     - [Direct mapping](data_cache/direct_mapping.md)
 	- [Two way associative](data_cache/two_way_associative.md)
+
+- [Test results](#test-results)
+
+- [Pipelining with Data Cache test results](pipelining-with-data-cache-test-results)
 
 
 
@@ -59,8 +63,8 @@ You will find a similar hierachy in this documentation. You can access the relev
 
 ## Personal statements
 
-| Name                          | GitHub               | Link to Personal Statement                 |
-|-------------------------------|----------------------|--------------------------------------------|
+| Name                          | GitHub               | Link to Personal Statement                          |
+|-------------------------------|----------------------|-----------------------------------------------------|
 | Danial Dehghan                | **daniald1**         | [Danial's Statement](personal_statements/danial.md) |
 | Mohammed Tayyab Khalid        | **MohammedTK22**     | [Tayyab's Statement](personal_statements/tayyab.md) |
 | Ronit Ravi                    | **r0n1tr**           | [Ronit's Statement](personal_statements/ronit.md)   |
@@ -154,7 +158,7 @@ DISCLAIMER:
 Do not test other .mem files for validity as they are not in little-endian form, there were used purely for testing in the past and are now all deprecated apart from the files used in the shell scripts.
 ```
 
-## Single-cycle test results
+## Test results
 Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
 
 ![F1 Waveform](images/f1_waveform.png)
@@ -191,7 +195,7 @@ https://github.com/r0n1tr/team21/assets/138166258/e02e9486-631f-421c-a7f5-0fb819
 
 ## Pipelining with Data Cache test results
 
-For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above.
+For both versions of our CPU with Pipeline with Hazard Unit as well as our separate added Data Cache version, both successfully compile the PDF and F1 programs and output the corresponding waveforms above. To ensure functionality a folder labelled ["vcd_files"](vcd_files/) that have every single file for each reference program on every single version.
 
 ### Cache working with the pipelined CPU
 
