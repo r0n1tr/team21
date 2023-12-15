@@ -53,5 +53,7 @@ else if(hit_1) begin
 
 We would have connected this exactly the same to the direct mapped cache and integrated it within top_memory as shown below :
 
+<img width="1094" alt="top_memory" src="https://github.com/r0n1tr/team21/assets/133985295/7f94f8e2-bba2-4259-ad00-d208838ba8f2">
+
 
 
