@@ -7,7 +7,7 @@ The ALU is broken down into 3 main files:
 
 By having a top file for each sub-module we could call testbenches to validify functionality as well as have a concise top file when connecting all the modules together.
 
-![top_alu_schematic](image.png)
+![top_alu_schematic](../images/alu_diagram.png)
 
 
 ```verilog
