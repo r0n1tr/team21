@@ -41,6 +41,42 @@ From the project, we have produced three variants of a RISCV32I CPU. Each can be
 - Pipelined ([baseRISCV32I](https://github.com/r0n1tr/team21/tree/pipelinedRISCV32I) branch)
 - Pipelined with data cache ([datacacheRISCV32I](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
 
+Clone repository and switch to the branch labelled ```rtl```.
+
+## Base
+
+
+Pasting the following command in the terminal in ```rtl/rtl-base``` in the ```base``` directory and it should run the Gaussian PDF on your Vbuddy.
+
+```
+$ ./base_vbuddy.sh
+```
+
+
+## Pipeline
+
+Pasting the following command in ```rtl/rtl-pipeline``` should plot the Noisy PDF onto the Vbuddy.
+
+```
+$ ./pipeline.sh
+```
+
+
+## Cache
+
+Pasting the following command in ```rtl/rtl-cache``` will run the F1 Lights on your Vbuddy.
+```
+$ ./f1.sh
+```
+
+Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "f1_test" to "pdf" and then run:
+
+```
+$ ./cache.sh
+```
+
+This will plot the Triangle PDF onto your Vbuddy.
+
 Each variant has all instructions in the below table implemented:
 
 ![Instruction table](images/instruction_table.png)
