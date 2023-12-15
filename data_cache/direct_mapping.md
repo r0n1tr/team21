@@ -29,6 +29,8 @@ Since the cache involves comparing the set of the cache to the input of the cach
             assign cache_memory[din_set] = cache_set; 
         end
 ```
+The (resultsrcm == 3'b001) && ~we being added to the hit signal ensures that we're only using the cache when a store word or load word instruction is being executed by the CPU.
+
 ### Cache Reset
 
 If rst is asserted, then all the data in the cache is now useless. Initially, we just set the V flag to 0. However, to do that, you'd have to access the data, set the V flag to 0 through concatenation, and then write back to the memory, 8 times! 
