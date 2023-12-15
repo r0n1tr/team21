@@ -176,13 +176,21 @@ mux memory_mux(
 endmodule
 ```
 
-With the cache ready, I we can now test it.
+With the cache ready, we can now test it.
 
 
 
-<img width="545" alt="Picture1" src="https://github.com/r0n1tr/team21/assets/133985295/d76b0129-68cb-4015-8018-2298a1d183b0">
+<img width="978" alt="jpepkfpwkf wlf" src="https://github.com/r0n1tr/team21/assets/133985295/846a558e-f02e-4c66-a1d1-a736185fbaf6">
 
-Above is the waveforms you’d get as a result of running the cahce_1wtb.cpp testbench. Initially, the testbench was made to test the reset of the cache, but it also demonstrated the cache working with all possible scenarios, a hit and a miss alongside a reset.
+Color codes:
+- Clock: Yellow
+- top_memory.sv input/output: Red
+- Cache signals: Green
+- Demultiplexer input/output(excluding select): Orange
+- Data Memory input/output: Blue
+- Multiplexer input/output(excluding select): Purple
+
+Above are the waveforms you’d get as a result of running the cahce_1wtb.cpp testbench. Initially, the testbench was made to test the reset of the cache, but it also demonstrated the cache working with all possible scenarios, a hit and a miss alongside a reset.
 
 #### Scenario 1: A Miss
 
