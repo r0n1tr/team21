@@ -19,21 +19,19 @@ int main(int argc, char **argv, char **env)
   // init trace dump
   Verilated::traceEverOn(true);
   top->trace(tfp, 99);
-  tfp->open("cpu.vcd");
+  tfp->open("base_f1.vcd");
  
   // init Vbuddy
   if (vbdOpen() != 1) return(-1);
-  vbdHeader("Base: Gaussian");
+  vbdHeader("Base: F1");
 
   // initialize simulation input 
   top->clk = 1;
   top->rst = 0;
   top->trigger = 1;
   
-  std::cout << "Building pdf..." << std::endl;
-
   // run simulation for many clock cycles
-  for (int i = 0; i >= 0; i++)
+  for (int i = 0; i < 250; i++)
   {
     // dump variables into VCD file and toggle clock
     for (int tick = 0; tick<2; tick++)
@@ -42,19 +40,16 @@ int main(int argc, char **argv, char **env)
       top->clk = !top->clk;
       top->eval ();
     }
-    //std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     " << std::endl;
-
-    if (i >= 600000&& i%3==0) // 8 instructions in build loop * (4096x16 bytes) is appxox 600k cycles needed for calcuating pdf. Don't output anything til then. The print loop is 3 cycles --> only print once each cycle
-    {
-      if (i == 600000 ) std::cout << "Plotting pdf..." << std::endl;
-
-      if ((int)(top->a0)==0) std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     " << std::endl;
-      //std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
-
+      //std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     " << std::endl;
+        std::cout << "cycle = "<< std::setfill('0') << std::setw(3) << i     << "     ";
+        std::cout << "a0 = "   << std::setfill('0') << std::setw(3) << (std::bitset<32>(top->a0)) << std::endl;
+      
+      
       // plot a0
-      vbdPlot((unsigned int)(top->a0), 0, 255);
+      vbdBar(top->a0);
+      //vbdPlot((int)(top->a0), 0, 255);
       vbdCycle(i);
-    }
+    
 
     // either simulation finished, or 'q' is pressed
     if ((Verilated::gotFinish()) || (vbdGetkey()=='q')) exit(0);
