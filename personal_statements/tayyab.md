@@ -8,6 +8,8 @@ To write the machine code for the F1 lighting sequence, I took inspiration from 
 
 ![Picture1](https://github.com/r0n1tr/team21/assets/133985295/99ac7227-d10d-43d9-88a2-8c25e61edff8)
 
+Image taken from https://github.com/EIE2-IAC-Labs/Lab3-FSM/blob/main/images/state_diag.jpg
+
 One would think to do a loop where you do 
 
 SLLI a0,a0,1
