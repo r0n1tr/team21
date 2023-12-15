@@ -107,12 +107,18 @@ To begin viewing the CPUs, clone this repository and switch to the branch labell
 ### Base
 
 
-Pasting the following command in the terminal in ```rtl/rtl-base``` in the ```base``` directory and it should run the Gaussian PDF on your Vbuddy.
+Pasting the following command in the terminal in ```rtl/rtl-base``` and it should run the Gaussian PDF on your Vbuddy.
 
 ```
 $ ./base_vbuddy.sh
 ```
+Additionally if you go to ```rtl/rtl-base/instr_mem/instr_mem.sv/``` and change line 18's "pdf" to "f1_test" and then run:
 
+```
+$ ./f1_base.sh
+```
+
+This will plot the F1 Lights onto your Vbuddy.
 
 ### Pipeline
 
@@ -121,7 +127,13 @@ Pasting the following command in ```rtl/rtl-pipeline``` should plot the Noisy PD
 ```
 $ ./pipeline.sh
 ```
+Additionally if you go to ```rtl/rtl-pipeline/instr_mem/instr_mem.sv/``` and change line 18's "pdf" to "f1_test" and then run:
 
+```
+$ ./f1_pipeline.sh
+```
+
+This will plot the F1 Lights onto your Vbuddy.
 
 ### Cache
 
