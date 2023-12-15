@@ -24,6 +24,11 @@ As you can see on the left, a temporary register, t1, was used. This way, the LS
 
 <img width="245" alt="Picture3" src="https://github.com/r0n1tr/team21/assets/133985295/5047ff36-411a-4192-9f02-622f96c5dc7d">
 
+With how the trigger and reset (rst) signals were defined, I felt that the best way to implement it was by manipulating what instruction word gets executed by the CPU. 
+
+For the trigger signal, we want the F1 machine code to be executed, so with the aid of a multiplexer, the trigger enables the CPU to execute instructions as normal when it's high, and executes NOP when trigger is low. 
+
+For the CPU to execute instructions as normal, rst must be low. If rst is high, we continuously run " li a0,0 " until it's low. Since rst is defined to reset the processor and start the f1 programme again, the CPU will execute the f1 programme after rst is deasserted. ( with trigger being asserted)
 
 
 
