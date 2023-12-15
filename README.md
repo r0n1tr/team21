@@ -38,45 +38,11 @@
 
 From the project, we have produced three variants of a RISCV32I CPU. Each can be found within their own branch in this repository:
 
-- Single cycle ([baseRISCV32I](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
-- Pipelined ([pipelinedRISCV32I](https://github.com/r0n1tr/team21/tree/pipelinedRISCV32I) branch)
-- Pipelined with data cache ([datacacheRISCV32I](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
+- Single cycle ([```baseRISCV32I```](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
+- Pipelined ([```pipelinedRISCV32I```](https://github.com/r0n1tr/team21/tree/pipelinedRISCV32I) branch)
+- Pipelined with data cache ([```datacacheRISCV32I```](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
 
-Clone repository and switch to the branch labelled ```rtl```.
-
-## Base
-
-
-Pasting the following command in the terminal in ```rtl/rtl-base``` in the ```base``` directory and it should run the Gaussian PDF on your Vbuddy.
-
-```
-$ ./base_vbuddy.sh
-```
-
-
-## Pipeline
-
-Pasting the following command in ```rtl/rtl-pipeline``` should plot the Noisy PDF onto the Vbuddy.
-
-```
-$ ./pipeline.sh
-```
-
-
-## Cache
-
-Pasting the following command in ```rtl/rtl-cache``` will run the F1 Lights on your Vbuddy.
-```
-$ ./f1.sh
-```
-
-Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "f1_test" to "pdf" and then run:
-
-```
-$ ./cache.sh
-```
-
-This will plot the Triangle PDF onto your Vbuddy.
+Alternatively, for ease of navigation, the contents of all branches have been placed in different folders in the [```rtl```](https://github.com/r0n1tr/team21/tree/rtl) branch. 
 
 Each variant has all instructions in the below table implemented:
 
@@ -84,7 +50,7 @@ Each variant has all instructions in the below table implemented:
 
 *Source: Harris & Harris (2022), Digital Design and Computer Architecture: Risc-V Edition*
 
-Documentation is provided in the [main](https://github.com/r0n1tr/team21/tree/main) branch (that's this one). There is also a [reducedRISCV](https://github.com/r0n1tr/team21/tree/reducedRISCV) branch which was used for Lab 4 and has been kept for reference. 
+Documentation is provided in the [```main```](https://github.com/r0n1tr/team21/tree/main) branch (that's this one). There is also a [```reducedRISCV```](https://github.com/r0n1tr/team21/tree/reducedRISCV) branch which was used for Lab 4 and has been kept for reference. 
 
 To help maintain an organised workspace, the CPU has been broken down in a hierarchical manner:
 
@@ -128,15 +94,49 @@ The following table indicates who contributed to what parts of the CPU.
 | Execute Stage Register   | pipeline_reg_execute.sv                                                            |       | 1     | 0      |        |
 | Memory Stage Register    | pipeline_reg_memory.sv                                                             |       | 0     |        |        |
 | Writeback Stage Register | pipeline_reg_writeback.sv                                                          |       | 0     |        |        |
-| Hazard unit              | Hazard_unit.sv                                                                     |       | 1     |        | 0      |
+| Hazard unit              | hazard_unit.sv                                                                     |       | 1     |        | 0      |
 | _**Data Cache**_         | -                                                                                  | -     | -     | -      | -      |
 | Data Cache (1-way)       | cache_1w.mem, cache_1w.sv                                                          |       |       | 1      | 0      |
-| Data Cache (2-way)       |  cache_2w.mem, cache_2w.sv                                                         |       |       | 0      | 1      |
+| Data Cache (2-way)       | cache_2w.mem, cache_2w.sv                                                          |       |       | 0      | 1      |
 
 
 ## Build instructions
 
-**add shell scripts and other stuff**
+To begin viewing the CPUs, clone this repository and switch to the branch labelled ```rtl```.
+
+### Base
+
+
+Pasting the following command in the terminal in ```rtl/rtl-base``` in the ```base``` directory and it should run the Gaussian PDF on your Vbuddy.
+
+```
+$ ./base_vbuddy.sh
+```
+
+
+### Pipeline
+
+Pasting the following command in ```rtl/rtl-pipeline``` should plot the Noisy PDF onto the Vbuddy.
+
+```
+$ ./pipeline.sh
+```
+
+
+### Cache
+
+Pasting the following command in ```rtl/rtl-cache``` will run the F1 Lights on your Vbuddy.
+```
+$ ./f1.sh
+```
+
+Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "f1_test" to "pdf" and then run:
+
+```
+$ ./cache.sh
+```
+
+This will plot the Triangle PDF onto your Vbuddy.
 
 ## Single-cycle test results
 Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
