@@ -35,6 +35,7 @@ For the CPU to execute instructions as normal, rst must be low. If rst is high, 
 ### Hazard Unit
 
 With the CPU now pipelined, we had to implement a hazard unit to combat any data or control hazards. For the data hazards, we simply had to compare the source registers to the destination registers. We also have to check if the destination register is being written to. I thought that was it and I wrote logic that forwarded data from the memory or write back stage of the pipelined CPU. I forgot to factor one important thing, what if the destination register is the zero register? Then no forwarding would be needed. I only realised this after referring to Digital Design and Computer Architecture: RISC-V Edition by Sarah Harris, David Harris. 
+#### Hazard_unit.sv
 ```verilog
 always_comb begin
     // rs1 forwarding to avoid data hazards
@@ -46,9 +47,29 @@ always_comb begin
     else if ((rs2e == rdw) & regwritew && (rs2e != 0))      forwardbe = 2'b01; // forward (writeback stage)
     else                                                    forwardbe = 2'b00; // no hazard --> no forwarding needed
 ```
+To handle a load word hazard, I stalled the fetch and decode stages of the pipelined CPU the data can be forwarded once it reached the write back stage. 
 
+```verilog
+    // stall if load instruction is executed when there's a data dependency on the next intruction (which is a hazard)
+    loadstall = (resultsrce == 3'b001) && ((rs1d == rde) | (rs2d == rde));
+    stallf  = loadstall;                      // stall program counter if a branch or load instrctuon is executed
 
+    stalld  = ~(~loadstall | rst | ~trigger);
+```
+Note: stalld = loadstall was my contribution , and resultsrce == 3'b001 replaced ResultSrcE[0] . These changes made by the my teammates were neccesary to ensure the CPU worked efficiently. 
 
+For control hazards, we flush the decode and execute stages of the pinelined CPU. Originally, flushd and flushe were as follows
+``` verilog
+flushd = PCSrc;
+flushe = loadstall | PCSrc;
+```
+However, these have then been modified to work with our CPU.
+``` verilog
+    flushd  = (pcsrce == 2'b01 || pcsrce == 2'b10);              // Flush if branching
+    flushe  = (pcsrce == 2'b01 || pcsrce == 2'b10) || loadstall; // Flush if branching or load instruction introduces a bubble
+
+end
+```
 
 
 
