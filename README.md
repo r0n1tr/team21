@@ -110,7 +110,7 @@ To begin viewing the CPUs, clone this repository and switch to the branch labell
 Pasting the following command in the terminal in ```rtl/rtl-base``` and it should run the Gaussian PDF on your Vbuddy.
 
 ```
-$ ./base_vbuddy.sh
+$ ./base.sh
 ```
 Additionally if you go to ```rtl/rtl-base/instr_mem/instr_mem.sv/``` and change line 18's "pdf" to "f1_test" and then run:
 
@@ -137,18 +137,19 @@ This will plot the F1 Lights onto your Vbuddy.
 
 ### Cache
 
-Pasting the following command in ```rtl/rtl-cache``` will run the F1 Lights on your Vbuddy.
-```
-$ ./f1.sh
-```
-
-Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "f1_test" to "pdf" and then run:
+Pasting the following command in ```rtl/rtl-cache``` will plot the Triangle PDF on your Vbuddy.
 
 ```
 $ ./cache.sh
 ```
 
-This will plot the Triangle PDF onto your Vbuddy.
+Additionally if you go to ```rtl/rtl-cache/instr_mem/instr_mem.sv/``` and change line 18's "pdf" to "f1_test" and then run:
+
+```
+$ ./f1_cache.sh
+```
+
+This will plot the F1 Lights onto your Vbuddy.
 
 ## Single-cycle test results
 Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
