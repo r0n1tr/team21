@@ -155,8 +155,9 @@ $ ./f1_cache.sh
 ```
 
 This will plot the F1 Lights onto your Vbuddy.
-
+> Information: We have other testbenches under each submodule folder that when run evaluates all possbile use cases for the corresponding module and prints out the states and output into the terminal.
 > DISCLAIMER: Do not test other .mem files for validity as they are not in little-endian form, there were used purely for testing in the past and are now all deprecated apart from the files used in the shell scripts.
+
 
 ## Test results
 Here is a waveform showing you the instructions for the F1 Lights program read in from the .mem file in the instruction memory, and the following instructions executed evidenced by registers a0, a1 and t1. 
