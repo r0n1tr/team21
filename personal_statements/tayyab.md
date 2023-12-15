@@ -18,7 +18,7 @@ And repeat, no! After the left shift, the LSB of a0 is now 0, meaning the light 
 
 <img width="436" alt="Picture2" src="https://github.com/r0n1tr/team21/assets/133985295/db31e364-511f-465a-ade6-2c1303c2c125">
 
-As you can see on the left, a temporary register, t1, was used. This way, the LSB of a0 won’t be after consecutive left shifts. The LSB of t1 will be 0, but that doesn’t matter since the f1 lights are connected to register a0.
+As you can see on the left, a temporary register, t1, was used. This way, the LSB of a0 won’t be after consecutive left shifts. The LSB of t1 will be 0, but that doesn’t matter since the f1 lights are connected to register a0. This was my contribution. My teammates may have used different instructions for the final CPU.
 
 ### Trigger and Reset
 
@@ -29,6 +29,8 @@ With how the trigger and reset (rst) signals were defined, I felt that the best 
 For the trigger signal, we want the F1 machine code to be executed, so with the aid of a multiplexer, the trigger enables the CPU to execute instructions as normal when it's high, and executes NOP when trigger is low. 
 
 For the CPU to execute instructions as normal, rst must be low. If rst is high, we continuously run " li a0,0 " until it's low. Since rst is defined to reset the processor and start the f1 programme again, the CPU will execute the f1 programme after rst is deasserted. ( with trigger being asserted)
+
+This was the original idea. To make it more simple, the PC_mux is now a 4-input mux to accomodate the rst and trigger signals.
 
 ## Pipelined CPU
 
