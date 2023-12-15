@@ -1,3 +1,18 @@
 # Data Memory 
 
-When we initially designed the data memory it was only able to carry out the load word and store word instructions but after looking at the pdf program we had to greatly modify it be able to all the byte adresing instructions. (lbu, lb, lhu, lh, sbu, sb, ah, shu). In the Risc-V Specifications we realized that the difference between them comes in the function 3 [12:14] of the instruction. Therefore we made case statments to in the data memory to indicate this.
+### Purpose
+
+To allow loading and storing of data in vavrious formats.
+
+### Inputs
+
+ - `logic                     clk`        -  Writing to memory is synchronous
+ - `logic [ADDRESS_WIDTH-1:0] a`          -  Address to store data to or load data from
+ - `logic                     we`         -  write enable
+ - `logic [DATA_WIDTH-1:0]    writedata`  -  Data to write to memoory
+ - `logic [2:0]               memcontrol` -  Describes exact load/store instruction to execute (is equivalent to `funct3`)
+
+### Outputs
+
+- `logic [DATA_WIDTH-1:0] readdata` -  Data read from the memory in a load instruction
+
