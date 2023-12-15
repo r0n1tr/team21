@@ -4,7 +4,7 @@
 
 - [Quick start](#quick-start)
 
-- [Personal statements](#personal-statements)
+- [Personal statements](#personal_statements)
 
 - [Contribution table](#contribution-table)
 
