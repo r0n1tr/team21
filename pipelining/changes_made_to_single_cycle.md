@@ -1,7 +1,7 @@
 # Changes made to Single Cycle
 #### PC updates
 
-Added an ```Enable``` signal to stall the PC counter in case of control or data hazards as sometimes data would not be ready for the next instruction after being processed for the current one. (For more information on Hazards please refer to ![Hazard Unit](pipelining/hazard_unit.md))
+Added an ```Enable``` signal to stall the PC counter in case of control or data hazards as sometimes data would not be ready for the next instruction after being processed for the current one. (For more information on hazards please refer to ![Hazard Unit](hazard_unit.md))
 ####  ALU updates
 
 Within the pipeline implementation due to the forwarding signals ```forwardae``` and ```forwardbe``` this  allowed the ALU to access the data immediately rather than having to go through several stages which meant it would cause a data hazard. As a result we added two input muxes to the ALU that took in the RD outputs from the execute register as well as ```aluresult``` and ```immexte```.
