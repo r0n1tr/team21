@@ -20,7 +20,7 @@ Since the cache involves comparing the set of the cache to the input of the cach
         cache_tag = cache_set[58:32]; 
         cache_data = cache_set[31:0]; 
 
-        hit = V && (din_tag == cache_tag);
+        hit = V && (din_tag == cache_tag) && (resulltsrcm == 3'b001) && ~we;
         // fix hit logic
         if (hit) assign dout = cache_data; 
         else begin
