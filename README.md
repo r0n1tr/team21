@@ -49,7 +49,7 @@ Each variant has all instructions in the below table implemented:
 
 *Source: Harris & Harris (2022), Digital Design and Computer Architecture: Risc-V Edition*
 
-Documentation is provided in the [main](https://github.com/r0n1tr/team21/tree/main) branch (that's this one). There is also a [reducedRISCV](https://github.com/r0n1tr/team21/tree/reducedRISCV) branch which was used for Lab 4 and has been kept for reference. 
+Documentation is provided in the [```main```](https://github.com/r0n1tr/team21/tree/main) branch (that's this one). There is also a [```reducedRISCV```](https://github.com/r0n1tr/team21/tree/reducedRISCV) branch which was used for Lab 4 and has been kept for reference. 
 
 To help maintain an organised workspace, the CPU has been broken down in a hierarchical manner:
 
