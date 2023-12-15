@@ -1,16 +1,24 @@
 # Sign Extend
 
-```verilog
-always_comb begin
-    case (immsrc)
-        3'b000:   immext = { {20{instr[31]}} , instr[31:20] };                                        // I-TYPE; sign extend 12-bit imm
-        3'b001:   immext = { {20{instr[31]}} , instr[31:25] , instr[11:7] };                          // S-TYPE; sign extend 12-bit imm
-        3'b010:   immext = { {20{instr[31]}} , instr[7]     , instr[30:25] , instr[11:8]  , {1'b0} }; // B-TYPE; sign extend 13-bit imm; immext used as offset to PC (so can be -ve or +ve, so needs to be sign extended)
-        3'b011:   immext = { {12{instr[31]}} , instr[19:12] , instr[20]    , instr[30:21] , {1'b0} }; // J-TYPE; sign extend 21-bit imm
-        3'b100:   immext = { instr[31:12], {12'b0} };                                                 // U-TYPE; set 20-bit imm as upper 20 bits, and set lower 12 bits to 0
-        default:  immext = 32'hdeadbeef;   // should never execute; set imm to 'deadbeef'
-    endcase
-end
-```
+### Purpose 
 
-Standard combinational block to extend sign extend a 32 bit integer.
+To produce a 32-bit sign-extended immediate from the immediate value within an instruction.
+
+### Inputs
+
+- `[31:0] instr` - 32-bit instruction word
+- `[2:0]  immsrc` - Indicates instruction type, and hence which bits of the instruction contain which parts of the immediate
+
+### Outputs
+
+- `[31:0] immext` - 32-bit sign-extended immediate operand
+
+### Implementation notes
+
+There are six instruction types to concern ourselves with: `R`, `I`, `S`, `B`, `J`, and `U`. 
+
+R-types do not have immediates, so this module doesn't need to do anything with them.
+
+U-type immediates don't need to be sign extended, but instead placed on the most significant 5 bytes of `immext`. It is just convenient to do that here.
+
+For the rest of the instruction types, the immediates are arragned differently and have different sizes depending on the instruction type. We assemble the bits bespokely for each case by performing bit manipulation. In order to perform sign extension, we simply duplicate the most signifcant bit of the immediate (which is also the MSB of `instr`) as many times as needed for the final immediate to be of size 32 bits.
