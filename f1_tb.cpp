@@ -19,11 +19,11 @@ int main(int argc, char **argv, char **env)
   // init trace dump
   Verilated::traceEverOn(true);
   top->trace(tfp, 99);
-  tfp->open("cache_test.vcd");
+  tfp->open("cache_f1.vcd");
  
   // init Vbuddy
   if (vbdOpen() != 1) return(-1);
-  vbdHeader("CPU-Cache: Triangle");
+  vbdHeader("Cache: F1");
 
   // initialize simulation input 
   top->clk = 1;
@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **env)
   top->trigger = 1;
   
   // run simulation for many clock cycles
-  for (int i = 0; i >= 0; i++)
+  for (int i = 0; i < 250; i++)
   {
     // dump variables into VCD file and toggle clock
     for (int tick = 0; tick<2; tick++)
@@ -46,6 +46,7 @@ int main(int argc, char **argv, char **env)
       
       
       // plot a0
+      vbdBar(top->a0);
       //vbdPlot((int)(top->a0), 0, 255);
       vbdCycle(i);
     

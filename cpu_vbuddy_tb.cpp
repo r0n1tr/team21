@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **env)
  
   // init Vbuddy
   if (vbdOpen() != 1) return(-1);
-  vbdHeader("CPU-Cache: Triangle");
+  vbdHeader("Cache: Triangle");
 
   // initialize simulation input 
   top->clk = 1;
