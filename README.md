@@ -42,7 +42,7 @@ From the project, we have produced three variants of a RISCV32I CPU. Each can be
 - Pipelined with data cache ([```datacacheRISCV32I```](https://github.com/r0n1tr/team21/tree/baseRISCV32I) branch)
 
 Alternatively, for ease of navigation, the contents of all branches have been placed in different folders in the [```rtl```](https://github.com/r0n1tr/team21/tree/rtl) branch. 
-To begin viewing the CPUs, clone this repository and switch to the branch labelled [```rtl```](https://github.com/r0n1tr/team21/tree/rtl).
+To begin viewing the CPUs, clone this repository and switch to the branch labelled ```rtl```.
 
 ## Base
 
