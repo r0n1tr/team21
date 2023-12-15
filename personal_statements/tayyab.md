@@ -20,7 +20,7 @@ And repeat, no! After the left shift, the LSB of a0 is now 0, meaning the light 
 
 <img width="436" alt="Picture2" src="https://github.com/r0n1tr/team21/assets/133985295/db31e364-511f-465a-ade6-2c1303c2c125">
 
-As you can see on the left, a temporary register, t1, was used. This way, the LSB of a0 won’t be after consecutive left shifts. The LSB of t1 will be 0, but that doesn’t matter since the f1 lights are connected to register a0. This was my contribution. My teammates may have used different instructions for the final CPU.
+As you can see above, a temporary register, t1, was used. This way, the LSB of a0 won’t be after consecutive left shifts. The LSB of t1 will be 0, but that doesn’t matter since the f1 lights are connected to register a0. This was my contribution. My teammates may have used different instructions for the final CPU.
 
 ### Trigger and Reset
 
