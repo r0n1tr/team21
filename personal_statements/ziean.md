@@ -24,19 +24,21 @@ The control unit is tasked with taking in an instruction, and putting forth the 
 control signals to other parts of the CPU. Hence, the creation of the control unit requires
 good understanding of the functions of other parts of the CPU as well as the control unit itself. This allowed greater interaction by myself with other modules.
 
+The control unit iteslf was fairly complicated. We had the goal of implementing all RISCV32I insructions. Every instruction reslies ont the control unit to execute correctly, so this allowed me to better understand the RISV ISA. It also gave me better insight into why RISCV instructions are encoded the way they are as I was able to simplify various aspects of the control unit's design.
+
 ### Data memory
+
+The data memory was interesting to impelement, as it required thinking about how to take data and perform the correct manipulations on it to get it into the desired form. I had the base of the data memory implemented by Danial, but it required some modification to allow for addressing the data from whole words to also half-words and individual bytes. It also meant understanding little endian, and how to translate from that to a form usable by the rest of the CPU.
+
+One of the main struggles with the data memory was writing it in such a way as to not repeat myself for each individual instruction. Writing readable code was important for both myself and other group members to understand and point out errors in the code. To that end, some signals were factored out and resused. Also, the code was formatted in such a way that patterns should be more easily notable (e.g. by aligning certain terms across different cases).
 
 ### Instruction memory
 
+The instruction memory block is quite simple and was implemented as part of the reduced CPU. When implementing it, I had to take care with using asynchronous logic. Modifying it later on to be use the little endian format and store individual bytes at each address also took care, as it meant ensuring that only an address that is a multiple of 4 would appear at the address (save software errors).
+
 ### Sign extend
 
-### 
-Talk about what you did
-    link to github commits / comments
-    inc. testbenches
-    helped considerably in the integration and bug fixing of pipeliing but not in the initial development as you were preoccupied with the base Link to your comments, parity updates
-
-
+The sign extend block was also part of the initial work I did, and mostly invloved learning bit manipulation. Catering to all the required cases meant being careful with the bit manipulation and reading the requirements carefully.
 
 ## What I learned
 
@@ -75,10 +77,15 @@ Also, working with other people allowed me to absorb great deals of information.
 
 ## Mistakes made and what I would do differently
 
-started on other stuff too early - parity checks were annoying
+The primary mistake we made was starting on the extension tasks before the base CPU was even near done. This meant that I spent much more time fixing bugs and implementing extra instructions in the base CPU, and then performing parity updates on the extended CPUs. If we were to repeat the project, I woud insist on the base being 100% complete before trying to move on to the extensions. 
 
+I did get the opportunity, however, to work on pipelining/cache in the form of debgugging (which was easily the majority of the work done in implementing them), but did not take part in the initial constructions of the modules.
 
-Found help in textbook and riscv manual
+We had lots of wasted time trying to fix bugs that were implemented on one branch but not on another. This made it hard to debug, as I thought soemthing was fixed when it was not. This is what introduced the various parity updates that we have. General maintenance and bug fixing is something I spent a majority of my time on, and I feel like that could have been avoided if we planned better initially.
+
+Having a fixed scope from the beginning woud have also helped, as I implemented many instructions on the base CPU that had to be manually reimplemented on the extended CPUs. Had we decided to implement these instructions from the beginning, more parity updates could have been avoided.
+
+We found great help in the textbook and RISC-V manual. Using these from the beginning would have saved us much more time in the project and the course as a whole.
 
 
 
