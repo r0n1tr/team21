@@ -211,7 +211,7 @@ We wrote a program call pdf_expected_output.cpp that you can find in mem_files t
 
 ## Base test results
 
-Here's a screenshot of the pdf program working in the base CPU. This is during the build loop. To see the entire simulation, follow the above build instrctions andopen the resulting .vcd file in GTKWave.
+Here's a screenshot of the pdf program working in the base CPU. This is during the build loop, since the instruction memory address is cycling between addresses 52 thorugh 80. To see the entire simulation, follow the above build instrctions andopen the resulting .vcd file in GTKWave.
 
 ![PDF Breakdown](https://github.com/r0n1tr/team21/assets/138166258/d86d0047-27aa-4eb8-99a5-4f988243db21)
 
