@@ -110,6 +110,12 @@ Here is a waveform showing you the instructions for the F1 Lights program read i
 #### F1
 ![F1 Program](https://github.com/r0n1tr/team21/blob/main/cpu_f1.mp4)
 
+
+
+https://github.com/r0n1tr/team21/assets/138166258/7664222d-c19f-4ca5-841a-f18ce61c1cc6
+
+
+
 ### PDF program evidence
 
 
