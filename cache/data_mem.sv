@@ -58,13 +58,13 @@ always_comb begin
 
         3'b100: readdata = { {(BYTE_WIDTH*3){1'b0}},                         data_memory[a]}; // load byte unsigned
 
-        3'b001, 3'b101: begin                                                                  // load half, load half unsigned
+        3'b001, 3'b101: begin                                                                 // load half, load half unsigned
             readdata = (memcontrol[2]) ?
-                       { {(BYTE_WIDTH*2){1'b0}},                                            data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] } :
-                       { {(BYTE_WIDTH*2){data_memory[baseaddress_half + 1][BYTE_WIDTH-1]}}, data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] };
+                       { {(BYTE_WIDTH*2){1'b0}},                                        data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] } :
+                       { {(BYTE_WIDTH*2){data_memory[baseaddress_half][BYTE_WIDTH-1]}}, data_memory[baseaddress_half],  data_memory[baseaddress_half + 1] };
         end
 
-        3'b010: begin                                                                           // load word
+        3'b010: begin                                                                         // load word
             readdata = { data_memory[baseaddress_word] , data_memory[baseaddress_word + 1] , data_memory[baseaddress_word + 2] , data_memory[baseaddress_word + 3] };           
         end
 

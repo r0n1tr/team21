@@ -20,6 +20,6 @@ end;
 
 // asynchronous output
 // in this implementation, we assume that instruction memory address is always a multiple of 4, and that it is an error otherwise
-assign instr = {rom_array[a+3] , rom_array[a+2] , rom_array[a+1] , rom_array[a]}; // TODO: Reverse order (+3,+2,+1,+0) to make little endian (i think) (as specified in brief)
+assign instr = {rom_array[a+3] , rom_array[a+2] , rom_array[a+1] , rom_array[a] }; // Little endian
 
 endmodule

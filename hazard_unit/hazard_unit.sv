@@ -34,14 +34,14 @@ logic loadstall;
 
 always_comb begin
     // rs1 forwarding to avoid data hazards
-    if (((rs1e == rdm) && regwritem) && (rs1e != 0)) forwardae = 2'b10; // forward (memory stage)   [Explanation of condition: if rs1e (a register being used in the execute stage) is the same as rdm (a register used by an instruction later in the pipeline) and regwritem = 1 (the instruction later in the pipeling shouldve written to the register) AND the register being potentially written to wasnt the 0 register: forward the value of the later instruction to the instruction currently executing]
-    else if ((rs1e == rdw) & regwritew)              forwardae = 2'b01; // forward (writeback stage)
-    else                                             forwardae = 2'b00; // no hazard --> no forwarding needed
+    if      ((rs1e == rdm) && regwritem && (rs1e != 0)) forwardae = 2'b10; // forward (memory stage)   [Explanation of condition: if rs1e (a register being used in the execute stage) is the same as rdm (a register used by an instruction later in the pipeline) and regwritem = 1 (the instruction later in the pipeling shouldve written to the register) AND the register being potentially written to wasnt the 0 register: forward the value of the later instruction to the instruction currently executing]
+    else if ((rs1e == rdw) && regwritew && (rs1e != 0)) forwardae = 2'b01; // forward (writeback stage)
+    else                                                forwardae = 2'b00; // no hazard --> no forwarding needed
 
     // rs2 forwarding to avoid data hazards
-    if (((rs2e == rdm) && regwritem) && (rs2e != 0)) forwardbe = 2'b10; // forward (memory stage)
-    else if ((rs2e == rdw) & regwritew)              forwardbe = 2'b01; // forward (writeback stage)
-    else                                             forwardbe = 2'b00; // no hazard --> no forwarding needed
+    if      ((rs2e == rdm) && regwritem && (rs2e != 0)) forwardbe = 2'b10; // forward (memory stage)
+    else if ((rs2e == rdw) && regwritew && (rs2e != 0)) forwardbe = 2'b01; // forward (writeback stage)
+    else                                                forwardbe = 2'b00; // no hazard --> no forwarding needed
 
     // stall if load instruction is executed when there's a data dependency on the next intruction (which is a hazard)
     loadstall = (resultsrce == 3'b001) && ((rs1d == rde) | (rs2d == rde));
