@@ -20,6 +20,7 @@
     - [Mem files](single_cycle/mem_files.md)
 	- [Program Counter](single_cycle/program_counter.md)
 	- [Register File](single_cycle/register_file.md)
+    - [Result mux](single_cycle/result_mux.md)
     - [Sign extend](single_cycle/sign_extend.md)
 
 - Pipelining
