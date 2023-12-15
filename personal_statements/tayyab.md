@@ -224,7 +224,7 @@ The cache outputs the data from its memory, i.e dout = mem[0x1] = 0x000000C1. Th
 <img width="1037" alt="Screenshot 2023-12-15 012008" src="https://github.com/r0n1tr/team21/assets/133985295/ed44ad94-7c3a-4f08-bc1e-f8a0aaae8687">
 
 
-The reset just sets V = 0 for all sets in the cache. As you can see, cache_memory[0], cache_memory[1], cache_memory[3], and cache_memory[5] have have been reset. The rest of the sets had V = 0 before the reset, hence no change. 
+The reset just sets V = 0 for all sets in the cache. As you can see, cache_memory[0], cache_memory[1], cache_memory[3], and cache_memory[5] have have been reset. The rest of the sets had V = 0 before the reset, hence no change. Note: The above reset result was done by setting the V flag of each set of the cache to 0. This has been changed to setting all 60 bits of the sets of the cache memory to zero, as mentioned earlier. The test for that reset mechanism working wasn't documented.
 
 You may notice that cache_memory[0] gets overwritten to 0x8000000F4F3F2F1. alu_result = 0x0 after the second clock cycle. This is scenario 1 happening.
 
